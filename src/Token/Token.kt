@@ -22,6 +22,7 @@ enum class DataType{
     RIGHT_PARENTHESIS,
     WHITE_SPACE,
     COMMENT,
+    METHOD,
     ERROR,
     UNKNOWN
 }
