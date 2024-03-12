@@ -9,7 +9,7 @@ import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
 import Token.DataType
 import Token.Token
 
-class DeclaratorBuilder: AstBuilder {
+class DeclaratorBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         return parsedTokens[0].type == DataType.LET_KEYWORD || parsedTokens[2].type == DataType.DOUBLE_DOTS
@@ -21,7 +21,7 @@ class DeclaratorBuilder: AstBuilder {
         return VarDeclaration(parsedTokens[3], parsedTokens[1])
     }
 
-    fun verifyStructure(tokens: List<Token>){
+    private fun verifyStructure(tokens: List<Token>) {
         checkMinLength(tokens, 4, "declaration")
         checkMaxLength(tokens, 4, "declaration")
         checkTokenType(tokens[0], "Let or const", listOf(DataType.LET_KEYWORD))
