@@ -7,7 +7,7 @@ import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
 import Token.DataType
 
 
-class MethodBuilder: AstBuilder {
+class MethodBuilder : AstBuilder {
     val operatorBuilder = OperationBuilder()
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
@@ -17,13 +17,13 @@ class MethodBuilder: AstBuilder {
     override fun build(tokens: List<Token>): AST {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         verifyStructure(parsedTokens)
-        return Method(parsedTokens[0], operatorBuilder.buildOperation(parsedTokens.subList(2, parsedTokens.size-2)))
+        return Method(parsedTokens[0], operatorBuilder.buildOperation(parsedTokens.subList(2, parsedTokens.size - 2)))
     }
 
-    fun verifyStructure(tokens: List<Token>){
+    private fun verifyStructure(tokens: List<Token>) {
         AstBuilder.checkMinLength(tokens, 4, "declaration")
         AstBuilder.checkTokenType(tokens[0], "Method", listOf(DataType.METHOD))
         AstBuilder.checkTokenType(tokens[1], "Parenthesis", listOf(DataType.LEFT_PARENTHESIS))
-        AstBuilder.checkTokenType(tokens[tokens.size-1], "Parenthesis", listOf(DataType.RIGHT_PARENTHESIS))
+        AstBuilder.checkTokenType(tokens[tokens.size - 1], "Parenthesis", listOf(DataType.RIGHT_PARENTHESIS))
     }
 }

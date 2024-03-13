@@ -12,12 +12,21 @@ class DeclarationAssignedBuilder : AstBuilder {
     val operationBuilder = OperationBuilder()
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
-         return declaratorBuilder.isValid(parsedTokens.subList(0,4)) && parsedTokens[5].type == DataType.ASIGNATION_EQUALS
+        if (parsedTokens.size < 5) return false
+        return declaratorBuilder.isValid(
+            parsedTokens.subList(
+                0,
+                4
+            )
+        ) && parsedTokens[4].type == DataType.ASIGNATION_EQUALS
     }
 
     override fun build(tokens: List<Token>): AST {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
-        return VarDeclarationAssignation(declaratorBuilder.build(parsedTokens.subList(0,4)), operationBuilder.buildOperation(parsedTokens.subList(6, parsedTokens.size)))
+        return VarDeclarationAssignation(
+            declaratorBuilder.build(parsedTokens.subList(0, 4)),
+            operationBuilder.buildOperation(parsedTokens.subList(5, parsedTokens.size))
+        )
 
     }
 }
