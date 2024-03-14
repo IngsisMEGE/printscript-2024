@@ -1,7 +1,15 @@
 package Token
 
-data class Token(val type: DataType, val value: String, val location: Pair<Int,Int>, val length: Int) {
+data class Token(val type: DataType, val value: String?, val location: Pair<Int,Int>, val length: Int) {
 
+    fun value(): String
+    {
+        if(type == DataType.ASIGNATION_EQUALS || type == DataType.OPERATOR_PLUS || type == DataType.OPERATOR_MINUS || type == DataType.OPERATOR_MULTIPLY || type == DataType.OPERATOR_DIVIDE || type == DataType.DOUBLE_DOTS || type == DataType.SEMICOLON || type == DataType.LEFT_PARENTHESIS || type == DataType.RIGHT_PARENTHESIS || type == DataType.WHITE_SPACE || type == DataType.COMMENT)
+        {
+            return ""
+        }
+        return value!!
+    }
 }
 
 enum class DataType{
