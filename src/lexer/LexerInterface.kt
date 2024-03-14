@@ -3,5 +3,5 @@ package lexer
 import Token.Token
 
 interface LexerInterface {
-    fun lex(input: String): List<Token>
+    fun lex(line: String, numberLine : Int): List<Token>
 }
