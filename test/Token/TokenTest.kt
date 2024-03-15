@@ -1,19 +1,38 @@
-package Token
 
-class TokenTest
+import lexer.ListTokenManager
+import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import token.DataType
+import token.Token
 
-fun tokenShouldHaveAValidType() {
-    val token = Token(DataType.SEMICOLON, "a", Pair(0,0),1)
-    assert(token.type == DataType.SEMICOLON)
+
+class TokenTest {
+    @Test
+    fun createTokenTest() {
+        val token = Token(DataType.SEMICOLON, "a", Pair(2, 3), Pair(1, 4))
+        assertEquals(token.getType(), DataType.SEMICOLON)
+        assertEquals(token.getValue(), "a")
+        assertEquals(token.getInitialPosition(), Pair(2, 3))
+        assertEquals(token.getFinalPosition(), Pair(1, 4))
+    }
+
+    @Test
+    fun createTokenWithoutValueTest() {
+        val token = Token(DataType.SEMICOLON, null, Pair(2, 3), Pair(1, 4))
+        assertEquals(token.getType(), DataType.SEMICOLON)
+        assertEquals(token.getValue(), "")
+        assertEquals(token.getInitialPosition(), Pair(2, 3))
+        assertEquals(token.getFinalPosition(), Pair(1, 4))
+    }
+
+    @Test
+    fun createTokenWithInitialPositionGreaterThanFinalPositionTest() {
+        try {
+            Token(DataType.SEMICOLON, "a", Pair(2, 3), Pair(1, 3))
+        } catch (e: Exception) {
+            assertEquals(e.message, "Initial position must be less than final position")
+        }
+    }
+
+
 }
-
-fun tokenShouldHaveAValidValue() {
-    val token = Token(DataType.SEMICOLON, ";", Pair(0,0),1)
-    assert(token.value == ";")
-}
-fun tokenShouldBeValid() {
-    val token = Token(DataType.SEMICOLON, ";", Pair(0,0),1)
-    assert(token.type == DataType.SEMICOLON)
-    assert(token.value == ";")
-}
-

@@ -1,6 +1,7 @@
 package lexer
 
-import Token.Token
+import token.Token
+
 
 class Lexer(private val TokenGenerator : List<RegexTokenGenerator>) : LexerInterface {
     override fun lex(line: String, numberLine : Int): List<Token> {

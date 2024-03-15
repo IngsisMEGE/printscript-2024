@@ -1,6 +1,8 @@
 package lexer
-import Token.DataType
-import Token.Token
+
+import token.DataType
+import token.Token
+
 
 class RegexTokenGenerator(private val pattern : String, private val TokenType: DataType, private val isPatternLiteral : Boolean) {
     fun generateToken(line: String, numberLine : Int): Token? {
@@ -10,7 +12,7 @@ class RegexTokenGenerator(private val pattern : String, private val TokenType: D
                 val match = matchResult.value
                 val start = matchResult.range.first
                 val end = matchResult.range.last
-               return Token(TokenType, if (isPatternLiteral) match else "", Pair(start, numberLine), end - start + 1)
+               return Token(TokenType, if (isPatternLiteral) match else "", Pair(start, numberLine), Pair(end, numberLine))
            }
         return null
     }
