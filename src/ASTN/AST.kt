@@ -1,6 +1,6 @@
 package ASTN
 
-import Token.Token
+import token.Token
 
 interface AST
 
