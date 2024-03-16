@@ -2,8 +2,12 @@ package token
 
 class Token(private val type: DataType, private val value: String?,private val initialPosition: Pair<Int,Int>,private val finalPosition: Pair<Int,Int>) {
     init {
-        if(initialPosition.first == finalPosition.first && initialPosition.second > finalPosition.second){
-            throw Exception("Initial position must be less than final position")
+        if (initialPosition.second > finalPosition.second) {
+            throw IllegalArgumentException("The initial position must be less than the final position")
+        }
+
+        if (initialPosition.second == finalPosition.second && initialPosition.first > finalPosition.first) {
+            throw IllegalArgumentException("The initial position must be less than the final position")
         }
     }
     fun getValue(): String {
