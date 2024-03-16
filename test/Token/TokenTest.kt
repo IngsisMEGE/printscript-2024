@@ -30,7 +30,7 @@ class TokenTest {
         try {
             Token(DataType.SEMICOLON, "a", Pair(2, 3), Pair(1, 3))
         } catch (e: Exception) {
-            assertEquals(e.message, "Initial position must be less than final position")
+            assertEquals(e.message, "The initial position must be less than the final position")
         }
     }
 

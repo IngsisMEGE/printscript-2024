@@ -12,7 +12,7 @@ class RegexTokenGenerator(private val pattern : String, private val TokenType: D
                 val match = matchResult.value
                 val start = matchResult.range.first
                 val end = matchResult.range.last
-               return Token(TokenType, if (isPatternLiteral) match else "", Pair(start, numberLine), Pair(end, numberLine))
+               return Token(TokenType, if (!isPatternLiteral) match else "", Pair(start, numberLine), Pair(end, numberLine))
            }
         return null
     }
