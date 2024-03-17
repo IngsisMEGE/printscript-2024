@@ -1,4 +1,4 @@
-package lexer.TokenGenerationRules
+package lexer.token
 
 import token.DataType
 import token.Token

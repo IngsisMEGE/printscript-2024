@@ -1,6 +1,6 @@
 package lexer
 
-import lexer.TokenGenerationRules.MethodCallRule
+import lexer.token.MethodCallRule
 import token.DataType
 import token.Token
 
@@ -20,10 +20,11 @@ class TemporalLexer {
         RegexTokenGenerator(",", DataType.COMA, true),
         RegexTokenGenerator("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE, false),
         RegexTokenGenerator("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b", DataType.VARIABLE_NAME, false),
+        RegexTokenGenerator("\\w+", DataType.ERROR, false)
         ))
 
     fun lex(line: String, numberLine : Int):  List<Token> {
-        var list = ListTokenManager.orderTokens(lexer.lex(line, numberLine))
+        val list = ListTokenManager.orderTokens(lexer.lex(line, numberLine))
         return ListTokenManager.removeDuplicates(list)
     }
 }

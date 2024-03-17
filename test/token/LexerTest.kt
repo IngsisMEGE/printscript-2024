@@ -1,15 +1,12 @@
-package Token
+package token
 
 import lexer.TemporalLexer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import token.DataType
-import token.Token
-import javax.xml.crypto.Data
 
 class LexerTest {
 
-    val temporalLexer : TemporalLexer= TemporalLexer()
+    private val temporalLexer : TemporalLexer= TemporalLexer()
 
     @Test
     fun lexTest() {
@@ -75,6 +72,7 @@ class LexerTest {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let letting", 1)
         assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
+        assertEquals("letting", tokens[1].getValue())
     }
 
     @Test
@@ -82,6 +80,8 @@ class LexerTest {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("3 +2", 1)
         assertEquals(DataType.OPERATOR_PLUS, tokens[1].getType())
+        assertEquals("2", tokens[2].getValue())
+        assertEquals(3, tokens[2].getInitialPosition().first)
     }
 
 
@@ -120,6 +120,48 @@ class LexerTest {
             DataType.OPERATOR_MINUS,
             DataType.NUMBER_VALUE,
             DataType.RIGHT_PARENTHESIS
+        )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+    @Test
+    fun testWhitespaceVariation() {
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("let    varName    =    \"value\";", 1)
+        assertEquals(DataType.LET_KEYWORD, tokens[0].getType())
+        assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
+        assertEquals("varName", tokens[1].getValue())
+        assertEquals(DataType.ASIGNATION_EQUALS, tokens[2].getType())
+        assertEquals(DataType.STRING_VALUE, tokens[3].getType())
+        assertEquals("\"value\"", tokens[3].getValue())
+    }
+
+    @Test
+    fun testStringWithEscapedCharacters() {
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("\"Line1\\nLine2\"", 1)
+        assertEquals(DataType.STRING_VALUE, tokens[0].getType())
+        assertEquals("\"Line1\\nLine2\"", tokens[0].getValue())
+    }
+
+
+    @Test
+    fun testNestedExpressions() {
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("let result = (3 + (2 * 5));", 1)
+        val expectedTypes = listOf(
+            DataType.LET_KEYWORD,
+            DataType.VARIABLE_NAME,
+            DataType.ASIGNATION_EQUALS,
+            DataType.LEFT_PARENTHESIS,
+            DataType.NUMBER_VALUE,
+            DataType.OPERATOR_PLUS,
+            DataType.LEFT_PARENTHESIS,
+            DataType.NUMBER_VALUE,
+            DataType.OPERATOR_MULTIPLY,
+            DataType.NUMBER_VALUE,
+            DataType.RIGHT_PARENTHESIS,
+            DataType.RIGHT_PARENTHESIS,
+            DataType.SEMICOLON
         )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }

@@ -1,15 +1,13 @@
 package lexer
 
-import lexer.ListTokenManager.Companion.removeTokenFromString
 import token.Token
 
 
-class Lexer(private val TokenGenerator : List<RegexTokenGenerator>) : LexerInterface {
+class Lexer(private val tokenGenerator : List<RegexTokenGenerator>) : LexerInterface {
     override fun lex(line: String, numberLine : Int): List<Token> {
-        var  analyzeLine = line
         val tokens = mutableListOf<Token>()
-        TokenGenerator.forEach { tokenGenerator ->
-            val token = tokenGenerator.generateToken(analyzeLine, numberLine)
+        tokenGenerator.forEach { tokenGenerator ->
+            val token = tokenGenerator.generateToken(line, numberLine)
             tokens.addAll(token)
         }
         return tokens
