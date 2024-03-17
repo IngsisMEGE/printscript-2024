@@ -10,10 +10,7 @@ class Lexer(private val TokenGenerator : List<RegexTokenGenerator>) : LexerInter
         val tokens = mutableListOf<Token>()
         TokenGenerator.forEach { tokenGenerator ->
             val token = tokenGenerator.generateToken(analyzeLine, numberLine)
-            if (token != null) {
-                tokens.add(token)
-                analyzeLine = removeTokenFromString(analyzeLine, token)
-            }
+            tokens.addAll(token)
         }
         return tokens
     }

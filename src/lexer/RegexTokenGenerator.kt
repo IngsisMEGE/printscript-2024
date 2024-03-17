@@ -17,7 +17,8 @@ class RegexTokenGenerator(
         isPatternLiteral: Boolean
     ) : this(pattern, TokenType, isPatternLiteral, null)
 
-    fun generateToken(line: String, numberLine: Int): Token? {
+    fun generateToken(line: String, numberLine: Int): List<Token> {
+        var tokens = mutableListOf<Token>()
         val pattern = Regex(pattern)
         val matches = pattern.findAll(line)
         matches.forEach { matchResult ->
@@ -25,12 +26,13 @@ class RegexTokenGenerator(
             val start = matchResult.range.first
             val end = matchResult.range.last
 
-            return if (TokenCreationExceptions != null) {
+            if (TokenCreationExceptions != null) {
                 TokenCreationExceptions.generateToken(TokenType, match, Pair(start, numberLine), Pair(end, numberLine))
+                    ?.let { tokens.add(it) }
             } else {
-                Token(TokenType, if (!isPatternLiteral) match else "", Pair(start, numberLine), Pair(end, numberLine))
+                tokens.add(Token(TokenType, if (!isPatternLiteral) match else "", Pair(start, numberLine), Pair(end, numberLine)))
             }
         }
-        return null
+        return tokens
     }
 }
