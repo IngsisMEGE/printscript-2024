@@ -1,5 +1,6 @@
 package lexer
 
+import lexer.TokenGenerationRules.MethodCallRule
 import token.DataType
 import token.Token
 
@@ -12,9 +13,10 @@ class TemporalLexer {
         RegexTokenGenerator("(?<=\\d)/|\\/(?=\\d)", DataType.OPERATOR_DIVIDE, true),
         RegexTokenGenerator("=", DataType.ASIGNATION_EQUALS, true),
         RegexTokenGenerator(":", DataType.DOUBLE_DOTS, true),
-        RegexTokenGenerator("\\b\\w+\\s*\\([^()]*\\)", DataType.METHOD_CALL, false),
+        RegexTokenGenerator("\\b\\w+\\s*\\([^()]*\\)", DataType.METHOD_CALL, false, MethodCallRule()),
         RegexTokenGenerator("\\(", DataType.LEFT_PARENTHESIS, true),
         RegexTokenGenerator("\\)", DataType.RIGHT_PARENTHESIS, true),
+        RegexTokenGenerator(",", DataType.COMA, true),
         RegexTokenGenerator("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE, false),
         RegexTokenGenerator("\\w+", DataType.VARIABLE_NAME, false),
     )

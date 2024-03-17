@@ -50,6 +50,15 @@ class LexerTest {
         assertEquals(DataType.ASIGNATION_EQUALS, result[2].getType())
         assertEquals("", result[2].getValue())
         assertEquals(DataType.METHOD_CALL, result[3].getType())
-        assertEquals("sum(5, 5)", result[3].getValue())
+        assertEquals("sum", result[3].getValue())
+        assertEquals(DataType.LEFT_PARENTHESIS, result[4].getType())
+        assertEquals("", result[4].getValue())
+        assertEquals(DataType.COMA, result[5].getType())
+        assertEquals("", result[5].getValue())
+        assertEquals(DataType.NUMBER_VALUE, result[6].getType())
+        assertEquals("5", result[6].getValue())
+        assertEquals(DataType.RIGHT_PARENTHESIS, result[7].getType())
+        assertEquals("", result[7].getValue())
+
     }
 }
