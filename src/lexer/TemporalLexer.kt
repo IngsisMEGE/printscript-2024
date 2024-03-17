@@ -4,7 +4,16 @@ import lexer.token.MethodCallRule
 import token.DataType
 import token.Token
 
+/**
+ * The main lexer class responsible for breaking down the source code into tokens. It applies a series of token
+ * generation rules to the input source code and compiles a list of tokens for further processing by a parser.
+ */
 class TemporalLexer {
+    /**
+     * Tokenizes the given input string into a list of lexical tokens.
+     *
+     * @return A list of tokens identified in the input string.
+     */
     val lexer : Lexer = Lexer(listOf(
         RegexTokenGenerator("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE, false),
         RegexTokenGenerator("\\blet\\b", DataType.LET_KEYWORD, true),

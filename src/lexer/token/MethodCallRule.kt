@@ -3,7 +3,12 @@ package lexer.token
 import token.DataType
 import token.Token
 
+/**
+ * A token generation rule for identifying and tokenizing method calls in the source code.
+ * This rule matches patterns that represent method invocations and generates tokens accordingly.
+ */
 class MethodCallRule : TokenRule {
+
     override fun generateToken(type : DataType, value: String, initialPosition: Pair<Int, Int>, finalPosition: Pair<Int, Int>): Token? {
         val methodPattern = Regex("\\w+?(?=\\()")
 
