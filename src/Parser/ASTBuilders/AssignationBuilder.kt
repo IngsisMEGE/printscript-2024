@@ -7,9 +7,10 @@ import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
 import Token.DataType
 
 class AssignationBuilder : AstBuilder {
-    val operationBuilder = OperationBuilder()
+    private val operationBuilder = OperationBuilder()
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
+        if (parsedTokens.size < 3) return false
         return parsedTokens[0].type == DataType.VARIABLE_NAME
     }
 

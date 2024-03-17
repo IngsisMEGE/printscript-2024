@@ -8,8 +8,8 @@ import Token.DataType
 
 
 class DeclarationAssignedBuilder : AstBuilder {
-    val declaratorBuilder = DeclaratorBuilder()
-    val operationBuilder = OperationBuilder()
+    private val declaratorBuilder = DeclaratorBuilder()
+    private val operationBuilder = OperationBuilder()
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         if (parsedTokens.size < 5) return false

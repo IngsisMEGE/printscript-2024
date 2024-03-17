@@ -8,9 +8,10 @@ import Token.DataType
 
 
 class MethodBuilder : AstBuilder {
-    val operatorBuilder = OperationBuilder()
+    private val operatorBuilder = OperationBuilder()
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
+        if (parsedTokens.size < 4) return false
         return parsedTokens[0].type == DataType.METHOD
     }
 

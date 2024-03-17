@@ -12,6 +12,7 @@ import Token.Token
 class DeclaratorBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
+        if (parsedTokens.size < 4) return false
         return parsedTokens[0].type == DataType.LET_KEYWORD || parsedTokens[2].type == DataType.DOUBLE_DOTS
     }
 
