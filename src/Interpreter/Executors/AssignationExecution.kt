@@ -8,9 +8,6 @@ import Token.DataType
 
 class AssignationExecution: Executor<Assignation> {
     private val binaryOperator = BinaryOperatorReader()
-    override fun validate(ast: AST): Boolean {
-        return ast is Assignation
-    }
 
     override fun execute(ast: Assignation, variables: MutableMap<String, Value>): String {
         val varName = ast.assignation.value

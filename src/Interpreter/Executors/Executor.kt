@@ -6,8 +6,6 @@ import java.util.Optional
 
 interface Executor<T> where T: AST{
 
-    fun validate(ast: AST): Boolean
-
     fun execute(ast: T, variables: MutableMap<String, Value>): String
 }
 

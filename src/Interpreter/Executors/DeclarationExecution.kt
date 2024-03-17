@@ -8,9 +8,6 @@ import Token.DataType
 import java.util.Optional
 
 class DeclarationExecution: Executor<VarDeclaration> {
-    override fun validate(ast: AST): Boolean {
-        return ast is VarDeclaration
-    }
 
     override fun execute(ast: VarDeclaration, variables: MutableMap<String, Value>): String {
         val varName = ast.assignation.value
