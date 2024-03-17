@@ -14,10 +14,10 @@ data class Method(val methodName: Token, val value: OpTree): AST
 
 interface OpTree
 
-data class OperationHead(val operator: Token, val left: OpTree, val right: OpTree)
+data class OperationHead(val operator: Token, val left: OpTree, val right: OpTree): OpTree
 
-data class OperationNumber(val value: Token)
+data class OperationNumber(val value: Token): OpTree
 
-data class OperationString(val value: Token)
+data class OperationString(val value: Token): OpTree
 
-data class OperationVariable(val value: Token)
+data class OperationVariable(val value: Token): OpTree

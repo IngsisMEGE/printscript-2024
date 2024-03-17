@@ -1,0 +1,5 @@
+package Interpreter
+
+class RegularInterpreter {
+
+}
