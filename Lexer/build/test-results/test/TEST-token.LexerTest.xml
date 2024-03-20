@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="token.LexerTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-03-20T15:16:53" hostname="Pok" time="0.158">
+  <properties/>
+  <testcase name="testStringLiteral()" classname="token.LexerTest" time="0.047"/>
+  <testcase name="lexTest2()" classname="token.LexerTest" time="0.004"/>
+  <testcase name="testMethodCall()" classname="token.LexerTest" time="0.004"/>
+  <testcase name="testLetKeywordPass()" classname="token.LexerTest" time="0.003"/>
+  <testcase name="methodCall()" classname="token.LexerTest" time="0.003"/>
+  <testcase name="testWhitespaceVariation()" classname="token.LexerTest" time="0.004"/>
+  <testcase name="testNumberValue()" classname="token.LexerTest" time="0.006"/>
+  <testcase name="lexTest()" classname="token.LexerTest" time="0.006"/>
+  <testcase name="testComplexExpression()" classname="token.LexerTest" time="0.008"/>
+  <testcase name="testStringWithEscapedCharacters()" classname="token.LexerTest" time="0.005"/>
+  <testcase name="testOperatorPlus()" classname="token.LexerTest" time="0.006"/>
+  <testcase name="testLetKeywordTricky()" classname="token.LexerTest" time="0.003"/>
+  <testcase name="testNestedExpressions()" classname="token.LexerTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

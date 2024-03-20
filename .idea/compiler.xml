@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="PrintScript.Parser.main" target="18" />
+      <module name="PrintScript.Parser.test" target="18" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
