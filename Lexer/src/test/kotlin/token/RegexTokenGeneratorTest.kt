@@ -1,7 +1,6 @@
 package token
 
 import org.example.lexer.RegexTokenGenerator
-import token.DataType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

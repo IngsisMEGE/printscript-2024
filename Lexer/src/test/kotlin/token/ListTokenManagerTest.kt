@@ -1,8 +1,6 @@
 package token
 
 import org.example.lexer.ListTokenManager
-import token.DataType
-import token.Token
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
