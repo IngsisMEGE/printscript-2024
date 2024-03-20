@@ -1,7 +1,5 @@
-import lexer.ListTokenManager
 import org.example.token.DataType
 import org.example.token.Token
-import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
