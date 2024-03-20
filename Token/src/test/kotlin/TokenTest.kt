@@ -1,6 +1,6 @@
-import org.example.token.DataType
-import org.example.token.Token
 import org.junit.jupiter.api.Assertions.assertEquals
+import token.DataType
+import token.Token
 import kotlin.test.Test
 
 class TokenTest {

@@ -1,8 +1,8 @@
 package org.example.lexer.token
 
 import lexer.tokenRule.TokenRule
-import org.example.token.DataType
-import org.example.token.Token
+import token.DataType
+import token.Token
 
 /**
  * A token generation rule for identifying and tokenizing method calls in the source code.

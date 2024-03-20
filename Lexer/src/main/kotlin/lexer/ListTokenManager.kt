@@ -1,6 +1,6 @@
 package org.example.lexer
 
-import org.example.token.Token
+import token.Token
 
 class ListTokenManager {
 

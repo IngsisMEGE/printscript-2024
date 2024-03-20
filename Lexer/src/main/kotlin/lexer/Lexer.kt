@@ -1,6 +1,7 @@
 package org.example.lexer
 
-import org.example.token.Token
+import token.Token
+
 
 /**
  * The `Lexer` class is responsible for converting a sequence of characters into a sequence of tokens.

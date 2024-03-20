@@ -1,7 +1,7 @@
 package token
 
 import org.example.lexer.TemporalLexer
-import org.example.token.DataType
+import token.DataType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

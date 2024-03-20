@@ -2,8 +2,17 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="Lexer" target="18" />
+      <module name="Lexer.main" target="18" />
+      <module name="Lexer.test" target="18" />
+      <module name="PrintScript" target="18" />
+      <module name="PrintScript.main" target="18" />
       <module name="PrintScript.Parser.main" target="18" />
       <module name="PrintScript.Parser.test" target="18" />
+      <module name="PrintScript.test" target="18" />
+      <module name="Token" target="18" />
+      <module name="Token.main" target="18" />
+      <module name="Token.test" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>

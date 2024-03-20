@@ -1,7 +1,6 @@
-package org.example.ASTN
+package ASTN
 
-import org.example.token.Token
-
+import token.Token
 
 interface AST
 

@@ -1,8 +1,8 @@
 package org.example.lexer
 
 import org.example.lexer.token.MethodCallRule
-import org.example.token.DataType
-import org.example.token.Token
+import token.DataType
+import token.Token
 
 /**
  * The main lexer class responsible for breaking down the source code into tokens. It applies a series of token

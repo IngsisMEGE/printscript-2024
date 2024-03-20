@@ -1,4 +1,4 @@
-package org.example.token
+package token
 
 /**
  * Represents a lexical token in the source code. Tokens are the smallest units of meaning recognized by the lexer.

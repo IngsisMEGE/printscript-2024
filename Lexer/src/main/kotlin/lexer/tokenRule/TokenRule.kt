@@ -1,7 +1,7 @@
 package lexer.tokenRule
 
-import org.example.token.DataType
-import org.example.token.Token
+import token.DataType
+import token.Token
 
 
 /**

@@ -8,8 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AST" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/PrintScript" />
+            <option value="$PROJECT_DIR$/Token" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -18,8 +20,11 @@
         <option name="gradleHome" value="" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AST" />
             <option value="$PROJECT_DIR$/Lexer" />
-            <option value="$PROJECT_DIR$/Lexer/PrintScript" />
+            <option value="$PROJECT_DIR$/PrintScript" />
+            <option value="$PROJECT_DIR$/Token" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -28,9 +33,24 @@
         <option name="gradleHome" value="" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/PrintScript" />
-            <option value="$PROJECT_DIR$/PrintScript/Lexer" />
-            <option value="$PROJECT_DIR$/PrintScript/Parser" />
+            <option value="$PROJECT_DIR$/Token" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Token" />
+        <option name="gradleHome" value="" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Lexer" />
+            <option value="$PROJECT_DIR$/PrintScript" />
+            <option value="$PROJECT_DIR$/Token" />
           </set>
         </option>
       </GradleProjectSettings>

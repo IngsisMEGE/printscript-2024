@@ -1,8 +1,8 @@
 package org.example.lexer
 
 import lexer.tokenRule.TokenRule
-import org.example.token.Token
-import org.example.token.DataType
+import token.Token
+import token.DataType
 
 /**
  * Generates tokens based on regular expressions. This class can handle both simple pattern matching and more complex scenarios

@@ -10,13 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation project(':PrintScript')
+    implementation project(':Token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
 test {
     useJUnitPlatform()
 }
-kotlin {
-    jvmToolchain(18)
-}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
