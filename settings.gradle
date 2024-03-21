@@ -2,5 +2,6 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
 }
 rootProject.name = 'PrintScript'
-include ('PrintScript' ,'Lexer', 'AST' , 'Token')
+include ('PrintScript' ,'Lexer', 'AST' , 'Token', 'Parser')
+
 

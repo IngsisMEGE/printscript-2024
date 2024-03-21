@@ -5,11 +5,14 @@
       <module name="Lexer" target="18" />
       <module name="Lexer.main" target="18" />
       <module name="Lexer.test" target="18" />
-      <module name="PrintScript" target="18" />
+      <module name="Parser" target="18" />
+      <module name="Parser.main" target="18" />
+      <module name="Parser.test" target="18" />
       <module name="PrintScript.main" target="18" />
-      <module name="PrintScript.Parser.main" target="18" />
-      <module name="PrintScript.Parser.test" target="18" />
       <module name="PrintScript.test" target="18" />
+      <module name="PrintScript.untitled" target="18" />
+      <module name="PrintScript.untitled.main" target="18" />
+      <module name="PrintScript.untitled.test" target="18" />
       <module name="Token" target="18" />
       <module name="Token.main" target="18" />
       <module name="Token.test" target="18" />
