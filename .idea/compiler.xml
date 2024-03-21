@@ -2,6 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="Interpreter" target="18" />
+      <module name="Interpreter.main" target="18" />
+      <module name="Interpreter.test" target="18" />
       <module name="Lexer" target="18" />
       <module name="Lexer.main" target="18" />
       <module name="Lexer.test" target="18" />

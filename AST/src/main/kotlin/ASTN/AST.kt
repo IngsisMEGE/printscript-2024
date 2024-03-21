@@ -6,7 +6,7 @@ interface AST
 
 data class VarDeclaration(val type: Token, val assignation: Token): AST
 
-data class VarDeclarationAssignation(val varDeclaration: AST, val value: OpTree): AST
+data class VarDeclarationAssignation(val varDeclaration: VarDeclaration, val value: OpTree): AST
 
 data class Assignation(val assignation: Token, val value: OpTree): AST
 
