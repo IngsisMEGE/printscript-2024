@@ -1,6 +1,7 @@
 package Parser.ASTBuilders
 
 import ASTN.AST
+import ASTN.VarDeclaration
 import ASTN.VarDeclarationAssignation
 import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
 import token.DataType
@@ -24,7 +25,7 @@ class DeclarationAssignedBuilder : AstBuilder {
     override fun build(tokens: List<Token>): AST {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         return VarDeclarationAssignation(
-            declaratorBuilder.build(parsedTokens.subList(0, 4)),
+            declaratorBuilder.build(parsedTokens.subList(0, 4)) as VarDeclaration,
             operationBuilder.buildOperation(parsedTokens.subList(5, parsedTokens.size))
         )
 
