@@ -1,7 +1,6 @@
 package token
 
 import org.example.lexer.TemporalLexer
-import token.DataType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -162,6 +161,38 @@ class LexerTest {
             DataType.NUMBER_VALUE,
             DataType.RIGHT_PARENTHESIS,
             DataType.RIGHT_PARENTHESIS,
+            DataType.SEMICOLON
+        )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun testDeclarationWithTypeNumber() {
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("let a: number= 5;", 1)
+        val expectedTypes = listOf(
+            DataType.LET_KEYWORD,
+            DataType.VARIABLE_NAME,
+            DataType.DOUBLE_DOTS,
+            DataType.NUMBER_KEYWORD,
+            DataType.ASIGNATION_EQUALS,
+            DataType.NUMBER_VALUE,
+            DataType.SEMICOLON
+        )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun testDeclarationWithTypeString(){
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("let a: string = 5;", 1)
+        val expectedTypes = listOf(
+            DataType.LET_KEYWORD,
+            DataType.VARIABLE_NAME,
+            DataType.DOUBLE_DOTS,
+            DataType.STRING_KEYWORD,
+            DataType.ASIGNATION_EQUALS,
+            DataType.NUMBER_VALUE,
             DataType.SEMICOLON
         )
         assertEquals(expectedTypes, tokens.map { it.getType() })

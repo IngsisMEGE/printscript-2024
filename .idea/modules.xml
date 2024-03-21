@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PrintScript-2024.PrintScript.iml" filepath="$PROJECT_DIR$/.idea/modules/PrintScript-2024.PrintScript.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.main.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.test.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PrintScript/PrintScript.PrintScript.iml" filepath="$PROJECT_DIR$/.idea/modules/PrintScript/PrintScript.PrintScript.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PrintScript/PrintScript.PrintScript.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PrintScript/PrintScript.PrintScript.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PrintScript/PrintScript.PrintScript.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PrintScript/PrintScript.PrintScript.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.iml" filepath="$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lexer/org.example.PrintScript.Lexer.iml" filepath="$PROJECT_DIR$/.idea/modules/Lexer/org.example.PrintScript.Lexer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lexer/org.example.PrintScript.Lexer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Lexer/org.example.PrintScript.Lexer.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lexer/org.example.PrintScript.Lexer.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Lexer/org.example.PrintScript.Lexer.test.iml" />
+    </modules>
+  </component>
+</project>
