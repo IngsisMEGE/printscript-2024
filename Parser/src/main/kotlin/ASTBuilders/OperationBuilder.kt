@@ -3,8 +3,10 @@ package Parser.ASTBuilders
 import ASTN.*
 import Parser.exceptions.UnexpectedTokenException
 import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import Parser.exceptions.SyntacticError
 import token.DataType
 import token.Token
+import java.util.*
 
 class OperationBuilder : AstBuilder {
 
@@ -69,8 +71,12 @@ class OperationBuilder : AstBuilder {
 
     // Shunting yard algorithm
     private fun infixToPostfix(tokens: List<Token>): List<Token> {
-        val stack = mutableListOf<Token>()
+        val stack = Stack<Token>()
         val postfix = mutableListOf<Token>()
+
+        if (tokens.any { it.getType() in (operators - listOf(DataType.OPERATOR_PLUS)) } && tokens.any { it.getType() == DataType.STRING_VALUE }) throw SyntacticError(
+            "Invalid string concatenation"
+        )
 
         for (token in tokens) {
             when (token.getType()) {
@@ -79,32 +85,31 @@ class OperationBuilder : AstBuilder {
                 }
 
                 DataType.OPERATOR_PLUS, DataType.OPERATOR_MINUS, DataType.OPERATOR_MULTIPLY, DataType.OPERATOR_DIVIDE -> {
-                    while (stack.isNotEmpty() && precedence(stack.last()) >= precedence(token)) {
-                        postfix.add(stack.removeLast())
+                    while (stack.isNotEmpty() && precedence(stack.peek()) >= precedence(token)) {
+                        postfix.add(stack.pop())
                     }
-                    stack.add(token)
+                    stack.push(token)
                 }
 
                 DataType.LEFT_PARENTHESIS -> {
-                    stack.add(token)
+                    stack.push(token)
                 }
 
                 DataType.RIGHT_PARENTHESIS -> {
-                    while (stack.isNotEmpty() && stack.last().getType() != DataType.LEFT_PARENTHESIS) {
-                        postfix.add(stack.removeLast())
+                    while (stack.isNotEmpty() && stack.peek().getType() != DataType.LEFT_PARENTHESIS) {
+                        postfix.add(stack.pop())
                     }
-                    stack.removeLast()
+                    stack.pop()
                 }
 
                 else -> throw UnexpectedTokenException("Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}")
             }
         }
         while (stack.isNotEmpty()) {
-            postfix.add(stack.removeLast())
+            val token = stack.peek()
+            if (token.getType() == DataType.LEFT_PARENTHESIS) throw SyntacticError("Invalid ${token.getValue()} at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}")
+            postfix.add(stack.pop())
         }
         return postfix
     }
-
-
-
 }
