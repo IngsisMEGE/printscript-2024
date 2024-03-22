@@ -5,6 +5,6 @@ import Enforcers.Enforcer
 
 interface Rules {
     val enforcer : Enforcer
-    fun isTheRuleIncluded(ast : AST, property : String) : Boolean
-    fun enforceRule(code : String) : String
+    fun isTheRuleIncluded( property : String) : Boolean
+    fun enforceRule(ast : AST , code : String) : String
 }

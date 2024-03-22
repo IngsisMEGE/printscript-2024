@@ -1,6 +1,8 @@
 package Formatter
 
+import ASTN.AST
+
 interface Formatter {
     val rules : Map<String , Any>
-    fun format(code: String): String
+    fun format(code: AST): String
 }

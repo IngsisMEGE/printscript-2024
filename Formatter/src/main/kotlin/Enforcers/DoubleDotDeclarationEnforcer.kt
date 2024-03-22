@@ -1,7 +1,10 @@
 package Enforcers
 
-class DoubleDotDeclarationEnforcer() : Enforcer {
-    override fun enforceRule(code: String): String {
-        return ""
+import ASTN.AST
+
+class DoubleDotDeclarationEnforcer(private val ammountOfSpace : Int) : Enforcer {
+
+    override fun enforceRule(ast: AST, code: String): String {
+       return ""
     }
 }

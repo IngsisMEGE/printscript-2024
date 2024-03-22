@@ -1,5 +1,7 @@
 package Enforcers
 
+import ASTN.AST
+
 interface Enforcer {
-    fun enforceRule(code : String) : String
+    fun enforceRule(ast : AST, code : String) : String
 }
