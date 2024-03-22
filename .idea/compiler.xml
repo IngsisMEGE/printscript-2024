@@ -2,6 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="Formatter" target="18" />
+      <module name="Formatter.main" target="18" />
+      <module name="Formatter.test" target="18" />
       <module name="Interpreter" target="18" />
       <module name="Interpreter.main" target="18" />
       <module name="Interpreter.test" target="18" />
@@ -18,9 +21,6 @@
       <module name="PrintScript.AST.main" target="18" />
       <module name="PrintScript.AST.test" target="18" />
       <module name="PrintScript.Formater" target="18" />
-      <module name="PrintScript.Formatter" target="18" />
-      <module name="PrintScript.Formatter.main" target="18" />
-      <module name="PrintScript.Formatter.test" target="18" />
       <module name="PrintScript.main" target="18" />
       <module name="PrintScript.PrintScript" target="18" />
       <module name="PrintScript.PrintScript.main" target="18" />
