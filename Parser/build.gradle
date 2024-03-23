@@ -13,6 +13,7 @@ dependencies {
     implementation project(':Token')
     implementation project(':AST')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation project(':Lexer')
 }
 
 test {

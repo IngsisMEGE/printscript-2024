@@ -17,11 +17,22 @@
       <module name="PrintScript.AST" target="18" />
       <module name="PrintScript.AST.main" target="18" />
       <module name="PrintScript.AST.test" target="18" />
-      <module name="PrintScript.Formater" target="18" />
       <module name="PrintScript.Formatter" target="18" />
       <module name="PrintScript.Formatter.main" target="18" />
       <module name="PrintScript.Formatter.test" target="18" />
+      <module name="PrintScript.Interpreter" target="18" />
+      <module name="PrintScript.Interpreter.main" target="18" />
+      <module name="PrintScript.Interpreter.test" target="18" />
+      <module name="PrintScript.JSONManager" target="18" />
+      <module name="PrintScript.JSONManager.main" target="18" />
+      <module name="PrintScript.JSONManager.test" target="18" />
+      <module name="PrintScript.Lexer" target="18" />
+      <module name="PrintScript.Lexer.main" target="18" />
+      <module name="PrintScript.Lexer.test" target="18" />
       <module name="PrintScript.main" target="18" />
+      <module name="PrintScript.Parser" target="18" />
+      <module name="PrintScript.Parser.main" target="18" />
+      <module name="PrintScript.Parser.test" target="18" />
       <module name="PrintScript.PrintScript" target="18" />
       <module name="PrintScript.PrintScript.main" target="18" />
       <module name="PrintScript.PrintScript.test" target="18" />
