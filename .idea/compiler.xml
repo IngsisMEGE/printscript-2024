@@ -5,14 +5,30 @@
       <module name="Interpreter" target="18" />
       <module name="Interpreter.main" target="18" />
       <module name="Interpreter.test" target="18" />
+      <module name="JSONManager" target="18" />
+      <module name="JSONManager.main" target="18" />
+      <module name="JSONManager.test" target="18" />
       <module name="Lexer" target="18" />
       <module name="Lexer.main" target="18" />
       <module name="Lexer.test" target="18" />
       <module name="Parser" target="18" />
       <module name="Parser.main" target="18" />
       <module name="Parser.test" target="18" />
+      <module name="PrintScript.AST" target="18" />
+      <module name="PrintScript.AST.main" target="18" />
+      <module name="PrintScript.AST.test" target="18" />
+      <module name="PrintScript.Formater" target="18" />
+      <module name="PrintScript.Formatter" target="18" />
+      <module name="PrintScript.Formatter.main" target="18" />
+      <module name="PrintScript.Formatter.test" target="18" />
       <module name="PrintScript.main" target="18" />
+      <module name="PrintScript.PrintScript" target="18" />
+      <module name="PrintScript.PrintScript.main" target="18" />
+      <module name="PrintScript.PrintScript.test" target="18" />
       <module name="PrintScript.test" target="18" />
+      <module name="PrintScript.Token" target="18" />
+      <module name="PrintScript.Token.main" target="18" />
+      <module name="PrintScript.Token.test" target="18" />
       <module name="PrintScript.untitled" target="18" />
       <module name="PrintScript.untitled.main" target="18" />
       <module name="PrintScript.untitled.test" target="18" />

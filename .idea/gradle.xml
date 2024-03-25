@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
             <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/Parser" />
             <option value="$PROJECT_DIR$/PrintScript" />
@@ -24,7 +26,26 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
             <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
+            <option value="$PROJECT_DIR$/Lexer" />
+            <option value="$PROJECT_DIR$/Parser" />
+            <option value="$PROJECT_DIR$/PrintScript" />
+            <option value="$PROJECT_DIR$/Token" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/JSONManager" />
+        <option name="gradleHome" value="" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
+            <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/Parser" />
             <option value="$PROJECT_DIR$/PrintScript" />
@@ -39,7 +60,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
             <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/Parser" />
             <option value="$PROJECT_DIR$/PrintScript" />
@@ -54,7 +77,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
             <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/Parser" />
             <option value="$PROJECT_DIR$/PrintScript" />
@@ -69,7 +94,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
             <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/Parser" />
             <option value="$PROJECT_DIR$/PrintScript" />
@@ -84,7 +111,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AST" />
+            <option value="$PROJECT_DIR$/Formater" />
             <option value="$PROJECT_DIR$/Interpreter" />
+            <option value="$PROJECT_DIR$/JSONManager" />
             <option value="$PROJECT_DIR$/Lexer" />
             <option value="$PROJECT_DIR$/Parser" />
             <option value="$PROJECT_DIR$/PrintScript" />
