@@ -12,7 +12,7 @@ class LexerTest {
     fun lexTest() {
         val line = "let a;"
         val result = temporalLexer.lex(line, 1)
-        assertEquals(DataType.LET_KEYWORD, result[0].getType())
+        assertEquals(DataType.DECLARATION_VARIABLE, result[0].getType())
         assertEquals("", result[0].getValue())
         assertEquals(DataType.VARIABLE_NAME, result[1].getType())
         assertEquals("a", result[1].getValue())
@@ -24,11 +24,11 @@ class LexerTest {
         val line = "let name = 5;"
         val result = temporalLexer.lex(line, 1)
 
-        assertEquals(DataType.LET_KEYWORD, result[0].getType())
+        assertEquals(DataType.DECLARATION_VARIABLE, result[0].getType())
         assertEquals("", result[0].getValue())
         assertEquals(DataType.VARIABLE_NAME, result[1].getType())
         assertEquals("name", result[1].getValue())
-        assertEquals(DataType.ASIGNATION_EQUALS, result[2].getType())
+        assertEquals(DataType.ASSIGNATION, result[2].getType())
         assertEquals("", result[2].getValue())
         assertEquals(DataType.NUMBER_VALUE, result[3].getType())
         assertEquals("5", result[3].getValue())
@@ -39,11 +39,11 @@ class LexerTest {
         val line = "let letter = sum(5, 5);"
         val result = temporalLexer.lex(line, 1)
 
-        assertEquals(DataType.LET_KEYWORD, result[0].getType())
+        assertEquals(DataType.DECLARATION_VARIABLE, result[0].getType())
         assertEquals("", result[0].getValue())
         assertEquals(DataType.VARIABLE_NAME, result[1].getType())
         assertEquals("letter", result[1].getValue())
-        assertEquals(DataType.ASIGNATION_EQUALS, result[2].getType())
+        assertEquals(DataType.ASSIGNATION, result[2].getType())
         assertEquals("", result[2].getValue())
         assertEquals(DataType.METHOD_CALL, result[3].getType())
         assertEquals("sum", result[3].getValue())
@@ -64,7 +64,7 @@ class LexerTest {
     fun testLetKeywordPass() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let", 1)
-        assertEquals(DataType.LET_KEYWORD, tokens[0].getType())
+        assertEquals(DataType.DECLARATION_VARIABLE, tokens[0].getType())
     }
 
     @Test
@@ -127,10 +127,10 @@ class LexerTest {
     fun testWhitespaceVariation() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let    varName    =    \"value\";", 1)
-        assertEquals(DataType.LET_KEYWORD, tokens[0].getType())
+        assertEquals(DataType.DECLARATION_VARIABLE, tokens[0].getType())
         assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
         assertEquals("varName", tokens[1].getValue())
-        assertEquals(DataType.ASIGNATION_EQUALS, tokens[2].getType())
+        assertEquals(DataType.ASSIGNATION, tokens[2].getType())
         assertEquals(DataType.STRING_VALUE, tokens[3].getType())
         assertEquals("\"value\"", tokens[3].getValue())
     }
@@ -149,9 +149,9 @@ class LexerTest {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let result = (3 + (2 * 5));", 1)
         val expectedTypes = listOf(
-            DataType.LET_KEYWORD,
+            DataType.DECLARATION_VARIABLE,
             DataType.VARIABLE_NAME,
-            DataType.ASIGNATION_EQUALS,
+            DataType.ASSIGNATION,
             DataType.LEFT_PARENTHESIS,
             DataType.NUMBER_VALUE,
             DataType.OPERATOR_PLUS,
@@ -171,11 +171,11 @@ class LexerTest {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let a: number= 5;", 1)
         val expectedTypes = listOf(
-            DataType.LET_KEYWORD,
+            DataType.DECLARATION_VARIABLE,
             DataType.VARIABLE_NAME,
             DataType.DOUBLE_DOTS,
-            DataType.NUMBER_KEYWORD,
-            DataType.ASIGNATION_EQUALS,
+            DataType.NUMBER_TYPE,
+            DataType.ASSIGNATION,
             DataType.NUMBER_VALUE,
             DataType.SEMICOLON
         )
@@ -187,11 +187,11 @@ class LexerTest {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let a: string = 5;", 1)
         val expectedTypes = listOf(
-            DataType.LET_KEYWORD,
+            DataType.DECLARATION_VARIABLE,
             DataType.VARIABLE_NAME,
             DataType.DOUBLE_DOTS,
-            DataType.STRING_KEYWORD,
-            DataType.ASIGNATION_EQUALS,
+            DataType.STRING_TYPE,
+            DataType.ASSIGNATION,
             DataType.NUMBER_VALUE,
             DataType.SEMICOLON
         )

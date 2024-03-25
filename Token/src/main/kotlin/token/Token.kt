@@ -33,19 +33,19 @@ class Token(private val type: DataType, private val value: String?, private val 
 
  */
 enum class DataType{
-    NUMBER_KEYWORD,
-    STRING_KEYWORD,
+    NUMBER_TYPE,
+    STRING_TYPE,
     NUMBER_VALUE,
     STRING_VALUE,
     VARIABLE_NAME,
-    LET_KEYWORD,
+    DECLARATION_VARIABLE,
     OPERATOR_PLUS,
     OPERATOR_MINUS,
     OPERATOR_MULTIPLY,
     OPERATOR_DIVIDE,
     DOUBLE_DOTS,
     SEMICOLON,
-    ASIGNATION_EQUALS,
+    ASSIGNATION,
     LEFT_PARENTHESIS,
     RIGHT_PARENTHESIS,
     METHOD_CALL,
