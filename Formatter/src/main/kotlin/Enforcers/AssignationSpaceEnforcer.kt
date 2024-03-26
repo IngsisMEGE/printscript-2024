@@ -2,14 +2,7 @@ package Enforcers
 
 import ASTN.AST
 
-class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, private var ammountOfSpaceInBack: Int) : Enforcer {
-
-    init {
-        if(ammountOfSpaceInFront <= 0 || ammountOfSpaceInBack <= 0) {
-            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0")
-        }
-    }
-
+class AssignationSpaceEnforcer(private val ammountOfSpaceInFront : Int, private val ammountOfSpaceInBack : Int) : Enforcer {
     override fun enforceRule(ast: AST, code: String): String {
         val modifiedCode = StringBuilder()
         var insideString = false
@@ -25,11 +18,10 @@ class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, priv
                 escaped = false
             }
 
-            if (char == ':' && !insideString) {
+            if (char == '=' && !insideString) {
                 modifiedCode.append(" ".repeat(ammountOfSpaceInBack - 1))
                 modifiedCode.append(char)
                 modifiedCode.append(" ".repeat(ammountOfSpaceInFront))
-
             } else {
                 modifiedCode.append(char)
             }
