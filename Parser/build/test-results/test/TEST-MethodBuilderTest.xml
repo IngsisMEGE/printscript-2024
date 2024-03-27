@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="MethodBuilderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-23T20:32:37" hostname="NACHO-PC" time="0.003">
+  <properties/>
+  <testcase name="testBuildWithValidTokens()" classname="MethodBuilderTest" time="0.003"/>
+  <system-out><![CDATA[print
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
