@@ -23,6 +23,6 @@ class AssignationBuilder : AstBuilder {
     private fun verifyStructure(tokens: List<Token>) {
         AstBuilder.checkMinLength(tokens, 3, "declaration")
         AstBuilder.checkTokenType(tokens[0], "Variable", listOf(DataType.VARIABLE_NAME))
-        AstBuilder.checkTokenType(tokens[1], "Equals", listOf(DataType.ASIGNATION_EQUALS))
+        AstBuilder.checkTokenType(tokens[1], "Equals", listOf(DataType.ASSIGNATION))
     }
 }

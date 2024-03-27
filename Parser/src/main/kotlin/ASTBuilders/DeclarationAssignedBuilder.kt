@@ -19,7 +19,7 @@ class DeclarationAssignedBuilder : AstBuilder {
                 0,
                 5
             )
-        ) && parsedTokens[4].getType() == DataType.ASIGNATION_EQUALS
+        ) && parsedTokens[4].getType() == DataType.ASSIGNATION
     }
 
     override fun build(tokens: List<Token>): AST {

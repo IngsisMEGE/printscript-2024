@@ -14,7 +14,7 @@ class DeclaratorBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         if (parsedTokens.size < 4) return false
-        return parsedTokens[0].getType() == DataType.LET_KEYWORD || parsedTokens[2].getType() == DataType.DOUBLE_DOTS
+        return parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE || parsedTokens[2].getType() == DataType.DOUBLE_DOTS
     }
 
     override fun build(tokens: List<Token>): AST {
@@ -26,9 +26,9 @@ class DeclaratorBuilder : AstBuilder {
     private fun verifyStructure(tokens: List<Token>) {
         checkMinLength(tokens, 4, "declaration")
         checkMaxLength(tokens, 4, "declaration")
-        checkTokenType(tokens[0], "Let or const", listOf(DataType.LET_KEYWORD))
+        checkTokenType(tokens[0], "Let or const", listOf(DataType.DECLARATION_VARIABLE))
         checkTokenType(tokens[1], "Identifier", listOf(DataType.VARIABLE_NAME))
         checkTokenType(tokens[2], "Double dots", listOf(DataType.DOUBLE_DOTS))
-        checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_KEYWORD, DataType.STRING_KEYWORD))
+        checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_TYPE, DataType.STRING_TYPE))
     }
 }

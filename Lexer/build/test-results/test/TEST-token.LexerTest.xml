@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="token.LexerTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2024-03-21T23:12:33" hostname="Pok" time="0.111">
+<testsuite name="token.LexerTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2024-03-25T20:04:42" hostname="Pok" time="0.145">
   <properties/>
-  <testcase name="testStringLiteral()" classname="token.LexerTest" time="0.041"/>
-  <testcase name="lexTest2()" classname="token.LexerTest" time="0.003"/>
+  <testcase name="testStringLiteral()" classname="token.LexerTest" time="0.044"/>
+  <testcase name="lexTest2()" classname="token.LexerTest" time="0.005"/>
   <testcase name="testMethodCall()" classname="token.LexerTest" time="0.004"/>
   <testcase name="testLetKeywordPass()" classname="token.LexerTest" time="0.003"/>
-  <testcase name="methodCall()" classname="token.LexerTest" time="0.003"/>
-  <testcase name="testWhitespaceVariation()" classname="token.LexerTest" time="0.003"/>
-  <testcase name="testNumberValue()" classname="token.LexerTest" time="0.002"/>
-  <testcase name="lexTest()" classname="token.LexerTest" time="0.002"/>
+  <testcase name="methodCall()" classname="token.LexerTest" time="0.005"/>
+  <testcase name="testWhitespaceVariation()" classname="token.LexerTest" time="0.004"/>
+  <testcase name="testNumberValue()" classname="token.LexerTest" time="0.004"/>
+  <testcase name="lexTest()" classname="token.LexerTest" time="0.003"/>
   <testcase name="testComplexExpression()" classname="token.LexerTest" time="0.003"/>
   <testcase name="testStringWithEscapedCharacters()" classname="token.LexerTest" time="0.002"/>
-  <testcase name="testOperatorPlus()" classname="token.LexerTest" time="0.002"/>
-  <testcase name="testLetKeywordTricky()" classname="token.LexerTest" time="0.002"/>
+  <testcase name="testOperatorPlus()" classname="token.LexerTest" time="0.005"/>
+  <testcase name="testLetKeywordTricky()" classname="token.LexerTest" time="0.003"/>
   <testcase name="testNestedExpressions()" classname="token.LexerTest" time="0.004"/>
-  <testcase name="testDeclarationWithTypeNumber()" classname="token.LexerTest" time="0.003"/>
-  <testcase name="testDeclarationWithTypeString()" classname="token.LexerTest" time="0.004"/>
+  <testcase name="testDeclarationWithTypeNumber()" classname="token.LexerTest" time="0.005"/>
+  <testcase name="testDeclarationWithTypeString()" classname="token.LexerTest" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
