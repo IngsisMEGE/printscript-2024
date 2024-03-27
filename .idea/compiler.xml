@@ -11,6 +11,15 @@
       <module name="Lexer" target="18" />
       <module name="Lexer.main" target="18" />
       <module name="Lexer.test" target="18" />
+      <module name="org.example.PrintScript.AST" target="18" />
+      <module name="org.example.PrintScript.AST.main" target="18" />
+      <module name="org.example.PrintScript.AST.test" target="18" />
+      <module name="org.example.PrintScript.PrintScript" target="18" />
+      <module name="org.example.PrintScript.PrintScript.main" target="18" />
+      <module name="org.example.PrintScript.PrintScript.test" target="18" />
+      <module name="org.example.PrintScript.Token" target="18" />
+      <module name="org.example.PrintScript.Token.main" target="18" />
+      <module name="org.example.PrintScript.Token.test" target="18" />
       <module name="Parser" target="18" />
       <module name="Parser.main" target="18" />
       <module name="Parser.test" target="18" />

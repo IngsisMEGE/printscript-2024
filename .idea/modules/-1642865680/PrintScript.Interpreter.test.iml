@@ -43,8 +43,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="PrintScript.Interpreter.main" />
-    <orderEntry type="module" module-name="PrintScript.AST.main" />
-    <orderEntry type="module" module-name="PrintScript.Token.main" />
+    <orderEntry type="module" module-name="org.example.PrintScript.AST.main" />
+    <orderEntry type="module" module-name="org.example.PrintScript.Token.main" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test:1.9.22" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.22" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test-junit5:1.9.22" level="project" />
