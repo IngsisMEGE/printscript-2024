@@ -26,6 +26,9 @@
       <module name="PrintScript.AST" target="18" />
       <module name="PrintScript.AST.main" target="18" />
       <module name="PrintScript.AST.test" target="18" />
+      <module name="PrintScript.Formater" target="18" />
+      <module name="PrintScript.Formater.main" target="18" />
+      <module name="PrintScript.Formater.test" target="18" />
       <module name="PrintScript.Formatter" target="18" />
       <module name="PrintScript.Formatter.main" target="18" />
       <module name="PrintScript.Formatter.test" target="18" />
@@ -55,6 +58,8 @@
       <module name="Token" target="18" />
       <module name="Token.main" target="18" />
       <module name="Token.test" target="18" />
+      <module name="untitled.PrintScript.main" target="18" />
+      <module name="untitled.PrintScript.test" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>
