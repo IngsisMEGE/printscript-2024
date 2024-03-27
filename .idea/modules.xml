@@ -8,6 +8,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.main.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.test.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-810606290/PrintScript.Formater.iml" filepath="$PROJECT_DIR$/.idea/modules/-810606290/PrintScript.Formater.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1642865680/PrintScript.Interpreter.iml" filepath="$PROJECT_DIR$/.idea/modules/-1642865680/PrintScript.Interpreter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1642865680/PrintScript.Interpreter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1642865680/PrintScript.Interpreter.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1642865680/PrintScript.Interpreter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1642865680/PrintScript.Interpreter.test.iml" />
@@ -26,6 +28,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.iml" filepath="$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1550633527/PrintScript.Token.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PrintScript.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PrintScript.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PrintScript.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PrintScript.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1877276152/org.example.PrintScript.AST.iml" filepath="$PROJECT_DIR$/.idea/modules/1877276152/org.example.PrintScript.AST.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1877276152/org.example.PrintScript.AST.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1877276152/org.example.PrintScript.AST.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1877276152/org.example.PrintScript.AST.test.iml" filepath="$PROJECT_DIR$/.idea/modules/1877276152/org.example.PrintScript.AST.test.iml" />
