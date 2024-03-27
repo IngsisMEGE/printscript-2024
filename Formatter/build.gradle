@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':AST')
+    api project(':AST')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 

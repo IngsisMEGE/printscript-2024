@@ -2,8 +2,9 @@ package Enforcers
 
 import ASTN.AST
 
-class AssignationSpaceEnforcer(private val ammountOfSpaceInFront : Int, private val ammountOfSpaceInBack : Int) : Enforcer {
-    override fun enforceRule(ast: AST, code: String): String {
+class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private val ammountOfSpaceInBack: Int) :
+    Enforcer {
+    override fun enforceRule(code: String): String {
         val modifiedCode = StringBuilder()
         var insideString = false
         var escaped = false

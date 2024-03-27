@@ -10,7 +10,7 @@ class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, priv
         }
     }
 
-    override fun enforceRule(ast: AST, code: String): String {
+    override fun enforceRule(code: String): String {
         val modifiedCode = StringBuilder()
         var insideString = false
         var escaped = false
