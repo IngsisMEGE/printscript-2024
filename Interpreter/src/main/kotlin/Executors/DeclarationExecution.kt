@@ -21,8 +21,8 @@ class DeclarationExecution: Executor<VarDeclaration> {
 
     private fun getValueType(dataType: DataType): VariableType{
         return when(dataType){
-            DataType.NUMBER_KEYWORD -> VariableType.NUMBER
-            DataType.STRING_KEYWORD -> VariableType.STRING
+            DataType.NUMBER_TYPE -> VariableType.NUMBER
+            DataType.STRING_TYPE -> VariableType.STRING
             else -> throw Exception("mal")
         }
     }

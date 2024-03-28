@@ -18,7 +18,7 @@ class MethodBuilder : AstBuilder {
     override fun build(tokens: List<Token>): AST {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         verifyStructure(parsedTokens)
-        return Method(parsedTokens[0], operatorBuilder.buildOperation(parsedTokens.subList(2, parsedTokens.size - 2)))
+        return Method(parsedTokens[0], operatorBuilder.buildOperation(parsedTokens.subList(2, parsedTokens.size - 1)))
     }
 
     private fun verifyStructure(tokens: List<Token>) {

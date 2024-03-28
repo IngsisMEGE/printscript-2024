@@ -1,3 +1,7 @@
+import ASTN.VarDeclarationAssignation
+import Parser.impl.ParserImpl
+import org.example.lexer.TemporalLexer
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -7,4 +11,18 @@ class TestParser {
     fun testParser() {
         assertEquals(2, 1 + 1)
     }
+    @Test
+    fun testVariableDeclaration() {
+        val lexer = TemporalLexer()
+        val parser = ParserImpl()
+
+        val tokens = lexer.lex("let x: number = 5;",1)
+        val ast = parser.parse(tokens) as VarDeclarationAssignation
+
+        assertNotNull(ast)
+        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("", ast.varDeclaration.type.getValue())
+
+    }
+
 }
