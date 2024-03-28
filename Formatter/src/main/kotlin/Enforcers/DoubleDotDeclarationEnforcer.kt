@@ -4,7 +4,7 @@ class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, priv
 
     init {
         if(ammountOfSpaceInFront < 0 || ammountOfSpaceInBack < 0) {
-            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0")
+            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0 : Double Dot")
         }
     }
 

@@ -1,57 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VarDeclarationRule.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Formatter</a> &gt; <a href="index.source.html" class="el_package">Rules</a> &gt; <span class="el_source">VarDeclarationRule.kt</span></div><h1>VarDeclarationRule.kt</h1><pre class="source lang-java linenums">
-package Rules
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VarDeclarationRule.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Formatter</a> &gt; <a href="index.source.html" class="el_package">Rules</a> &gt; <span class="el_source">VarDeclarationRule.kt</span></div><h1>VarDeclarationRule.kt</h1><pre class="source lang-java linenums">package Rules
 
 import ASTN.AST
 import Enforcers.DoubleDotDeclarationEnforcer
 import Enforcers.Enforcer
 
-<span class="nc" id="L8">class VarDeclarationRule(override val enforcer: List&lt;Enforcer&gt; = listOf()) : Rules {</span>
+<span class="fc" id="L7">class VarDeclarationRule(</span>
+<span class="fc" id="L8">    private val DoubleDotSpaceInFront: String,</span>
+<span class="fc" id="L9">    private val DoubleDotSpaceInBack: String,</span>
+<span class="fc" id="L10">    override val enforcer: List&lt;Enforcer&gt; = listOf()</span>
+) : Rules {
     override fun isTheRuleIncluded(property: Map&lt;String, Any&gt;): Rules {
-<span class="nc" id="L10">        var enforcers: List&lt;Enforcer&gt; = listOf()</span>
-<span class="nc bnc" id="L11" title="All 2 branches missed.">        if (property[&quot;DoubleDotSpaceInFront&quot;] == true) {</span>
-<span class="nc bnc" id="L12" title="All 2 branches missed.">            if (property[&quot;DoubleDotSpaceInBack&quot;] == true) {</span>
-<span class="nc" id="L13">                enforcers = enforcer.plus(</span>
-<span class="nc" id="L14">                    DoubleDotDeclarationEnforcer(</span>
-<span class="nc" id="L15">                        property[&quot;DoubleDotSpaceInFront&quot;] as Int,</span>
-<span class="nc" id="L16">                        property[&quot;DoubleDotSpaceInBack&quot;] as Int</span>
-                    )
+<span class="fc" id="L13">        var enforcers: List&lt;Enforcer&gt; = listOf()</span>
+<span class="pc bpc" id="L14" title="2 of 4 branches missed.">        if (property.containsKey(DoubleDotSpaceInFront) &amp;&amp; property.containsKey(DoubleDotSpaceInBack)) {</span>
+<span class="fc" id="L15">            enforcers = enforcer.plus(</span>
+<span class="fc" id="L16">                DoubleDotDeclarationEnforcer(</span>
+<span class="fc" id="L17">                    property[DoubleDotSpaceInFront] as Int,</span>
+<span class="fc" id="L18">                    property[DoubleDotSpaceInBack] as Int</span>
                 )
-            }
+            )
         }
-<span class="nc" id="L21">        return VarDeclarationRule(enforcers)</span>
+<span class="fc" id="L22">        return VarDeclarationRule(DoubleDotSpaceInFront, DoubleDotSpaceInBack, enforcers)</span>
     }
 
     override fun enforceRule(code: String): String {
 
-<span class="nc" id="L26">        var line = code</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (enforcer in enforcer) {</span>
-<span class="nc" id="L28">            line = enforcer.enforceRule(line)</span>
+<span class="fc" id="L27">        var line = code</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (enforcer in enforcer) {</span>
+<span class="fc" id="L29">            line = enforcer.enforceRule(line)</span>
         }
-<span class="nc" id="L30">        return line</span>
+<span class="fc" id="L31">        return line</span>
     }
 
 
     override fun genericLine(ast: AST): String {
-<span class="nc" id="L35">        when (ast) {</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">            is ASTN.VarDeclaration -&gt; {</span>
-<span class="nc" id="L37">                val newLine = StringBuilder()</span>
-<span class="nc" id="L38">                newLine.append(&quot;let &quot;)</span>
-<span class="nc" id="L39">                newLine.append(ast.assignation.getValue())</span>
-<span class="nc" id="L40">                newLine.append(&quot;:&quot;)</span>
-<span class="nc" id="L41">                newLine.append(ast.type.getValue())</span>
-<span class="nc" id="L42">                newLine.append(&quot;;&quot;)</span>
+<span class="fc" id="L36">        when (ast) {</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">            is ASTN.VarDeclaration -&gt; {</span>
+<span class="fc" id="L38">                val newLine = StringBuilder()</span>
+<span class="fc" id="L39">                newLine.append(&quot;let &quot;)</span>
+<span class="fc" id="L40">                newLine.append(ast.assignation.getValue())</span>
+<span class="fc" id="L41">                newLine.append(&quot;:&quot;)</span>
+<span class="fc" id="L42">                newLine.append(ast.type.getValue())</span>
+<span class="fc" id="L43">                newLine.append(&quot;;&quot;)</span>
 
-<span class="nc" id="L44">                var line = newLine.toString()</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">                for (enforcer in enforcer) {</span>
-<span class="nc" id="L46">                    line = enforcer.enforceRule(line)</span>
-                }
-<span class="nc" id="L48">                return line</span>
+<span class="fc" id="L45">                return newLine.toString()</span>
             }
 
             else -&gt; {
-<span class="nc" id="L52">                return &quot;&quot;</span>
+<span class="nc" id="L49">                return &quot;&quot;</span>
             }
         }
     }
-<span class="nc" id="L56">}</span>
+<span class="fc" id="L53">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

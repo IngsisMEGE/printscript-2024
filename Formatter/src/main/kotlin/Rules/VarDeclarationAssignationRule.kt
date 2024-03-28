@@ -58,10 +58,9 @@ class VarDeclarationAssignationRule(
                 newLine.append("=")
                 newLine.append(";")
 
-                var line = newLine.toString()
 
                 //Hacer el var Declaration Rule del Operation. Y despues meterle la regla aca.
-                return line
+                return newLine.toString()
             }
 
             else -> {

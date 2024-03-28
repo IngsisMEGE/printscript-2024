@@ -69,7 +69,7 @@ class VarDeclarationAssignationRuleTest {
             varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
         }
 
-        assertEquals("The ammount of space in front and back must be greater than 0", exception.message)
+        assertEquals("The ammount of space in front and back must be greater than 0 : Double Dot", exception.message)
     }
 
     @Test
@@ -84,7 +84,7 @@ class VarDeclarationAssignationRuleTest {
             varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
         }
 
-        assertEquals("The ammount of space in front and back must be greater than 0", exception.message)
+        assertEquals("The ammount of space in front and back must be greater than 0 : Double Dot", exception.message)
     }
 
     @Test
@@ -99,7 +99,7 @@ class VarDeclarationAssignationRuleTest {
             varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
         }
 
-        assertEquals("The ammount of space in front and back must be greater than 0", exception.message)
+        assertEquals("The ammount of space in front and back must be greater than 0 : Assignation", exception.message)
     }
 
     @Test
@@ -114,7 +114,7 @@ class VarDeclarationAssignationRuleTest {
             varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
         }
 
-        assertEquals("The ammount of space in front and back must be greater than 0", exception.message)
+        assertEquals("The ammount of space in front and back must be greater than 0 : Assignation", exception.message)
     }
 
 

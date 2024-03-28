@@ -1,24 +1,25 @@
-
 package Rules
 
 import ASTN.AST
 import Enforcers.DoubleDotDeclarationEnforcer
 import Enforcers.Enforcer
 
-class VarDeclarationRule(override val enforcer: List<Enforcer> = listOf()) : Rules {
+class VarDeclarationRule(
+    private val DoubleDotSpaceInFront: String,
+    private val DoubleDotSpaceInBack: String,
+    override val enforcer: List<Enforcer> = listOf()
+) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = listOf()
-        if (property["DoubleDotSpaceInFront"] == true) {
-            if (property["DoubleDotSpaceInBack"] == true) {
-                enforcers = enforcer.plus(
-                    DoubleDotDeclarationEnforcer(
-                        property["DoubleDotSpaceInFront"] as Int,
-                        property["DoubleDotSpaceInBack"] as Int
-                    )
+        if (property.containsKey(DoubleDotSpaceInFront) && property.containsKey(DoubleDotSpaceInBack)) {
+            enforcers = enforcer.plus(
+                DoubleDotDeclarationEnforcer(
+                    property[DoubleDotSpaceInFront] as Int,
+                    property[DoubleDotSpaceInBack] as Int
                 )
-            }
+            )
         }
-        return VarDeclarationRule(enforcers)
+        return VarDeclarationRule(DoubleDotSpaceInFront, DoubleDotSpaceInBack, enforcers)
     }
 
     override fun enforceRule(code: String): String {
@@ -41,11 +42,7 @@ class VarDeclarationRule(override val enforcer: List<Enforcer> = listOf()) : Rul
                 newLine.append(ast.type.getValue())
                 newLine.append(";")
 
-                var line = newLine.toString()
-                for (enforcer in enforcer) {
-                    line = enforcer.enforceRule(line)
-                }
-                return line
+                return newLine.toString()
             }
 
             else -> {

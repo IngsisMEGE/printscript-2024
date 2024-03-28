@@ -40,11 +40,11 @@ import Enforcers.Enforcer
     }
 
     override fun enforceRule(code: String): String {
-<span class="nc" id="L43">        var line = code</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (enforcer in enforcer) {</span>
-<span class="nc" id="L45">            line = enforcer.enforceRule(line)</span>
+<span class="fc" id="L43">        var line = code</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (enforcer in enforcer) {</span>
+<span class="fc" id="L45">            line = enforcer.enforceRule(line)</span>
         }
-<span class="nc" id="L47">        return line</span>
+<span class="fc" id="L47">        return line</span>
     }
 
     override fun genericLine(ast: AST): String {
@@ -58,16 +58,15 @@ import Enforcers.Enforcer
 <span class="fc" id="L58">                newLine.append(&quot;=&quot;)</span>
 <span class="fc" id="L59">                newLine.append(&quot;;&quot;)</span>
 
-<span class="fc" id="L61">                var line = newLine.toString()</span>
 
                 //Hacer el var Declaration Rule del Operation. Y despues meterle la regla aca.
-<span class="fc" id="L64">                return line</span>
+<span class="fc" id="L63">                return newLine.toString()</span>
             }
 
             else -&gt; {
-<span class="nc" id="L68">                return &quot;&quot;</span>
+<span class="nc" id="L67">                return &quot;&quot;</span>
             }
         }
     }
-<span class="fc" id="L72">}</span>
+<span class="fc" id="L71">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

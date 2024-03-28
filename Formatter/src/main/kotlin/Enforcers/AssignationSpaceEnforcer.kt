@@ -5,7 +5,7 @@ class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private v
 
     init {
         if (ammountOfSpaceInFront < 0 || ammountOfSpaceInBack < 0) {
-            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0")
+            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0 : Assignation")
         }
     }
 
