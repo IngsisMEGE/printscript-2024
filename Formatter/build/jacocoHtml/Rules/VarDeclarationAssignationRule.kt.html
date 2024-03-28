@@ -5,62 +5,62 @@ import Enforcers.AssignationSpaceEnforcer
 import Enforcers.DoubleDotDeclarationEnforcer
 import Enforcers.Enforcer
 
-<span class="fc" id="L8">class VarDeclarationAssignationRule(</span>
-<span class="fc" id="L9">    private val DoubleDotSpaceInFrontName: String,</span>
-<span class="fc" id="L10">    private val DoubleDotSpaceInBackName: String,</span>
-<span class="fc" id="L11">    private val AssignationSpaceInFrontName: String,</span>
-<span class="fc" id="L12">    private val AssignationSpaceInBackName: String,</span>
-<span class="fc" id="L13">    override val enforcer: List&lt;Enforcer&gt; = listOf()</span>
+<span class="nc" id="L8">class VarDeclarationAssignationRule(</span>
+<span class="nc" id="L9">    private val DoubleDotSpaceInFrontName: String,</span>
+<span class="nc" id="L10">    private val DoubleDotSpaceInBackName: String,</span>
+<span class="nc" id="L11">    private val AssignationSpaceInFrontName: String,</span>
+<span class="nc" id="L12">    private val AssignationSpaceInBackName: String,</span>
+<span class="nc" id="L13">    override val enforcer: List&lt;Enforcer&gt; = listOf()</span>
 ) : Rules {
     override fun isTheRuleIncluded(property: Map&lt;String, Any&gt;): Rules {
-<span class="fc" id="L16">        var enforcers: List&lt;Enforcer&gt; = enforcer</span>
-<span class="pc bpc" id="L17" title="2 of 4 branches missed.">        if (property.containsKey(DoubleDotSpaceInFrontName) &amp;&amp; property.containsKey(DoubleDotSpaceInBackName)) {</span>
-<span class="fc" id="L18">            enforcers = enforcers.plus(</span>
-<span class="fc" id="L19">                DoubleDotDeclarationEnforcer(</span>
-<span class="fc" id="L20">                    property[DoubleDotSpaceInFrontName] as Int,</span>
-<span class="fc" id="L21">                    property[DoubleDotSpaceInBackName] as Int</span>
+<span class="nc" id="L16">        var enforcers: List&lt;Enforcer&gt; = enforcer</span>
+<span class="nc bnc" id="L17" title="All 4 branches missed.">        if (property.containsKey(DoubleDotSpaceInFrontName) &amp;&amp; property.containsKey(DoubleDotSpaceInBackName)) {</span>
+<span class="nc" id="L18">            enforcers = enforcers.plus(</span>
+<span class="nc" id="L19">                DoubleDotDeclarationEnforcer(</span>
+<span class="nc" id="L20">                    property[DoubleDotSpaceInFrontName] as Int,</span>
+<span class="nc" id="L21">                    property[DoubleDotSpaceInBackName] as Int</span>
                 )
             )
         }
-<span class="pc bpc" id="L25" title="2 of 4 branches missed.">        if (property.containsKey(AssignationSpaceInFrontName) &amp;&amp; property.containsKey(AssignationSpaceInBackName)) {</span>
-<span class="fc" id="L26">            enforcers = enforcers.plus(</span>
-<span class="fc" id="L27">                AssignationSpaceEnforcer(</span>
-<span class="fc" id="L28">                    property[AssignationSpaceInFrontName] as Int,</span>
-<span class="fc" id="L29">                    property[AssignationSpaceInBackName] as Int</span>
+<span class="nc bnc" id="L25" title="All 4 branches missed.">        if (property.containsKey(AssignationSpaceInFrontName) &amp;&amp; property.containsKey(AssignationSpaceInBackName)) {</span>
+<span class="nc" id="L26">            enforcers = enforcers.plus(</span>
+<span class="nc" id="L27">                AssignationSpaceEnforcer(</span>
+<span class="nc" id="L28">                    property[AssignationSpaceInFrontName] as Int,</span>
+<span class="nc" id="L29">                    property[AssignationSpaceInBackName] as Int</span>
                 )
             )
         }
-<span class="fc" id="L33">        return VarDeclarationAssignationRule(</span>
-<span class="fc" id="L34">            DoubleDotSpaceInFrontName,</span>
-<span class="fc" id="L35">            DoubleDotSpaceInBackName,</span>
-<span class="fc" id="L36">            AssignationSpaceInFrontName,</span>
-<span class="fc" id="L37">            AssignationSpaceInBackName,</span>
-<span class="fc" id="L38">            enforcers</span>
+<span class="nc" id="L33">        return VarDeclarationAssignationRule(</span>
+<span class="nc" id="L34">            DoubleDotSpaceInFrontName,</span>
+<span class="nc" id="L35">            DoubleDotSpaceInBackName,</span>
+<span class="nc" id="L36">            AssignationSpaceInFrontName,</span>
+<span class="nc" id="L37">            AssignationSpaceInBackName,</span>
+<span class="nc" id="L38">            enforcers</span>
         )
     }
 
     override fun enforceRule(code: String): String {
-<span class="fc" id="L43">        var line = code</span>
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (enforcer in enforcer) {</span>
-<span class="fc" id="L45">            line = enforcer.enforceRule(line)</span>
+<span class="nc" id="L43">        var line = code</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (enforcer in enforcer) {</span>
+<span class="nc" id="L45">            line = enforcer.enforceRule(line)</span>
         }
-<span class="fc" id="L47">        return line</span>
+<span class="nc" id="L47">        return line</span>
     }
 
     override fun genericLine(ast: AST): String {
-<span class="fc" id="L51">        when (ast) {</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            is ASTN.VarDeclarationAssignation -&gt; {</span>
-<span class="fc" id="L53">                val newLine = StringBuilder()</span>
-<span class="fc" id="L54">                newLine.append(&quot;let &quot;)</span>
-<span class="fc" id="L55">                newLine.append(ast.varDeclaration.assignation.getValue())</span>
-<span class="fc" id="L56">                newLine.append(&quot;:&quot;)</span>
-<span class="fc" id="L57">                newLine.append(ast.varDeclaration.type.getValue())</span>
-<span class="fc" id="L58">                newLine.append(&quot;=&quot;)</span>
-<span class="fc" id="L59">                newLine.append(&quot;;&quot;)</span>
+<span class="nc" id="L51">        when (ast) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            is ASTN.VarDeclarationAssignation -&gt; {</span>
+<span class="nc" id="L53">                val newLine = StringBuilder()</span>
+<span class="nc" id="L54">                newLine.append(&quot;let &quot;)</span>
+<span class="nc" id="L55">                newLine.append(ast.varDeclaration.assignation.getValue())</span>
+<span class="nc" id="L56">                newLine.append(&quot;:&quot;)</span>
+<span class="nc" id="L57">                newLine.append(ast.varDeclaration.type.getValue())</span>
+<span class="nc" id="L58">                newLine.append(&quot;=&quot;)</span>
+<span class="nc" id="L59">                newLine.append(&quot;;&quot;)</span>
 
 
                 //Hacer el var Declaration Rule del Operation. Y despues meterle la regla aca.
-<span class="fc" id="L63">                return newLine.toString()</span>
+<span class="nc" id="L63">                return newLine.toString()</span>
             }
 
             else -&gt; {
@@ -68,5 +68,5 @@ import Enforcers.Enforcer
             }
         }
     }
-<span class="fc" id="L71">}</span>
+<span class="nc" id="L71">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
