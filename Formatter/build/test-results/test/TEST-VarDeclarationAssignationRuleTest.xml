@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="VarDeclarationAssignationRuleTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-28T19:43:32" hostname="DESKTOP-UQJVMD7" time="0.018">
+<testsuite name="VarDeclarationAssignationRuleTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-28T20:17:41" hostname="DESKTOP-UQJVMD7" time="0.049">
   <properties/>
-  <testcase name="whenPassingStringWithOnlyAssignationSymbolItShouldReturnStringWithSpacesInFrontAndBack()" classname="VarDeclarationAssignationRuleTest" time="0.018"/>
+  <testcase name="genericLineWithASTWorkingFine()" classname="VarDeclarationAssignationRuleTest" time="0.049"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

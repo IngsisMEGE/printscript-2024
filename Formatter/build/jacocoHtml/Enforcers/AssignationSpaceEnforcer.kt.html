@@ -2,31 +2,38 @@
 
 <span class="fc" id="L3">class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private val ammountOfSpaceInBack: Int) :</span>
     Enforcer {
+
+<span class="fc" id="L6">    init {</span>
+<span class="pc bpc" id="L7" title="2 of 4 branches missed.">        if (ammountOfSpaceInFront &lt; 0 || ammountOfSpaceInBack &lt; 0) {</span>
+<span class="nc" id="L8">            throw IllegalArgumentException(&quot;The ammount of space in front and back must be greater than 0&quot;)</span>
+        }
+<span class="fc" id="L10">    }</span>
+
     override fun enforceRule(code: String): String {
-<span class="fc" id="L6">        val modifiedCode = StringBuilder()</span>
-<span class="fc" id="L7">        var insideString = false</span>
-<span class="fc" id="L8">        var escaped = false</span>
+<span class="nc" id="L13">        val modifiedCode = StringBuilder()</span>
+<span class="nc" id="L14">        var insideString = false</span>
+<span class="nc" id="L15">        var escaped = false</span>
 
-<span class="fc bfc" id="L10" title="All 2 branches covered.">        for (char in code) {</span>
-<span class="pc bpc" id="L11" title="1 of 4 branches missed.">            if (char == '\&quot;' &amp;&amp; !escaped) {</span>
-<span class="fc bfc" id="L12" title="All 2 branches covered.">                insideString = !insideString</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        for (char in code) {</span>
+<span class="nc bnc" id="L18" title="All 4 branches missed.">            if (char == '\&quot;' &amp;&amp; !escaped) {</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">                insideString = !insideString</span>
             }
-<span class="pc bpc" id="L14" title="1 of 2 branches missed.">            if (char == '\\') {</span>
-<span class="nc bnc" id="L15" title="All 2 branches missed.">                escaped = !escaped</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">            if (char == '\\') {</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">                escaped = !escaped</span>
             } else {
-<span class="fc" id="L17">                escaped = false</span>
+<span class="nc" id="L24">                escaped = false</span>
             }
 
-<span class="fc bfc" id="L20" title="All 4 branches covered.">            if (char == '=' &amp;&amp; !insideString) {</span>
-<span class="fc" id="L21">                modifiedCode.append(&quot; &quot;.repeat(ammountOfSpaceInBack))</span>
-<span class="fc" id="L22">                modifiedCode.append(char)</span>
-<span class="fc" id="L23">                modifiedCode.append(&quot; &quot;.repeat(ammountOfSpaceInFront))</span>
+<span class="nc bnc" id="L27" title="All 4 branches missed.">            if (char == '=' &amp;&amp; !insideString) {</span>
+<span class="nc" id="L28">                modifiedCode.append(&quot; &quot;.repeat(ammountOfSpaceInBack))</span>
+<span class="nc" id="L29">                modifiedCode.append(char)</span>
+<span class="nc" id="L30">                modifiedCode.append(&quot; &quot;.repeat(ammountOfSpaceInFront))</span>
             } else {
-<span class="fc" id="L25">                modifiedCode.append(char)</span>
+<span class="nc" id="L32">                modifiedCode.append(char)</span>
             }
         }
 
-<span class="fc" id="L29">        return modifiedCode.toString()</span>
+<span class="nc" id="L36">        return modifiedCode.toString()</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

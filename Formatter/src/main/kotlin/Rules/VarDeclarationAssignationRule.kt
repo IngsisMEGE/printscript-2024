@@ -13,26 +13,22 @@ class VarDeclarationAssignationRule(
     override val enforcer: List<Enforcer> = listOf()
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
-        var enforcers: List<Enforcer> = listOf()
-        if (property[DoubleDotSpaceInFrontName] == true) {
-            if (property[DoubleDotSpaceInBackName] == true) {
-                enforcers = enforcer.plus(
-                    DoubleDotDeclarationEnforcer(
-                        property[DoubleDotSpaceInFrontName] as Int,
-                        property[DoubleDotSpaceInBackName] as Int
-                    )
+        var enforcers: List<Enforcer> = enforcer
+        if (property.containsKey(DoubleDotSpaceInFrontName) && property.containsKey(DoubleDotSpaceInBackName)) {
+            enforcers = enforcers.plus(
+                DoubleDotDeclarationEnforcer(
+                    property[DoubleDotSpaceInFrontName] as Int,
+                    property[DoubleDotSpaceInBackName] as Int
                 )
-            }
+            )
         }
-        if (property[AssignationSpaceInFrontName] == true) {
-            if (property[AssignationSpaceInBackName] == true) {
-                enforcers = enforcer.plus(
-                    AssignationSpaceEnforcer(
-                        property[AssignationSpaceInFrontName] as Int,
-                        property[AssignationSpaceInBackName] as Int
-                    )
+        if (property.containsKey(AssignationSpaceInFrontName) && property.containsKey(AssignationSpaceInBackName)) {
+            enforcers = enforcers.plus(
+                AssignationSpaceEnforcer(
+                    property[AssignationSpaceInFrontName] as Int,
+                    property[AssignationSpaceInBackName] as Int
                 )
-            }
+            )
         }
         return VarDeclarationAssignationRule(
             DoubleDotSpaceInFrontName,

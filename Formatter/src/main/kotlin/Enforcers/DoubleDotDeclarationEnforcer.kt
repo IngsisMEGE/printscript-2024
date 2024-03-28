@@ -3,7 +3,7 @@ package Enforcers
 class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, private var ammountOfSpaceInBack: Int) : Enforcer {
 
     init {
-        if(ammountOfSpaceInFront <= 0 || ammountOfSpaceInBack <= 0) {
+        if(ammountOfSpaceInFront < 0 || ammountOfSpaceInBack < 0) {
             throw IllegalArgumentException("The ammount of space in front and back must be greater than 0")
         }
     }
