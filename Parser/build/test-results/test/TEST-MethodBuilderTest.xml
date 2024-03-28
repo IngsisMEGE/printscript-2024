@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MethodBuilderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-27T19:58:40" hostname="bro" time="0.008">
+<testsuite name="MethodBuilderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-28T19:40:56" hostname="DESKTOP-UQJVMD7" time="0.004">
   <properties/>
-  <testcase name="testBuildWithValidTokens()" classname="MethodBuilderTest" time="0.008"/>
+  <testcase name="testBuildWithValidTokens()" classname="MethodBuilderTest" time="0.004"/>
   <system-out><![CDATA[print
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

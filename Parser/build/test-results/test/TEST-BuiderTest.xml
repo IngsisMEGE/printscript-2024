@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BuiderTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-03-28T19:40:56" hostname="DESKTOP-UQJVMD7" time="0.024">
+  <properties/>
+  <testcase name="isValidDeclarationAssignationShouldReturnFalseForLinesWithLessThan6Tokens()" classname="BuiderTest" time="0.004"/>
+  <testcase name="isValidDeclarationAssignationShouldReturnTrueForLinesWithLessThan6Tokens()" classname="BuiderTest" time="0.001"/>
+  <testcase name="buildDeclarationAssignationShouldReturnVarDeclarationAssignation()" classname="BuiderTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

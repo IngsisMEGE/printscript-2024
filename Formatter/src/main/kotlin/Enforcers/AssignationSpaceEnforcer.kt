@@ -1,7 +1,5 @@
 package Enforcers
 
-import ASTN.AST
-
 class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private val ammountOfSpaceInBack: Int) :
     Enforcer {
     override fun enforceRule(code: String): String {
@@ -20,7 +18,7 @@ class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private v
             }
 
             if (char == '=' && !insideString) {
-                modifiedCode.append(" ".repeat(ammountOfSpaceInBack - 1))
+                modifiedCode.append(" ".repeat(ammountOfSpaceInBack))
                 modifiedCode.append(char)
                 modifiedCode.append(" ".repeat(ammountOfSpaceInFront))
             } else {

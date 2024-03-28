@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="JSONManagerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-27T19:58:35" hostname="bro" time="0.125">
+<testsuite name="JSONManagerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-28T17:08:24" hostname="DESKTOP-UQJVMD7" time="0.043">
   <properties/>
-  <testcase name="JSONToMapTest()" classname="JSONManagerTest" time="0.125"/>
+  <testcase name="JSONToMapTest()" classname="JSONManagerTest" time="0.043"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

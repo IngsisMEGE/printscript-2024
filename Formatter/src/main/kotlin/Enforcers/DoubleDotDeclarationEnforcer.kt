@@ -1,7 +1,5 @@
 package Enforcers
 
-import ASTN.AST
-
 class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, private var ammountOfSpaceInBack: Int) : Enforcer {
 
     init {
@@ -26,7 +24,7 @@ class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront : Int, priv
             }
 
             if (char == ':' && !insideString) {
-                modifiedCode.append(" ".repeat(ammountOfSpaceInBack - 1))
+                modifiedCode.append(" ".repeat(ammountOfSpaceInBack))
                 modifiedCode.append(char)
                 modifiedCode.append(" ".repeat(ammountOfSpaceInFront))
 
