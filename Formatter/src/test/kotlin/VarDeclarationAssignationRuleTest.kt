@@ -39,7 +39,7 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
         val ast : VarDeclarationAssignation = VarDeclarationAssignation( VarDeclaration(Token(DataType.NUMBER_TYPE, "number" , Pair(0,0) , Pair(4,0)), Token(DataType.VARIABLE_NAME, "dong", Pair(5,0) , Pair(8,0))), OperationString(Token(DataType.STRING_VALUE , "Hola" , Pair(12 , 0), Pair(15,0))))
-        val expectedCode = "let dong:number=;"
+        val expectedCode = "let dong:number=\"Hola\";"
         assertEquals(expectedCode, varDeclarationAssignationRule.genericLine(ast))
     }
 
@@ -53,7 +53,7 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
         val ast : VarDeclarationAssignation = VarDeclarationAssignation( VarDeclaration(Token(DataType.NUMBER_TYPE, "number" , Pair(0,0) , Pair(4,0)), Token(DataType.VARIABLE_NAME, "dong", Pair(5,0) , Pair(8,0))), OperationString(Token(DataType.STRING_VALUE , "Hola" , Pair(12 , 0), Pair(15,0))))
-        val expectedCode = "let dong : number = ;"
+        val expectedCode = "let dong : number = \"Hola\";"
         assertEquals(expectedCode, varDeclarationAssignationRule.enforceRule(varDeclarationAssignationRule.genericLine(ast)))
     }
 

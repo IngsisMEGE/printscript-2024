@@ -2,16 +2,21 @@ package Rules
 
 import ASTN.*
 import Enforcers.Enforcer
+import Enforcers.OperatorSpaceEnforcer
 import token.DataType
 import token.Token
 
 class OperationRule(override val enforcer: List<Enforcer> = listOf()) : Rules{
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
-        TODO("Not yet implemented")
+        return OperationRule(listOf(OperatorSpaceEnforcer()))
     }
 
     override fun enforceRule(code: String): String {
-        TODO("Not yet implemented")
+        var line = code
+        for (enforcer in enforcer) {
+            line = enforcer.enforceRule(line)
+        }
+        return line
     }
 
     override fun genericLine(ast: AST): String {
@@ -34,7 +39,7 @@ class OperationRule(override val enforcer: List<Enforcer> = listOf()) : Rules{
                 "$leftExpression$operator$rightExpression"
             }
             is OperationNumber-> postfixAST.value.getValue()
-            is OperationString -> postfixAST.value.getValue()
+            is OperationString -> "\""+ postfixAST.value.getValue() + "\""
             is OperationVariable -> postfixAST.value.getValue()
             else -> throw IllegalArgumentException("Invalid OpTree type")
         }

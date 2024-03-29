@@ -80,7 +80,7 @@ class OperationRuleTest {
     @Test
     fun test005_genericLineOfOperationWithString() {
         val tokenList = listOf(
-            Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.STRING_VALUE, "Hello", Pair(4, 0), Pair(5, 0)),
             Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
             Token(DataType.NUMBER_VALUE, "3", Pair(4, 0), Pair(5, 0))
         )
@@ -106,7 +106,7 @@ class OperationRuleTest {
     @Test
     fun test007_genericLineOfOperationWithVariableAndString() {
         val tokenList = listOf(
-            Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.STRING_VALUE, "Hello", Pair(4, 0), Pair(5, 0)),
             Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
             Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0))
         )
@@ -119,7 +119,7 @@ class OperationRuleTest {
     @Test
     fun test008_genericLineOfOperationWithVariableAndStringAndNumber() {
         val tokenList = listOf(
-            Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.STRING_VALUE, "Hello", Pair(4, 0), Pair(5, 0)),
             Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
             Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0)),
             Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
@@ -129,6 +129,29 @@ class OperationRuleTest {
         val operationRule = Rules.OperationRule()
         val result = operationRule.genericLine(ast)
         assertEquals("\"Hello\"+x+3", result)
+    }
+
+    @Test
+    fun test009isRuleValid() {
+        val operationRule = Rules.OperationRule()
+        val result = operationRule.isTheRuleIncluded(mapOf())
+        assertTrue(result is Rules.OperationRule)
+    }
+
+
+    @Test
+    fun test010EnforceRule() {
+        val operationRule = Rules.OperationRule()
+
+        val result = operationRule.isTheRuleIncluded(mapOf()).enforceRule("3+3")
+        assertEquals("3 + 3", result)
+    }
+
+    @Test
+    fun test011EnforceRule() {
+        val operationRule = Rules.OperationRule()
+        val result = operationRule.isTheRuleIncluded(mapOf()).enforceRule("3+3+3")
+        assertEquals("3 + 3 + 3", result)
     }
 
 }

@@ -38,6 +38,6 @@ class MethodRuleTest {
 
         val result = methodRule.genericLine(ast)
 
-        assertEquals("println()", result)
+        assertEquals("println(\"Hello\")", result)
     }
 }

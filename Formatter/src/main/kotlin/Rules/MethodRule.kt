@@ -1,10 +1,11 @@
 package Rules
 
 import ASTN.AST
+import ASTN.Operation
 import Enforcers.Enforcer
 import Enforcers.LineJumpOnMethodEnforcer
 
-class MethodRule(private val ammountOfJumpLine : String ,override val enforcer: List<Enforcer> = listOf()) : Rules {
+class MethodRule(private val ammountOfJumpLine : String ,override val enforcer: List<Enforcer> = listOf(), private val OperationRule : OperationRule = OperationRule()) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         val enfocers : MutableList<Enforcer> = enforcer.toMutableList()
         if (property.containsKey(ammountOfJumpLine)){
@@ -28,6 +29,8 @@ class MethodRule(private val ammountOfJumpLine : String ,override val enforcer: 
                 newLine.append(ast.methodName.getValue())
                 newLine.append("(")
                 //Missing OPTree Rule
+                val parameters = OperationRule.genericLine(Operation(ast.value))
+                newLine.append(OperationRule.enforceRule(parameters))
                 newLine.append(")")
                 return newLine.toString()
             }

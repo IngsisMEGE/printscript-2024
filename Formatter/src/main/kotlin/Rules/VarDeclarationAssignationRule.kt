@@ -1,6 +1,7 @@
 package Rules
 
 import ASTN.AST
+import ASTN.Operation
 import Enforcers.AssignationSpaceEnforcer
 import Enforcers.DoubleDotDeclarationEnforcer
 import Enforcers.Enforcer
@@ -10,10 +11,12 @@ class VarDeclarationAssignationRule(
     private val DoubleDotSpaceInBackName: String,
     private val AssignationSpaceInFrontName: String,
     private val AssignationSpaceInBackName: String,
-    override val enforcer: List<Enforcer> = listOf()
+    override val enforcer: List<Enforcer> = listOf(),
+    private val OperationRule: OperationRule = OperationRule()
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
+        OperationRule.isTheRuleIncluded(property)
         if (property.containsKey(DoubleDotSpaceInFrontName) && property.containsKey(DoubleDotSpaceInBackName)) {
             enforcers = enforcers.plus(
                 DoubleDotDeclarationEnforcer(
@@ -56,6 +59,8 @@ class VarDeclarationAssignationRule(
                 newLine.append(":")
                 newLine.append(ast.varDeclaration.type.getValue())
                 newLine.append("=")
+                val operation = OperationRule.genericLine(Operation(ast.value))
+                newLine.append(OperationRule.enforceRule(operation)) //Esto deberia cambiar si hacemos OPTree Rule
                 newLine.append(";")
 
 
