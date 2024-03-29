@@ -36,6 +36,13 @@ class OperationBuilder {
         if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation")
 
         val postfix = infixToPostfix(takeCommentsAndSemiColon(tokens))
+        if (!isValidPostfix(postfix).first) throw SyntacticError(
+            "Invalid token ${isValidPostfix(postfix).second?.getValue()} at: ${
+                isValidPostfix(
+                    postfix
+                ).second?.getInitialPosition()?.first
+            }, ${isValidPostfix(postfix).second?.getFinalPosition()?.second}"
+        )
         val nodes = mutableListOf<OpTree>()
 
         for (token in postfix) {
@@ -109,5 +116,35 @@ class OperationBuilder {
             postfix.add(stack.pop())
         }
         return postfix
+    }
+
+    private fun isValidPostfix(tokens: List<Token>): Pair<Boolean, Token?> {
+        val stack = Stack<Token>()
+
+        for (token in tokens) {
+            when (token.getType()) {
+                DataType.NUMBER_VALUE, DataType.STRING_VALUE, DataType.VARIABLE_NAME -> {
+                    stack.push(token)
+                }
+
+                DataType.OPERATOR_PLUS, DataType.OPERATOR_MINUS, DataType.OPERATOR_MULTIPLY, DataType.OPERATOR_DIVIDE -> {
+                    if (stack.size < 2) {
+                        return Pair(false, token)
+                    } else {
+                        stack.pop()
+                        stack.pop()
+                        stack.push(token)
+                    }
+                }
+
+                else -> return Pair(false, token)
+            }
+        }
+
+        return if (stack.size == 1) {
+            Pair(true, null)
+        } else {
+            Pair(false, stack.peek())
+        }
     }
 }
