@@ -29,9 +29,7 @@ class Token(private val type: DataType, private val value: String?, private val 
 
     fun getFinalPosition(): Pair<Int,Int>{return finalPosition }
 }
-/*
 
- */
 enum class DataType{
     NUMBER_TYPE,
     STRING_TYPE,
