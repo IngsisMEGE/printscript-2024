@@ -7,6 +7,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.main.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.test.iml" filepath="$PROJECT_DIR$/.idea/modules/AST/PrintScript.AST.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1877277846/PrintScript.CLI.iml" filepath="$PROJECT_DIR$/.idea/modules/1877277846/PrintScript.CLI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1877277846/PrintScript.CLI.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1877277846/PrintScript.CLI.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1877277846/PrintScript.CLI.test.iml" filepath="$PROJECT_DIR$/.idea/modules/1877277846/PrintScript.CLI.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-810606290/PrintScript.Formater.iml" filepath="$PROJECT_DIR$/.idea/modules/-810606290/PrintScript.Formater.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Formater/PrintScript.Formater.test.iml" />

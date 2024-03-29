@@ -26,7 +26,7 @@ class BuiderTest {
         assert(!declaratorBuilder.isValid(tokens))
     }
     @Test
-    fun isValidDeclarationAssignationShouldReturnTrueForLinesWithLessThan6Tokens() {
+    fun isValidDeclarationAssignationShouldReturnTrueForLinesWith6Tokens() {
         val tokens = listOf(
             Token(DataType.DECLARATION_VARIABLE, "", Pair(0,0), Pair(3,0)),
             Token(DataType.VARIABLE_NAME, "x", Pair(4,0), Pair(5,0)),
@@ -57,6 +57,17 @@ class BuiderTest {
 
         assertEquals(DataType.STRING_TYPE, ast.varDeclaration.type.getType())
         assertEquals("", ast.varDeclaration.type.getValue())
+    }
+    @Test
+    fun isValidDeclarationShouldReturnFalseForLinesWithLessThan4Tokens() {
+        val tokens = listOf(
+            Token(DataType.DECLARATION_VARIABLE, "", Pair(0,0), Pair(3,0)),
+            Token(DataType.VARIABLE_NAME, "x", Pair(4,0), Pair(5,0)),
+            Token(DataType.DOUBLE_DOTS, "", Pair(6,0), Pair(7,0))
+        )
+
+        val declaratorBuilder = DeclaratorBuilder()
+        assert(!declaratorBuilder.isValid(tokens))
     }
 
 }
