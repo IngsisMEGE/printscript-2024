@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="DeclaratorBuilderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-28T19:40:56" hostname="DESKTOP-UQJVMD7" time="0.0">
-  <properties/>
-  <testcase name="test build with valid tokens()" classname="DeclaratorBuilderTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
