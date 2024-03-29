@@ -26,7 +26,7 @@ class TemporalLexer {
         RegexTokenGenerator("=", DataType.ASSIGNATION, true),
         RegexTokenGenerator("\\(", DataType.LEFT_PARENTHESIS, true),
         RegexTokenGenerator("\\)", DataType.RIGHT_PARENTHESIS, true),
-        RegexTokenGenerator("\\b\\w+\\s*\\([^()]*\\)", DataType.METHOD_CALL, false, MethodCallRule()),
+        RegexTokenGenerator("\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)", DataType.METHOD_CALL, false, MethodCallRule()),
         RegexTokenGenerator(",", DataType.COMA, true),
         RegexTokenGenerator("\\bnumber\\b" , DataType.NUMBER_TYPE, true),
         RegexTokenGenerator("\\bstring\\b" , DataType.STRING_TYPE, true),
