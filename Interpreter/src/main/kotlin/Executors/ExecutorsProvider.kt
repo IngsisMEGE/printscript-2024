@@ -7,7 +7,7 @@ class ExecutorsProvider {
         AssignationExecution(),
         DeclarationAssignationExecution(),
         DeclarationExecution(),
-        PrintExecutor()
+        MethodExecutor()
     )
 
     fun getBuilderList() = executors

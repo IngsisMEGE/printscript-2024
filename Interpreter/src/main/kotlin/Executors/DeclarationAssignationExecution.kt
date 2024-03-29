@@ -18,9 +18,9 @@ class DeclarationAssignationExecution: Executor<VarDeclarationAssignation> {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("mal")
+            throw Exception("Variable name $varName dosent match with value type ${ast.varDeclaration.type.getInitialPosition().first} ${ast.varDeclaration.type.getInitialPosition().second}")
         }else{
-            throw Exception("mal")
+            throw Exception("Variable name $varName already exists ${ast.varDeclaration.type.getInitialPosition().first} ${ast.varDeclaration.type.getInitialPosition().second}")
         }
     }
 
@@ -28,7 +28,7 @@ class DeclarationAssignationExecution: Executor<VarDeclarationAssignation> {
         return when(dataType){
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("mal")
+            else -> throw Exception("Type Dosent Exist")
         }
     }
 }

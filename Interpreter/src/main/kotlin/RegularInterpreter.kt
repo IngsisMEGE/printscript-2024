@@ -13,7 +13,7 @@ class RegularInterpreter {
             is Assignation -> AssignationExecution().execute(ast, variables)
             is VarDeclaration -> DeclarationExecution().execute(ast, variables)
             is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, variables)
-            is Method -> PrintExecutor().execute(ast, variables)
+            is Method -> MethodExecutor().execute(ast, variables)
             else -> throw Exception("Unexpected structure")
         }
     }

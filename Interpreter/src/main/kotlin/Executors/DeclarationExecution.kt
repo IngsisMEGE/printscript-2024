@@ -15,7 +15,7 @@ class DeclarationExecution: Executor<VarDeclaration> {
             variables[varName] = Value(type, Optional.empty())
             return ""
         }else{
-            throw Exception("mal")
+            throw Exception("Variable name $varName already exists ${ast.type.getInitialPosition().first} ${ast.type.getInitialPosition().second}")
         }
     }
 
@@ -23,7 +23,7 @@ class DeclarationExecution: Executor<VarDeclaration> {
         return when(dataType){
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("mal")
+            else -> throw Exception("Type Dosent Exist")
         }
     }
 }
