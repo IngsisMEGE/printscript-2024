@@ -5,8 +5,7 @@ class BuilderProvider {
         AssignationBuilder(),
         MethodBuilder(),
         DeclarationAssignedBuilder(),
-        DeclaratorBuilder(),
-        OperationBuilder()
+        DeclaratorBuilder()
     )
 
     fun getBuilderList(): List<AstBuilder> = list

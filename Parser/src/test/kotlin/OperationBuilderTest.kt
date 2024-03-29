@@ -21,7 +21,7 @@ class OperationBuilderTest {
             Token(DataType.OPERATOR_PLUS, "+", Pair(0,2), Pair(0,3))
         )
         assertThrows(Exception::class.java) {
-            OperationBuilder().build(tokens)
+            OperationBuilder().buildOperation(tokens)
         }
     }
     @Test
