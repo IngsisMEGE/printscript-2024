@@ -26,6 +26,9 @@
       <module name="PrintScript.AST" target="18" />
       <module name="PrintScript.AST.main" target="18" />
       <module name="PrintScript.AST.test" target="18" />
+      <module name="PrintScript.CLI" target="18" />
+      <module name="PrintScript.CLI.main" target="18" />
+      <module name="PrintScript.CLI.test" target="18" />
       <module name="PrintScript.Formater" target="18" />
       <module name="PrintScript.Formater.main" target="18" />
       <module name="PrintScript.Formater.test" target="18" />
