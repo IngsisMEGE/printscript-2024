@@ -197,4 +197,27 @@ class LexerTest {
         )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
+
+    @Test
+    fun testMethodCallWithParenthesisInisde(){
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("let a = sum(5, (5 + 5));", 1)
+        val expectedTypes = listOf(
+            DataType.DECLARATION_VARIABLE,
+            DataType.VARIABLE_NAME,
+            DataType.ASSIGNATION,
+            DataType.METHOD_CALL,
+            DataType.LEFT_PARENTHESIS,
+            DataType.NUMBER_VALUE,
+            DataType.COMA,
+            DataType.LEFT_PARENTHESIS,
+            DataType.NUMBER_VALUE,
+            DataType.OPERATOR_PLUS,
+            DataType.NUMBER_VALUE,
+            DataType.RIGHT_PARENTHESIS,
+            DataType.RIGHT_PARENTHESIS,
+            DataType.SEMICOLON
+        )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
 }
