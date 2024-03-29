@@ -10,7 +10,7 @@ class DeclaratorBuilderTest {
     private val declaratorBuilder = DeclaratorBuilder()
 
     @Test
-    fun `test build with valid tokens`() {
+    fun testWithValidTokensShouldCorrectlyBuildVarDeclaration() {
         val tokens = listOf(
             Token(DataType.DECLARATION_VARIABLE, "let", Pair(0,0), Pair(0,3)),
             Token(DataType.VARIABLE_NAME, "x", Pair(0,4), Pair(0,5)),

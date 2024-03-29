@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MethodBuilderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-27T19:58:40" hostname="bro" time="0.008">
+<testsuite name="MethodBuilderTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-03-29T00:56:37" hostname="NACHO-PC" time="0.022">
   <properties/>
-  <testcase name="testBuildWithValidTokens()" classname="MethodBuilderTest" time="0.008"/>
-  <system-out><![CDATA[print
-]]></system-out>
+  <testcase name="testMethodCallShouldThrowExceptionIfMethodCallIsNotValid()" classname="MethodBuilderTest" time="0.006"/>
+  <testcase name="testMethodCallShouldCorrectlyInterpretMethodCallWithComplexOperationAndVariable()" classname="MethodBuilderTest" time="0.003"/>
+  <testcase name="testMethodCallShouldCorrectlyInterpretMethodCallWithComplexOperation()" classname="MethodBuilderTest" time="0.006"/>
+  <testcase name="testMethodCallShouldCorrectlyInterpretMethodCall()" classname="MethodBuilderTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

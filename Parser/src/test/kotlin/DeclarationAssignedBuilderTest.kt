@@ -9,7 +9,7 @@ class DeclarationAssignedBuilderTest {
     private val declarationAssignedBuilder = DeclarationAssignedBuilder()
 
     @Test
-    fun `test isValid with valid tokens`() {
+    fun testWithValidTokensShouldReturnTrue() {
         val tokens = listOf(
                 Token(DataType.DECLARATION_VARIABLE, "let", Pair(0,0), Pair(0,3)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0,4), Pair(0,5)),
@@ -22,7 +22,7 @@ class DeclarationAssignedBuilderTest {
     }
 
     @Test
-    fun `test isValid with invalid tokens`() {
+    fun testWithInvalidTokensShouldReturnFalse() {
         val tokens = listOf(
                 Token(DataType.DECLARATION_VARIABLE, "let", Pair(0,0), Pair(0,3)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0,4), Pair(0,5)),
