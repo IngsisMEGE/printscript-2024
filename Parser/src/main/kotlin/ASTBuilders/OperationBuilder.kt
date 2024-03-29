@@ -8,7 +8,7 @@ import token.DataType
 import token.Token
 import java.util.*
 
-class OperationBuilder : AstBuilder {
+class OperationBuilder {
 
     private val operators = listOf(
         DataType.OPERATOR_PLUS,
@@ -23,7 +23,7 @@ class OperationBuilder : AstBuilder {
         DataType.VARIABLE_NAME
     )
 
-    override fun isValid(tokens: List<Token>): Boolean {
+    fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         return when {
             parsedTokens.isEmpty() -> false
@@ -32,11 +32,9 @@ class OperationBuilder : AstBuilder {
         }
     }
 
-    override fun build(tokens: List<Token>): AST {
-        return Operation(buildOperation(tokens))
-    }
-
     fun buildOperation(tokens: List<Token>): OpTree {
+        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation")
+
         val postfix = infixToPostfix(takeCommentsAndSemiColon(tokens))
         val nodes = mutableListOf<OpTree>()
 

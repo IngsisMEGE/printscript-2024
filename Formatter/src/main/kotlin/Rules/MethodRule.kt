@@ -1,7 +1,6 @@
 package Rules
 
 import ASTN.AST
-import ASTN.Operation
 import Enforcers.Enforcer
 import Enforcers.LineJumpOnMethodEnforcer
 
@@ -29,7 +28,7 @@ class MethodRule(private val ammountOfJumpLine : String ,override val enforcer: 
                 newLine.append(ast.methodName.getValue())
                 newLine.append("(")
                 //Missing OPTree Rule
-                val parameters = OperationRule.genericLine(Operation(ast.value))
+                val parameters = OperationRule.genericLine(ast.value)
                 newLine.append(OperationRule.enforceRule(parameters))
                 newLine.append(")")
                 return newLine.toString()

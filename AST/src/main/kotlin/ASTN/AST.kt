@@ -12,8 +12,6 @@ data class Assignation(val assignation: Token, val value: OpTree): AST
 
 data class Method(val methodName: Token, val value: OpTree): AST
 
-data class Operation(val value: OpTree): AST
-
 interface OpTree
 
 data class OperationHead(val operator: Token, val left: OpTree, val right: OpTree) : OpTree
