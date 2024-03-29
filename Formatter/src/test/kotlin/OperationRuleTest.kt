@@ -77,4 +77,58 @@ class OperationRuleTest {
         assertEquals("(5+2)*3-6*(3/(4+2))", result)
     }
 
+    @Test
+    fun test005_genericLineOfOperationWithString() {
+        val tokenList = listOf(
+            Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.NUMBER_VALUE, "3", Pair(4, 0), Pair(5, 0))
+        )
+        val ast = ParserImpl().parse(tokenList)
+        val operationRule = Rules.OperationRule()
+        val result = operationRule.genericLine(ast)
+        assertEquals("\"Hello\"+3", result)
+    }
+
+    @Test
+    fun test006_genericLineOfOperationWithVariable() {
+        val tokenList = listOf(
+            Token(DataType.NUMBER_VALUE, "3", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0))
+        )
+        val ast = ParserImpl().parse(tokenList)
+        val operationRule = Rules.OperationRule()
+        val result = operationRule.genericLine(ast)
+        assertEquals("3+x", result)
+    }
+
+    @Test
+    fun test007_genericLineOfOperationWithVariableAndString() {
+        val tokenList = listOf(
+            Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0))
+        )
+        val ast = ParserImpl().parse(tokenList)
+        val operationRule = Rules.OperationRule()
+        val result = operationRule.genericLine(ast)
+        assertEquals("\"Hello\"+x", result)
+    }
+
+    @Test
+    fun test008_genericLineOfOperationWithVariableAndStringAndNumber() {
+        val tokenList = listOf(
+            Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
+            Token(DataType.NUMBER_VALUE, "3", Pair(4, 0), Pair(5, 0))
+        )
+        val ast = ParserImpl().parse(tokenList)
+        val operationRule = Rules.OperationRule()
+        val result = operationRule.genericLine(ast)
+        assertEquals("\"Hello\"+x+3", result)
+    }
+
 }
