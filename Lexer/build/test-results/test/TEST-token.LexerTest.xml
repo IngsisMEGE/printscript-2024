@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="token.LexerTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2024-03-28T17:28:45" hostname="DESKTOP-UQJVMD7" time="0.04">
+<testsuite name="token.LexerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-29T16:14:34" hostname="Pok" time="0.127">
   <properties/>
-  <testcase name="testStringLiteral()" classname="token.LexerTest" time="0.022"/>
-  <testcase name="lexTest2()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testMethodCall()" classname="token.LexerTest" time="0.002"/>
-  <testcase name="testLetKeywordPass()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="methodCall()" classname="token.LexerTest" time="0.0"/>
-  <testcase name="testWhitespaceVariation()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testNumberValue()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="lexTest()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testComplexExpression()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testStringWithEscapedCharacters()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testOperatorPlus()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testLetKeywordTricky()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testNestedExpressions()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testDeclarationWithTypeNumber()" classname="token.LexerTest" time="0.001"/>
-  <testcase name="testDeclarationWithTypeString()" classname="token.LexerTest" time="0.001"/>
+  <testcase name="testMethodCall()" classname="token.LexerTest" time="0.127"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
