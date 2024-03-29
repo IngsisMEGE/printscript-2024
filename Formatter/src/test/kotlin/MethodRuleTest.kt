@@ -1,5 +1,3 @@
-import ASTN.OpTree
-import ASTN.Operation
 import ASTN.OperationString
 import Rules.MethodRule
 import Rules.Rules

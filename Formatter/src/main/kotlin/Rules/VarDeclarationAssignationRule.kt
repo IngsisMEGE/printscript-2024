@@ -1,7 +1,6 @@
 package Rules
 
 import ASTN.AST
-import ASTN.Operation
 import Enforcers.AssignationSpaceEnforcer
 import Enforcers.DoubleDotDeclarationEnforcer
 import Enforcers.Enforcer
@@ -59,7 +58,7 @@ class VarDeclarationAssignationRule(
                 newLine.append(":")
                 newLine.append(ast.varDeclaration.type.getValue())
                 newLine.append("=")
-                val operation = OperationRule.genericLine(Operation(ast.value))
+                val operation = OperationRule.genericLine(ast.value)
                 newLine.append(OperationRule.enforceRule(operation)) //Esto deberia cambiar si hacemos OPTree Rule
                 newLine.append(";")
 

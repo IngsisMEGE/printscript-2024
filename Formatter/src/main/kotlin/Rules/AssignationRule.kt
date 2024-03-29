@@ -1,7 +1,6 @@
 package Rules
 
 import ASTN.AST
-import ASTN.Operation
 import Enforcers.Enforcer
 
 class AssignationRule(private val AssignationSpaceInFrontName : String, private val AssignationSpaceInBackName : String  , override val enforcer: List<Enforcer> = listOf(), private val OperationRule : OperationRule = OperationRule()) : Rules {
@@ -32,7 +31,7 @@ class AssignationRule(private val AssignationSpaceInFrontName : String, private 
                 val newLine = StringBuilder()
                 newLine.append(ast.assignation.getValue())
                 newLine.append("=")
-                val value = OperationRule.genericLine(Operation(ast.value))
+                val value = OperationRule.genericLine(ast.value)
                 newLine.append(OperationRule.enforceRule(value))
                 newLine.append(";")
                 return newLine.toString()
