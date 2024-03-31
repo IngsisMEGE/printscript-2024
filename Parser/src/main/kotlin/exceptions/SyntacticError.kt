@@ -1,3 +1,3 @@
-package Parser.exceptions
+package exceptions
 
 class SyntacticError(s: String) : Exception(s)

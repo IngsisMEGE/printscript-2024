@@ -30,5 +30,4 @@ class TokenTest {
             assertEquals(e.message, "The initial position must be less than the final position")
         }
     }
-
 }

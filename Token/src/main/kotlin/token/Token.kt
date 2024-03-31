@@ -8,7 +8,12 @@ package token
  * @property initialPosition The starting position of the token in the source code, usually represented as a line and column number.
  * @property finalPosition The ending position of the token in the source code.
  */
-class Token(private val type: DataType, private val value: String?, private val initialPosition: Pair<Int,Int>, private val finalPosition: Pair<Int,Int>) {
+class Token(
+    private val type: DataType,
+    private val value: String?,
+    private val initialPosition: Pair<Int, Int>,
+    private val finalPosition: Pair<Int, Int>,
+) {
     init {
         if (initialPosition.second > finalPosition.second) {
             throw IllegalArgumentException("The initial position must be less than the final position")
@@ -18,19 +23,28 @@ class Token(private val type: DataType, private val value: String?, private val 
             throw IllegalArgumentException("The initial position must be less than the final position")
         }
     }
+
     fun getValue(): String {
-        if(value == null) {
+        if (value == null) {
             return ""
         }
         return value
     }
-    fun getType(): DataType { return type }
-    fun getInitialPosition(): Pair<Int,Int>{return initialPosition }
 
-    fun getFinalPosition(): Pair<Int,Int>{return finalPosition }
+    fun getType(): DataType {
+        return type
+    }
+
+    fun getInitialPosition(): Pair<Int, Int> {
+        return initialPosition
+    }
+
+    fun getFinalPosition(): Pair<Int, Int> {
+        return finalPosition
+    }
 }
 
-enum class DataType{
+enum class DataType {
     NUMBER_TYPE,
     STRING_TYPE,
     NUMBER_VALUE,
@@ -54,5 +68,5 @@ enum class DataType{
     MULTI_LINE_COMMENT_START,
     MULTI_LINE_COMMENT_END,
     ERROR,
-    UNKNOWN
+    UNKNOWN,
 }

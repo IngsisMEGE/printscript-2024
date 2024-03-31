@@ -1,18 +1,26 @@
-package Rules
+package rules
 
-import ASTN.AST
-import Enforcers.Enforcer
+import astn.AST
+import astn.Assignation
+import enforcers.AssignationSpaceEnforcer
+import enforcers.Enforcer
 
-class AssignationRule(private val AssignationSpaceInFrontName : String, private val AssignationSpaceInBackName : String  , override val enforcer: List<Enforcer> = listOf(), private val OperationRule : OperationRule = OperationRule()) : Rules {
+class AssignationRule(
+    private val AssignationSpaceInFrontName: String,
+    private val AssignationSpaceInBackName: String,
+    override val enforcer: List<Enforcer> = listOf(),
+    private val OperationRule: OperationRule = OperationRule(),
+) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
         if (property.containsKey(AssignationSpaceInFrontName) && property.containsKey(AssignationSpaceInBackName)) {
-            enforcers = enforcers.plus(
-                Enforcers.AssignationSpaceEnforcer(
-                    property[AssignationSpaceInFrontName] as Int,
-                    property[AssignationSpaceInBackName] as Int
+            enforcers =
+                enforcers.plus(
+                    AssignationSpaceEnforcer(
+                        property[AssignationSpaceInFrontName] as Int,
+                        property[AssignationSpaceInBackName] as Int,
+                    ),
                 )
-            )
         }
         return AssignationRule(AssignationSpaceInFrontName, AssignationSpaceInBackName, enforcers)
     }
@@ -27,7 +35,7 @@ class AssignationRule(private val AssignationSpaceInFrontName : String, private 
 
     override fun genericLine(ast: AST): String {
         when (ast) {
-            is ASTN.Assignation -> {
+            is Assignation -> {
                 val newLine = StringBuilder()
                 newLine.append(ast.assignation.getValue())
                 newLine.append("=")

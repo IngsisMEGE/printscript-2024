@@ -1,13 +1,18 @@
-package Rules
+package rules
 
-import ASTN.AST
-import Enforcers.Enforcer
-import Enforcers.LineJumpOnMethodEnforcer
+import astn.AST
+import astn.Method
+import enforcers.Enforcer
+import enforcers.LineJumpOnMethodEnforcer
 
-class MethodRule(private val ammountOfJumpLine : String ,override val enforcer: List<Enforcer> = listOf(), private val OperationRule : OperationRule = OperationRule()) : Rules {
+class MethodRule(
+    private val ammountOfJumpLine: String,
+    override val enforcer: List<Enforcer> = listOf(),
+    private val OperationRule: OperationRule = OperationRule(),
+) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
-        val enfocers : MutableList<Enforcer> = enforcer.toMutableList()
-        if (property.containsKey(ammountOfJumpLine)){
+        val enfocers: MutableList<Enforcer> = enforcer.toMutableList()
+        if (property.containsKey(ammountOfJumpLine)) {
             enfocers.add(LineJumpOnMethodEnforcer(property[ammountOfJumpLine] as Int))
         }
         return MethodRule(ammountOfJumpLine, enfocers)
@@ -23,11 +28,11 @@ class MethodRule(private val ammountOfJumpLine : String ,override val enforcer: 
 
     override fun genericLine(ast: AST): String {
         when (ast) {
-            is ASTN.Method -> {
+            is Method -> {
                 val newLine = StringBuilder()
                 newLine.append(ast.methodName.getValue())
                 newLine.append("(")
-                //Missing OPTree Rule
+                // Missing OPTree Rule
                 val parameters = OperationRule.genericLine(ast.value)
                 newLine.append(OperationRule.enforceRule(parameters))
                 newLine.append(")")

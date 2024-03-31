@@ -32,3 +32,17 @@ subprojects {
         }
     }
 }
+
+task installGitHooks(type: Copy) {
+    from new File(rootProject.rootDir, 'pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+}
+
+task gitExecutableHooks {
+    doLast {
+        Runtime.getRuntime().exec("chmod -R +x .git/hooks/");
+    }
+}
+
+installGitHooks.dependsOn gitExecutableHooks
+clean.dependsOn installGitHooks

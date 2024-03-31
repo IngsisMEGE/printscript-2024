@@ -1,24 +1,33 @@
-import ASTN.OperationNumber
-import ASTN.OperationString
-import ASTN.VarDeclaration
-import ASTN.VarDeclarationAssignation
-import Formatter.FormatterImpl
-import Rules.*
+import astn.OperationNumber
+import astn.OperationString
+import astn.VarDeclaration
+import astn.VarDeclarationAssignation
+import formatter.FormatterImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import rules.AssignationRule
+import rules.MethodRule
+import rules.Rules
+import rules.VarDeclarationAssignationRule
+import rules.VarDeclarationRule
 import token.DataType
 import token.Token
 
 class FormatterImplTest {
-
     @Test
     fun test001formatMethodRule() {
-        val ast = ASTN.Method(
-            Token(DataType.VARIABLE_NAME, "println", Pair(0,0), Pair(6,0)), OperationString(
-                Token(
-                    DataType.STRING_VALUE, "Hello", Pair(7,0), Pair(12,0))
+        val ast =
+            astn.Method(
+                Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
+                OperationString(
+                    Token(
+                        DataType.STRING_VALUE,
+                        "Hello",
+                        Pair(7, 0),
+                        Pair(12, 0),
+                    ),
+                ),
             )
-        )
         val property = mapOf("JumpLine" to 1)
         val rules = listOf(MethodRule("JumpLine"))
         val formatter = FormatterImpl(property, rules)
@@ -28,14 +37,21 @@ class FormatterImplTest {
     }
 
     @Test
-    fun test003formatValDeclarationAssignation(){
-        val ast : VarDeclarationAssignation = VarDeclarationAssignation( VarDeclaration(Token(DataType.NUMBER_TYPE, "number" , Pair(0,0) , Pair(4,0)), Token(DataType.VARIABLE_NAME, "dong", Pair(5,0) , Pair(8,0))), OperationString(Token(DataType.STRING_VALUE , "Hola" , Pair(12 , 0), Pair(15,0))))
-        val map : MutableMap<String, Any> = HashMap()
+    fun test003formatValDeclarationAssignation() {
+        val ast: VarDeclarationAssignation =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
+                ),
+                OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
+            )
+        val map: MutableMap<String, Any> = HashMap()
         map["DotFront"] = 1
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        val rules = listOf(VarDeclarationAssignationRule("DotFront", "DotBack" ,"EqualFront", "EqualBack"))
+        val rules = listOf(VarDeclarationAssignationRule("DotFront", "DotBack", "EqualFront", "EqualBack"))
         val formatter = FormatterImpl(map, rules)
         val expected = "let dong : number = \"Hola\";\n"
         val result = formatter.format(ast)
@@ -43,12 +59,16 @@ class FormatterImplTest {
     }
 
     @Test
-    fun test004formatVarDeclaration(){
-        val ast = ASTN.VarDeclaration(Token(DataType.NUMBER_TYPE, "number", Pair(4,0) , Pair(5,0)), Token(DataType.VARIABLE_NAME, "x", Pair(0,0), Pair(1,0)))
-        val property : MutableMap<String, Any> = HashMap()
+    fun test004formatVarDeclaration() {
+        val ast =
+            astn.VarDeclaration(
+                Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+            )
+        val property: MutableMap<String, Any> = HashMap()
         property["SpaceInFront"] = 1
         property["SpaceInBack"] = 1
-        val varDeclarationRule = VarDeclarationRule("SpaceInFront" , "SpaceInBack")
+        val varDeclarationRule = VarDeclarationRule("SpaceInFront", "SpaceInBack")
 
         val rules = listOf(varDeclarationRule)
         val formatter = FormatterImpl(property, rules)
@@ -58,16 +78,17 @@ class FormatterImplTest {
     }
 
     @Test
-    fun test005formatAssignation(){
-        val ast = ASTN.Assignation(
-            Token(DataType.VARIABLE_NAME, "a", Pair(0,0), Pair(1,0)),
-            OperationNumber(
-                Token(DataType.NUMBER_TYPE, "5", Pair(2,0), Pair(3,0))
+    fun test005formatAssignation() {
+        val ast =
+            astn.Assignation(
+                Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
+                ),
             )
-        )
-        val assignationRule : Rules = AssignationRule("EqualFront", "EqualBack")
+        val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val rule = listOf(assignationRule)
-        val property : MutableMap<String, Any> = HashMap()
+        val property: MutableMap<String, Any> = HashMap()
         property["EqualFront"] = 1
         property["EqualBack"] = 1
         val formatter = FormatterImpl(property, rule)
@@ -75,6 +96,4 @@ class FormatterImplTest {
         val result = formatter.format(ast)
         assertEquals(expected, result)
     }
-
-
 }
