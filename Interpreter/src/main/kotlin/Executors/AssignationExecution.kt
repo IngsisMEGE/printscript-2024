@@ -18,9 +18,9 @@ class AssignationExecution: Executor<Assignation> {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("Variable name $varName dosent match with value type ${ast.assignation.getInitialPosition().first} ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable name $varName dosent match with value type [${ast.assignation.getInitialPosition().first}, ${ast.assignation.getInitialPosition().second}]")
         }else{
-            throw Exception("Variable name $varName not found ${ast.assignation.getInitialPosition().first} ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable name $varName not found [${ast.assignation.getInitialPosition().first}, ${ast.assignation.getInitialPosition().second}]")
         }
     }
 
@@ -28,7 +28,7 @@ class AssignationExecution: Executor<Assignation> {
         return when(dataType){
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("Type Dosent Exist")
+            else -> throw Exception("Type Dosent Exist ${dataType} [${position.first}, ${position.second}]")
         }
     }
 }
