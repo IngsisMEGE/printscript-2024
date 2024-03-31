@@ -1,10 +1,11 @@
-package Interpreter.Executors
+package interpreter.executors
 
-import ASTN.AST
-import Interpreter.Value
+import astn.AST
+import interpreter.Value
 
-interface Executor<T> where T: AST{
-
-    fun execute(ast: T, variables: MutableMap<String, Value>): String
+interface Executor<T> where T : AST {
+    fun execute(
+        ast: T,
+        variables: MutableMap<String, Value>,
+    ): String
 }
-

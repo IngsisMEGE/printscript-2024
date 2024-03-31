@@ -1,6 +1,6 @@
-package Parser.interfaces
+package interfaces
 
-import ASTN.AST
+import astn.AST
 import token.Token
 
 interface Parser {

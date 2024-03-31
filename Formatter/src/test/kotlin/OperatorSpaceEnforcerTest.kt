@@ -1,11 +1,10 @@
-import Enforcers.OperatorSpaceEnforcer
+import enforcers.OperatorSpaceEnforcer
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class OperatorSpaceEnforcerTest {
-
     @Test
-    fun test001EnforceRule(){
+    fun test001EnforceRule() {
         val operatorSpaceEnforcer = OperatorSpaceEnforcer()
         val code = "a+b"
         val result = operatorSpaceEnforcer.enforceRule(code)
@@ -13,7 +12,7 @@ class OperatorSpaceEnforcerTest {
     }
 
     @Test
-    fun test002EnforceRule(){
+    fun test002EnforceRule() {
         val operatorSpaceEnforcer = OperatorSpaceEnforcer()
         val code = "a-b"
         val result = operatorSpaceEnforcer.enforceRule(code)
@@ -21,7 +20,7 @@ class OperatorSpaceEnforcerTest {
     }
 
     @Test
-    fun test003EnforceRule(){
+    fun test003EnforceRule() {
         val operatorSpaceEnforcer = OperatorSpaceEnforcer()
         val code = "a*b"
         val result = operatorSpaceEnforcer.enforceRule(code)
@@ -29,7 +28,7 @@ class OperatorSpaceEnforcerTest {
     }
 
     @Test
-    fun test004EnforceRule(){
+    fun test004EnforceRule() {
         val operatorSpaceEnforcer = OperatorSpaceEnforcer()
         val code = "a/b"
         val result = operatorSpaceEnforcer.enforceRule(code)
@@ -37,24 +36,18 @@ class OperatorSpaceEnforcerTest {
     }
 
     @Test
-    fun test005EnforceRule(){
+    fun test005EnforceRule() {
         val operatorSpaceEnforcer = OperatorSpaceEnforcer()
         val code = "a%b"
         val result = operatorSpaceEnforcer.enforceRule(code)
         assertEquals("a % b", result)
     }
 
-
     @Test
-    fun test006EnforceLongLineWithParenthesis(){
+    fun test006EnforceLongLineWithParenthesis() {
         val operatorSpaceEnforcer = OperatorSpaceEnforcer()
         val code = "(a+b)*c-d"
         val result = operatorSpaceEnforcer.enforceRule(code)
         assertEquals("(a + b) * c - d", result)
-
     }
-
-
-
-
 }

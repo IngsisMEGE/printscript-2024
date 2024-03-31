@@ -1,9 +1,8 @@
-import Enforcers.AssignationSpaceEnforcer
+import enforcers.AssignationSpaceEnforcer
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class AssignationSpaceEnfocerTest {
-
     @Test
     fun whenPassingStringWithOnlyAssignationSymbolItShouldReturnStringWithSpacesInFrontAndBack() {
         val assignationSpaceEnforcer = AssignationSpaceEnforcer(1, 1)

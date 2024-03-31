@@ -1,0 +1,18 @@
+#!/bin/bash
+
+git stash -q --keep-index
+
+echo "Running git pre-commit hook"
+
+./gradlew ktlintCheck
+RESULT_KTLINT=$?
+
+git stash pop -q
+
+# Comprobar si el linter y el coverage son exitosos
+if [ $RESULT_KTLINT -ne 0 ]; then
+    echo "Linter check or coverage check failed. Please fix the issues before committing."
+    exit 1
+fi
+
+exit 0

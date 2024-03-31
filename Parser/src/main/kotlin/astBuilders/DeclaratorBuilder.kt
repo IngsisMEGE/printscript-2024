@@ -1,14 +1,13 @@
-package Parser.ASTBuilders
+package astBuilders
 
-import ASTN.AST
-import ASTN.VarDeclaration
-import Parser.ASTBuilders.AstBuilder.Companion.checkMaxLength
-import Parser.ASTBuilders.AstBuilder.Companion.checkMinLength
-import Parser.ASTBuilders.AstBuilder.Companion.checkTokenType
-import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astBuilders.AstBuilder.Companion.checkMaxLength
+import astBuilders.AstBuilder.Companion.checkMinLength
+import astBuilders.AstBuilder.Companion.checkTokenType
+import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astn.AST
+import astn.VarDeclaration
 import token.DataType
 import token.Token
-
 
 class DeclaratorBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {

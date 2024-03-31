@@ -1,13 +1,14 @@
-package Parser.ASTBuilders
+package astBuilders
 
-import ASTN.AST
-import ASTN.Assignation
-import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astn.AST
+import astn.Assignation
 import token.DataType
 import token.Token
 
 class AssignationBuilder : AstBuilder {
     private val operationBuilder = OperationBuilder()
+
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         if (parsedTokens.size < 3) return false
