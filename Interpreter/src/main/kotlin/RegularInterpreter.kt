@@ -26,7 +26,6 @@ class RegularInterpreter {
     private val executorsProvider = ExecutorsProvider()
 
     fun readAST(ast: AST): String {
-
         return when (ast) {
             is Assignation -> AssignationExecution().execute(ast, variables)
             is VarDeclaration -> DeclarationExecution().execute(ast, variables)
