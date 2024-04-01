@@ -9,7 +9,7 @@ import executors.DeclarationExecution
 import interpreter.executors.AssignationExecution
 import interpreter.executors.DeclarationAssignationExecution
 import interpreter.executors.ExecutorsProvider
-import interpreter.executors.PrintExecutor
+import interpreter.executors.MethodExecutor
 
 /**
  * This class is responsible for interpreting the Abstract Syntax Tree (AST) in the PrintScript application.
@@ -31,7 +31,7 @@ class RegularInterpreter {
             is Assignation -> AssignationExecution().execute(ast, variables)
             is VarDeclaration -> DeclarationExecution().execute(ast, variables)
             is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, variables)
-            is Method -> PrintExecutor().execute(ast, variables)
+            is Method -> MethodExecutor().execute(ast, variables)
             else -> throw Exception("Unexpected structure")
         }
     }

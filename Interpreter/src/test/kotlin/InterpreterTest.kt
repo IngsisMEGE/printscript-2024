@@ -1,9 +1,154 @@
+
+import astn.Method
+import astn.OperationNumber
+import astn.OperationString
+import astn.OperationVariable
+import astn.VarDeclaration
+import astn.VarDeclarationAssignation
+import interpreter.RegularInterpreter
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import token.DataType
+import token.Token
 import kotlin.test.assertEquals
 
 class InterpreterTest {
     @Test
-    fun test() {
-        assertEquals(1, 1)
+    fun test001RegularInterpreterTestVarDeclaration() {
+        val interpreter = RegularInterpreter()
+        val ast =
+            VarDeclaration(
+                Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+            )
+        val result = interpreter.readAST(ast)
+        assertEquals("", result)
+    }
+
+    @Test
+    fun test002RegularInterpreterTestVarDeclarationAssignation() {
+        val interpreter = RegularInterpreter()
+        val ast: VarDeclarationAssignation =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
+                ),
+                OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
+            )
+
+        val exception =
+            assertThrows<Exception> {
+                interpreter.readAST(ast)
+            }
+
+        assertEquals("Type Mismatch", exception.message)
+    }
+
+    @Test
+    fun test003RegularInterpreterAssignation() {
+//        val interpreter = RegularInterpreter()
+//        val ast =
+//            Assignation(
+//                Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),
+//                OperationNumber(
+//                    Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
+//                ),
+//            )
+//
+//        val ast2 =
+//            VarDeclaration(
+//                Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+//                Token(DataType.VARIABLE_NAME, "a", Pair(5, 0), Pair(6, 0)),
+//            )
+//
+//        interpreter.readAST(ast2)
+//        val exception =
+//            assertThrows<Exception> {
+//                interpreter.readAST(ast)
+//            }
+//        //Cambialo al error que aparece
+//        assertEquals("mal", exception.message)
+    }
+
+    @Test
+    fun test004RegularInterpreterMethod() {
+        val interpreter = RegularInterpreter()
+        val ast =
+            Method(
+                Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
+                OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(7, 0), Pair(12, 0))),
+            )
+        val result = interpreter.readAST(ast)
+        assertEquals("Hello", result)
+    }
+
+    @Test
+    fun test005DeclareVariableTwoTimesShouldError() {
+        val interpreter = RegularInterpreter()
+        val ast =
+            VarDeclaration(
+                Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+            )
+        val ast2 =
+            VarDeclaration(
+                Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+            )
+        interpreter.readAST(ast)
+        val exception =
+            assertThrows<Exception> {
+                interpreter.readAST(ast2)
+            }
+        assertEquals("Variable Already Exists", exception.message)
+    }
+
+    @Test
+    fun test006DeclareVariableWithValueTwoTimesShouldError() {
+        val interpreter = RegularInterpreter()
+        val ast =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                ),
+                OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
+            )
+        val ast2 =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                ),
+                OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
+            )
+        interpreter.readAST(ast)
+        val exception =
+            assertThrows<Exception> {
+                interpreter.readAST(ast2)
+            }
+        assertEquals("Variable Already Exists", exception.message)
+    }
+
+    @Test
+    fun test007PrintScriptWithVariable() {
+        val interpreter = RegularInterpreter()
+        val ast =
+            Method(
+                Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
+                OperationVariable(Token(DataType.VARIABLE_NAME, "x", Pair(7, 0), Pair(8, 0))),
+            )
+        val ast2 =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                ),
+                OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
+            )
+        interpreter.readAST(ast2)
+        val result = interpreter.readAST(ast)
+        assertEquals("5", result)
     }
 }
