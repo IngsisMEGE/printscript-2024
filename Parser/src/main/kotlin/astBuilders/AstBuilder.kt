@@ -6,6 +6,19 @@ import exceptions.UnexpectedTokenException
 import token.DataType
 import token.Token
 
+/**
+ * This interface defines the contract for building ASTs in the PrintScript application.
+ * It provides two main functions: isValid and build.
+ *
+ * The isValid function takes a list of tokens as input and checks if they represent a valid AST. The specific validation rules depend on the implementation.
+ *
+ * The build function takes a list of tokens as input and builds an AST from them. The specific building process depends on the implementation.
+ *
+ * The companion object provides utility functions for common operations in the building process, such as removing comments and semicolons from a list of tokens, checking the minimum and maximum length of a list of tokens, and checking the type of a token.
+ *
+ * @throws SyntacticError If the list of tokens does not represent a valid AST, if an unexpected token is encountered, or if a token is encountered at an unexpected position.
+ * @throws UnexpectedTokenException If the list of tokens does not represent a valid AST, if an unexpected token is encountered, or if a token is encountered at an unexpected position.
+ */
 interface AstBuilder {
     fun isValid(tokens: List<Token>): Boolean
 

@@ -5,23 +5,31 @@ import astn.VarDeclaration
 import enforcers.DoubleDotDeclarationEnforcer
 import enforcers.Enforcer
 
+/**
+ * This class represents the rule for variable declaration in the PrintScript application.
+ * It enforces the rule by using the DoubleDotDeclarationEnforcer.
+ *
+ * @property doubleDotSpaceInFront The name of the property for the space in front of the double dot.
+ * @property doubleDotSpaceInBack The name of the property for the space in back of the double dot.
+ * @property enforcer A list of enforcers that enforce the rule.
+ */
 class VarDeclarationRule(
-    private val DoubleDotSpaceInFront: String,
-    private val DoubleDotSpaceInBack: String,
+    private val doubleDotSpaceInFront: String,
+    private val doubleDotSpaceInBack: String,
     override val enforcer: List<Enforcer> = listOf(),
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = listOf()
-        if (property.containsKey(DoubleDotSpaceInFront) && property.containsKey(DoubleDotSpaceInBack)) {
+        if (property.containsKey(doubleDotSpaceInFront) && property.containsKey(doubleDotSpaceInBack)) {
             enforcers =
                 enforcer.plus(
                     DoubleDotDeclarationEnforcer(
-                        property[DoubleDotSpaceInFront] as Int,
-                        property[DoubleDotSpaceInBack] as Int,
+                        property[doubleDotSpaceInFront] as Int,
+                        property[doubleDotSpaceInBack] as Int,
                     ),
                 )
         }
-        return VarDeclarationRule(DoubleDotSpaceInFront, DoubleDotSpaceInBack, enforcers)
+        return VarDeclarationRule(doubleDotSpaceInFront, doubleDotSpaceInBack, enforcers)
     }
 
     override fun enforceRule(code: String): String {

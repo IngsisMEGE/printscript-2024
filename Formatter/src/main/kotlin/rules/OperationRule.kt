@@ -10,8 +10,14 @@ import enforcers.OperatorSpaceEnforcer
 import token.DataType
 import token.Token
 
+/**
+ * This class represents the rule for operations in the PrintScript application.
+ * It enforces the rule by using the OperatorSpaceEnforcer.
+ *
+ * @property enforcer A list of enforcers that enforce the rule.
+ */
 class OperationRule(val enforcer: List<Enforcer> = listOf()) {
-    fun isTheRuleIncluded(mapOf: Map<Any, Any>): OperationRule {
+    fun isTheRuleIncluded(): OperationRule {
         return OperationRule(listOf(OperatorSpaceEnforcer()))
     }
 

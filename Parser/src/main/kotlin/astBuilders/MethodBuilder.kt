@@ -6,6 +6,19 @@ import astn.Method
 import token.DataType
 import token.Token
 
+/**
+ * This class is responsible for building method calls in the PrintScript application.
+ * It implements the AstBuilder interface and overrides the isValid and build functions.
+ *
+ * The isValid function takes a list of tokens as input and checks if they represent a valid method call. It removes comments and semicolons from the list, and then checks if the first token is a METHOD_CALL token. It returns false if the list contains less than four tokens.
+ *
+ * The build function takes a list of tokens as input and builds a Method AST from them. It first removes comments and semicolons from the list, then verifies the structure of the tokens, and finally creates a Method object with the first token and the result of the buildOperation function of an OperationBuilder object.
+ *
+ * The verifyStructure function checks the structure of a list of tokens. It checks if the list contains at least four tokens, if the first token is a METHOD_CALL token, if the second token is a LEFT_PARENTHESIS token, and if the last token is a RIGHT_PARENTHESIS token.
+ *
+ * @throws UnexpectedTokenException If the list of tokens does not represent a valid method call, if an unexpected token is encountered, or if a token is encountered at an unexpected position.
+ */
+
 class MethodBuilder : AstBuilder {
     private val operatorBuilder = OperationBuilder()
 
