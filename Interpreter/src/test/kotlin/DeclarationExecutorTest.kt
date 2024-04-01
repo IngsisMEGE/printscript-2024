@@ -1,6 +1,6 @@
 import astn.VarDeclaration
+import executors.DeclarationExecution
 import interpreter.Value
-import interpreter.executors.DeclarationExecution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import token.DataType

@@ -33,8 +33,7 @@ class TemporalLexer {
                 RegexTokenGenerator("\\bnumber\\b", DataType.NUMBER_TYPE, true),
                 RegexTokenGenerator("\\bstring\\b", DataType.STRING_TYPE, true),
                 RegexTokenGenerator("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE, false),
-                RegexTokenGenerator("\\b[a-zA-Z_][a-zA-Z0-9_]*\\b", DataType.VARIABLE_NAME, false),
-                RegexTokenGenerator("\\w+", DataType.ERROR, false),
+                RegexTokenGenerator("(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")", DataType.VARIABLE_NAME, false),
             ),
         )
 
