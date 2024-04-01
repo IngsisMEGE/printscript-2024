@@ -1,27 +1,32 @@
-package Parser.ASTBuilders
+package astBuilders
 
-import ASTN.*
-import Parser.exceptions.UnexpectedTokenException
-import Parser.ASTBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
-import Parser.exceptions.SyntacticError
+import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astn.OpTree
+import astn.OperationHead
+import astn.OperationNumber
+import astn.OperationString
+import astn.OperationVariable
+import exceptions.SyntacticError
+import exceptions.UnexpectedTokenException
 import token.DataType
 import token.Token
-import java.util.*
+import java.util.Stack
 
 class OperationBuilder {
+    private val operators =
+        listOf(
+            DataType.OPERATOR_PLUS,
+            DataType.OPERATOR_MINUS,
+            DataType.OPERATOR_MULTIPLY,
+            DataType.OPERATOR_DIVIDE,
+        )
 
-    private val operators = listOf(
-        DataType.OPERATOR_PLUS,
-        DataType.OPERATOR_MINUS,
-        DataType.OPERATOR_MULTIPLY,
-        DataType.OPERATOR_DIVIDE
-    )
-
-    private val values = listOf(
-        DataType.NUMBER_VALUE,
-        DataType.STRING_VALUE,
-        DataType.VARIABLE_NAME
-    )
+    private val values =
+        listOf(
+            DataType.NUMBER_VALUE,
+            DataType.STRING_VALUE,
+            DataType.VARIABLE_NAME,
+        )
 
     fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
@@ -36,13 +41,15 @@ class OperationBuilder {
         if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation")
 
         val postfix = infixToPostfix(takeCommentsAndSemiColon(tokens))
-        if (!isValidPostfix(postfix).first) throw SyntacticError(
-            "Invalid token ${isValidPostfix(postfix).second?.getValue()} at: ${
-                isValidPostfix(
-                    postfix
-                ).second?.getInitialPosition()?.first
-            }, ${isValidPostfix(postfix).second?.getFinalPosition()?.second}"
-        )
+        if (!isValidPostfix(postfix).first) {
+            throw SyntacticError(
+                "Invalid token ${isValidPostfix(postfix).second?.getValue()} at: ${
+                    isValidPostfix(
+                        postfix,
+                    ).second?.getInitialPosition()?.first
+                }, ${isValidPostfix(postfix).second?.getFinalPosition()?.second}",
+            )
+        }
         val nodes = mutableListOf<OpTree>()
 
         for (token in postfix) {
@@ -52,7 +59,9 @@ class OperationBuilder {
                         DataType.NUMBER_VALUE -> nodes.add(OperationNumber(token))
                         DataType.STRING_VALUE -> nodes.add(OperationString(token))
                         DataType.VARIABLE_NAME -> nodes.add(OperationVariable(token))
-                        else -> throw UnexpectedTokenException("Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}")
+                        else -> throw UnexpectedTokenException(
+                            "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                        )
                     }
                 }
 
@@ -79,9 +88,13 @@ class OperationBuilder {
         val stack = Stack<Token>()
         val postfix = mutableListOf<Token>()
 
-        if (tokens.any { it.getType() in (operators - listOf(DataType.OPERATOR_PLUS)) } && tokens.any { it.getType() == DataType.STRING_VALUE }) throw SyntacticError(
-            "Invalid string concatenation"
-        )
+        if (tokens.any { it.getType() in (operators - listOf(DataType.OPERATOR_PLUS)) } &&
+            tokens.any { it.getType() == DataType.STRING_VALUE }
+        ) {
+            throw SyntacticError(
+                "Invalid string concatenation",
+            )
+        }
 
         for (token in tokens) {
             when (token.getType()) {
@@ -107,12 +120,18 @@ class OperationBuilder {
                     stack.pop()
                 }
 
-                else -> throw UnexpectedTokenException("Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}")
+                else -> throw UnexpectedTokenException(
+                    "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                )
             }
         }
         while (stack.isNotEmpty()) {
             val token = stack.peek()
-            if (token.getType() == DataType.LEFT_PARENTHESIS) throw SyntacticError("Invalid ${token.getValue()} at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}")
+            if (token.getType() == DataType.LEFT_PARENTHESIS) {
+                throw SyntacticError(
+                    "Invalid ${token.getValue()} at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                )
+            }
             postfix.add(stack.pop())
         }
         return postfix

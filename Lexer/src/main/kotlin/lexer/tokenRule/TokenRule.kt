@@ -3,7 +3,6 @@ package lexer.tokenRule
 import token.DataType
 import token.Token
 
-
 /**
  * Defines a rule for generating tokens. Implementations of this interface can specify custom logic
  * for identifying and creating tokens from portions of the source code.
@@ -18,7 +17,12 @@ interface TokenRule {
      * @param finalPosition The ending position of the segment in the source code.
      * @return A Token object if the rule applies, or null if the segment does not match this rule.
      */
-    fun generateToken(type: DataType, value: String, initialPosition: Pair<Int, Int>, finalPosition: Pair<Int, Int>): Token?
+    fun generateToken(
+        type: DataType,
+        value: String,
+        initialPosition: Pair<Int, Int>,
+        finalPosition: Pair<Int, Int>,
+    ): Token?
 
     /**
      * Returns a list of DataType values that this rule is capable of generating. This allows the lexer

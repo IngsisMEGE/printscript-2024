@@ -1,8 +1,8 @@
 package org.example.lexer
 
 import lexer.tokenRule.TokenRule
-import token.Token
 import token.DataType
+import token.Token
 
 /**
  * Generates tokens based on regular expressions. This class can handle both simple pattern matching and more complex scenarios
@@ -18,12 +18,12 @@ class RegexTokenGenerator(
     private val pattern: String,
     private val tokenType: DataType,
     private val isPatternLiteral: Boolean,
-    private val tokenCreationException: TokenRule?
+    private val tokenCreationException: TokenRule?,
 ) {
     constructor(
         pattern: String,
         tokenType: DataType,
-        isPatternLiteral: Boolean
+        isPatternLiteral: Boolean,
     ) : this(pattern, tokenType, isPatternLiteral, null)
 
     /**
@@ -33,7 +33,10 @@ class RegexTokenGenerator(
      * @param numberLine The line number in the source code, used for position tracking.
      * @return A list of tokens identified in the input line.
      */
-    fun generateToken(line: String, numberLine: Int): List<Token> {
+    fun generateToken(
+        line: String,
+        numberLine: Int,
+    ): List<Token> {
         val tokens = mutableListOf<Token>()
         val pattern = Regex(pattern)
         val matches = pattern.findAll(line)

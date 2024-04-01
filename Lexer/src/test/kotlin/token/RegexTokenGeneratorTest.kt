@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class RegexTokenGeneratorTest {
-
     @Test
     fun testLiteralPatternTokenGeneration() {
         val generator = RegexTokenGenerator("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE, true)

@@ -1,13 +1,17 @@
-package Rules
+package rules
 
-import ASTN.*
-import Enforcers.Enforcer
-import Enforcers.OperatorSpaceEnforcer
+import astn.OpTree
+import astn.OperationHead
+import astn.OperationNumber
+import astn.OperationString
+import astn.OperationVariable
+import enforcers.Enforcer
+import enforcers.OperatorSpaceEnforcer
 import token.DataType
 import token.Token
 
 class OperationRule(val enforcer: List<Enforcer> = listOf()) {
-    fun isTheRuleIncluded(property: Map<String, Any>): OperationRule {
+    fun isTheRuleIncluded(mapOf: Map<Any, Any>): OperationRule {
         return OperationRule(listOf(OperatorSpaceEnforcer()))
     }
 
@@ -31,15 +35,25 @@ class OperationRule(val enforcer: List<Enforcer> = listOf()) {
                 val operator = postfixAST.operator.getValue()
 
                 val leftExpression =
-                    if (postfixAST.left is OperationHead && precedence((postfixAST.left as OperationHead).operator) < precedence(
-                            postfixAST.operator
+                    if (postfixAST.left is OperationHead && precedence((postfixAST.left as OperationHead).operator) <
+                        precedence(
+                            postfixAST.operator,
                         )
-                    ) "($left)" else left
+                    ) {
+                        "($left)"
+                    } else {
+                        left
+                    }
                 val rightExpression =
-                    if (postfixAST.right is OperationHead && precedence((postfixAST.right as OperationHead).operator) <= precedence(
-                            postfixAST.operator
+                    if (postfixAST.right is OperationHead && precedence((postfixAST.right as OperationHead).operator) <=
+                        precedence(
+                            postfixAST.operator,
                         )
-                    ) "($right)" else right
+                    ) {
+                        "($right)"
+                    } else {
+                        right
+                    }
 
                 "$leftExpression$operator$rightExpression"
             }

@@ -1,11 +1,9 @@
-package Enforcers
+package enforcers
 
-class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private val ammountOfSpaceInBack: Int) :
-    Enforcer {
-
+class DoubleDotDeclarationEnforcer(private var ammountOfSpaceInFront: Int, private var ammountOfSpaceInBack: Int) : Enforcer {
     init {
         if (ammountOfSpaceInFront < 0 || ammountOfSpaceInBack < 0) {
-            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0 : Assignation")
+            throw IllegalArgumentException("The ammount of space in front and back must be greater than 0 : Double Dot")
         }
     }
 
@@ -24,7 +22,7 @@ class AssignationSpaceEnforcer(private val ammountOfSpaceInFront: Int, private v
                 escaped = false
             }
 
-            if (char == '=' && !insideString) {
+            if (char == ':' && !insideString) {
                 modifiedCode.append(" ".repeat(ammountOfSpaceInBack))
                 modifiedCode.append(char)
                 modifiedCode.append(" ".repeat(ammountOfSpaceInFront))

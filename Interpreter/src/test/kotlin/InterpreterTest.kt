@@ -10,7 +10,6 @@ import token.Token
 import kotlin.test.assertEquals
 
 class InterpreterTest {
-
     @Test
     fun test001RegularInterpreterTestVarDeclaration() {
         val interpreter = RegularInterpreter()

@@ -2,10 +2,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class JSONManagerTest {
-
     @Test
-    fun JSONToMapTest() {
-        val json = """
+    fun jsonToMapTest() {
+        val json =
+            """
             {
                 "name": "John",
                 "age": 30,
@@ -15,9 +15,9 @@ class JSONManagerTest {
                     "car3": "Fiat"
                 }
             }
-        """.trimIndent()
-        val map : Map<String, Any> = JSONManager.JSONToMap(json)
-        val hashMap : HashMap<String, Any> = HashMap(map)
+            """.trimIndent()
+        val map: Map<String, Any> = JSONManager.jsonToMap(json)
+        val hashMap: HashMap<String, Any> = HashMap(map)
         assertEquals("John", hashMap["name"])
         assertEquals(30.0, hashMap["age"])
         assertEquals("Ford", (hashMap["cars"] as Map<*, *>)["car1"])

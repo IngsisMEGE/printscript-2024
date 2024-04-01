@@ -1,4 +1,4 @@
-package Enforcers
+package enforcers
 
 class OperatorSpaceEnforcer() : Enforcer {
     override fun enforceRule(code: String): String {
@@ -16,14 +16,14 @@ class OperatorSpaceEnforcer() : Enforcer {
                 escaped = false
             }
 
-            if (!insideString){
+            if (!insideString) {
                 if (char == '+' || char == '-' || char == '*' || char == '/' || char == '%') {
                     modifiedCode.append(" ")
                     modifiedCode.append(char)
                     modifiedCode.append(" ")
                 } else {
                     modifiedCode.append(char)
-            }
+                }
             } else {
                 modifiedCode.append(char)
             }
@@ -31,6 +31,4 @@ class OperatorSpaceEnforcer() : Enforcer {
 
         return modifiedCode.toString()
     }
-
-
 }

@@ -1,9 +1,10 @@
-package Rules
+package rules
 
-import ASTN.AST
-import Enforcers.AssignationSpaceEnforcer
-import Enforcers.DoubleDotDeclarationEnforcer
-import Enforcers.Enforcer
+import astn.AST
+import astn.VarDeclarationAssignation
+import enforcers.AssignationSpaceEnforcer
+import enforcers.DoubleDotDeclarationEnforcer
+import enforcers.Enforcer
 
 class VarDeclarationAssignationRule(
     private val DoubleDotSpaceInFrontName: String,
@@ -11,33 +12,35 @@ class VarDeclarationAssignationRule(
     private val AssignationSpaceInFrontName: String,
     private val AssignationSpaceInBackName: String,
     override val enforcer: List<Enforcer> = listOf(),
-    private val OperationRule: OperationRule = OperationRule()
+    private val OperationRule: OperationRule = OperationRule(),
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
-        OperationRule.isTheRuleIncluded(property)
+        OperationRule.isTheRuleIncluded(mapOf())
         if (property.containsKey(DoubleDotSpaceInFrontName) && property.containsKey(DoubleDotSpaceInBackName)) {
-            enforcers = enforcers.plus(
-                DoubleDotDeclarationEnforcer(
-                    property[DoubleDotSpaceInFrontName] as Int,
-                    property[DoubleDotSpaceInBackName] as Int
+            enforcers =
+                enforcers.plus(
+                    DoubleDotDeclarationEnforcer(
+                        property[DoubleDotSpaceInFrontName] as Int,
+                        property[DoubleDotSpaceInBackName] as Int,
+                    ),
                 )
-            )
         }
         if (property.containsKey(AssignationSpaceInFrontName) && property.containsKey(AssignationSpaceInBackName)) {
-            enforcers = enforcers.plus(
-                AssignationSpaceEnforcer(
-                    property[AssignationSpaceInFrontName] as Int,
-                    property[AssignationSpaceInBackName] as Int
+            enforcers =
+                enforcers.plus(
+                    AssignationSpaceEnforcer(
+                        property[AssignationSpaceInFrontName] as Int,
+                        property[AssignationSpaceInBackName] as Int,
+                    ),
                 )
-            )
         }
         return VarDeclarationAssignationRule(
             DoubleDotSpaceInFrontName,
             DoubleDotSpaceInBackName,
             AssignationSpaceInFrontName,
             AssignationSpaceInBackName,
-            enforcers
+            enforcers,
         )
     }
 
@@ -51,7 +54,7 @@ class VarDeclarationAssignationRule(
 
     override fun genericLine(ast: AST): String {
         when (ast) {
-            is ASTN.VarDeclarationAssignation -> {
+            is VarDeclarationAssignation -> {
                 val newLine = StringBuilder()
                 newLine.append("let ")
                 newLine.append(ast.varDeclaration.assignation.getValue())
@@ -59,11 +62,10 @@ class VarDeclarationAssignationRule(
                 newLine.append(ast.varDeclaration.type.getValue())
                 newLine.append("=")
                 val operation = OperationRule.genericLine(ast.value)
-                newLine.append(OperationRule.enforceRule(operation)) //Esto deberia cambiar si hacemos OPTree Rule
+                newLine.append(OperationRule.enforceRule(operation)) // Esto deberia cambiar si hacemos OPTree Rule
                 newLine.append(";")
 
-
-                //Hacer el var Declaration Rule del Operation. Y despues meterle la regla aca.
+                // Hacer el var Declaration Rule del Operation. Y despues meterle la regla aca.
                 return newLine.toString()
             }
 

@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class LexerTest {
-
-    private val temporalLexer : TemporalLexer= TemporalLexer()
+    private val temporalLexer: TemporalLexer = TemporalLexer()
 
     @Test
     fun lexTest() {
@@ -16,7 +15,7 @@ class LexerTest {
         assertEquals("", result[0].getValue())
         assertEquals(DataType.VARIABLE_NAME, result[1].getType())
         assertEquals("a", result[1].getValue())
-        assertEquals(4 , result[1].getInitialPosition().first)
+        assertEquals(4, result[1].getInitialPosition().first)
     }
 
     @Test
@@ -35,7 +34,7 @@ class LexerTest {
     }
 
     @Test
-    fun methodCall(){
+    fun methodCall() {
         val line = "let letter = sum(5, 5);"
         val result = temporalLexer.lex(line, 1)
 
@@ -57,7 +56,6 @@ class LexerTest {
         assertEquals("5", result[7].getValue())
         assertEquals(DataType.RIGHT_PARENTHESIS, result[8].getType())
         assertEquals("", result[8].getValue())
-
     }
 
     @Test
@@ -84,7 +82,6 @@ class LexerTest {
         assertEquals(3, tokens[2].getInitialPosition().first)
     }
 
-
     @Test
     fun testStringLiteral() {
         val lexer = TemporalLexer()
@@ -110,19 +107,21 @@ class LexerTest {
     fun testComplexExpression() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("3 + 4 * (2 - 1)", 1)
-        val expectedTypes = listOf(
-            DataType.NUMBER_VALUE,
-            DataType.OPERATOR_PLUS,
-            DataType.NUMBER_VALUE,
-            DataType.OPERATOR_MULTIPLY,
-            DataType.LEFT_PARENTHESIS,
-            DataType.NUMBER_VALUE,
-            DataType.OPERATOR_MINUS,
-            DataType.NUMBER_VALUE,
-            DataType.RIGHT_PARENTHESIS
-        )
+        val expectedTypes =
+            listOf(
+                DataType.NUMBER_VALUE,
+                DataType.OPERATOR_PLUS,
+                DataType.NUMBER_VALUE,
+                DataType.OPERATOR_MULTIPLY,
+                DataType.LEFT_PARENTHESIS,
+                DataType.NUMBER_VALUE,
+                DataType.OPERATOR_MINUS,
+                DataType.NUMBER_VALUE,
+                DataType.RIGHT_PARENTHESIS,
+            )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
+
     @Test
     fun testWhitespaceVariation() {
         val lexer = TemporalLexer()
@@ -143,26 +142,26 @@ class LexerTest {
         assertEquals("\"Line1\\nLine2\"", tokens[0].getValue())
     }
 
-
     @Test
     fun testNestedExpressions() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let result = (3 + (2 * 5));", 1)
-        val expectedTypes = listOf(
-            DataType.DECLARATION_VARIABLE,
-            DataType.VARIABLE_NAME,
-            DataType.ASSIGNATION,
-            DataType.LEFT_PARENTHESIS,
-            DataType.NUMBER_VALUE,
-            DataType.OPERATOR_PLUS,
-            DataType.LEFT_PARENTHESIS,
-            DataType.NUMBER_VALUE,
-            DataType.OPERATOR_MULTIPLY,
-            DataType.NUMBER_VALUE,
-            DataType.RIGHT_PARENTHESIS,
-            DataType.RIGHT_PARENTHESIS,
-            DataType.SEMICOLON
-        )
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.LEFT_PARENTHESIS,
+                DataType.NUMBER_VALUE,
+                DataType.OPERATOR_PLUS,
+                DataType.LEFT_PARENTHESIS,
+                DataType.NUMBER_VALUE,
+                DataType.OPERATOR_MULTIPLY,
+                DataType.NUMBER_VALUE,
+                DataType.RIGHT_PARENTHESIS,
+                DataType.RIGHT_PARENTHESIS,
+                DataType.SEMICOLON,
+            )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
 
@@ -170,54 +169,57 @@ class LexerTest {
     fun testDeclarationWithTypeNumber() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let a: number= 5;", 1)
-        val expectedTypes = listOf(
-            DataType.DECLARATION_VARIABLE,
-            DataType.VARIABLE_NAME,
-            DataType.DOUBLE_DOTS,
-            DataType.NUMBER_TYPE,
-            DataType.ASSIGNATION,
-            DataType.NUMBER_VALUE,
-            DataType.SEMICOLON
-        )
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.DOUBLE_DOTS,
+                DataType.NUMBER_TYPE,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEMICOLON,
+            )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
 
     @Test
-    fun testDeclarationWithTypeString(){
+    fun testDeclarationWithTypeString() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let a: string = 5;", 1)
-        val expectedTypes = listOf(
-            DataType.DECLARATION_VARIABLE,
-            DataType.VARIABLE_NAME,
-            DataType.DOUBLE_DOTS,
-            DataType.STRING_TYPE,
-            DataType.ASSIGNATION,
-            DataType.NUMBER_VALUE,
-            DataType.SEMICOLON
-        )
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.DOUBLE_DOTS,
+                DataType.STRING_TYPE,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEMICOLON,
+            )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
 
     @Test
-    fun testMethodCallWithParenthesisInisde(){
+    fun testMethodCallWithParenthesisInisde() {
         val lexer = TemporalLexer()
         val tokens = lexer.lex("let a = sum(5, (5 + 5));", 1)
-        val expectedTypes = listOf(
-            DataType.DECLARATION_VARIABLE,
-            DataType.VARIABLE_NAME,
-            DataType.ASSIGNATION,
-            DataType.METHOD_CALL,
-            DataType.LEFT_PARENTHESIS,
-            DataType.NUMBER_VALUE,
-            DataType.COMA,
-            DataType.LEFT_PARENTHESIS,
-            DataType.NUMBER_VALUE,
-            DataType.OPERATOR_PLUS,
-            DataType.NUMBER_VALUE,
-            DataType.RIGHT_PARENTHESIS,
-            DataType.RIGHT_PARENTHESIS,
-            DataType.SEMICOLON
-        )
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.METHOD_CALL,
+                DataType.LEFT_PARENTHESIS,
+                DataType.NUMBER_VALUE,
+                DataType.COMA,
+                DataType.LEFT_PARENTHESIS,
+                DataType.NUMBER_VALUE,
+                DataType.OPERATOR_PLUS,
+                DataType.NUMBER_VALUE,
+                DataType.RIGHT_PARENTHESIS,
+                DataType.RIGHT_PARENTHESIS,
+                DataType.SEMICOLON,
+            )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
 }

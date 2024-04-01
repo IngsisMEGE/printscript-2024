@@ -1,9 +1,8 @@
-import Enforcers.DoubleDotDeclarationEnforcer
+import enforcers.DoubleDotDeclarationEnforcer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class DoubleDotEnforcerTest {
-
     @Test
     fun whenPassingStringWithOnlyDoubleDotItShouldReturnStringWithSpacesInFrontAndBack() {
         val doubleDotDeclarationEnforcer = DoubleDotDeclarationEnforcer(1, 1)
@@ -11,7 +10,6 @@ class DoubleDotEnforcerTest {
         val expectedCode = "a : b"
         assertEquals(expectedCode, doubleDotDeclarationEnforcer.enforceRule(code))
     }
-
 
     @Test
     fun whenDoubleDotIsInsideStringItShouldNotAddSpaces() {
