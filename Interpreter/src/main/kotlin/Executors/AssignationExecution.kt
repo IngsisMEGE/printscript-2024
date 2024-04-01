@@ -20,9 +20,9 @@ class AssignationExecution : Executor<Assignation> {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("mal")
+            throw Exception("Variable type mismatch")
         } else {
-            throw Exception("mal")
+            throw Exception("Variable not found")
         }
     }
 
@@ -30,7 +30,7 @@ class AssignationExecution : Executor<Assignation> {
         return when (dataType) {
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("mal")
+            else -> throw Exception("Unexpected type")
         }
     }
 }

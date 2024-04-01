@@ -20,9 +20,9 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("mal")
+            throw Exception("Type Mismatch")
         } else {
-            throw Exception("mal")
+            throw Exception("Variable Already Exists")
         }
     }
 
@@ -30,7 +30,7 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
         return when (dataType) {
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("mal")
+            else -> throw Exception("Unexpected Type")
         }
     }
 }

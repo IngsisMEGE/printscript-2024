@@ -9,7 +9,7 @@ import interpreter.executors.AssignationExecution
 import interpreter.executors.DeclarationAssignationExecution
 import interpreter.executors.DeclarationExecution
 import interpreter.executors.ExecutorsProvider
-import interpreter.executors.PrintExecutor
+import interpreter.executors.MethodExecutor
 
 class RegularInterpreter {
     val variables = mutableMapOf<String, Value>()

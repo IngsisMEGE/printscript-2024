@@ -3,7 +3,7 @@ package interpreter.executors
 import astn.Method
 import interpreter.Value
 
-class PrintExecutor : Executor<Method> {
+class MethodExecutor : Executor<Method> {
     private val binaryOperator = BinaryOperatorReader()
 
     override fun execute(
