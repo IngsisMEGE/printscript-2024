@@ -1,5 +1,6 @@
 package org.example.lexer
 
+import token.DataType
 import token.Token
 
 /**
@@ -15,8 +16,14 @@ class Lexer(private val tokenGenerator: List<RegexTokenGenerator>) : LexerInterf
     ): List<Token> {
         val tokens = mutableListOf<Token>()
         tokenGenerator.forEach { tokenGenerator ->
-            val token = tokenGenerator.generateToken(line, numberLine)
-            tokens.addAll(token)
+            val generatedTokens = tokenGenerator.generateToken(line, numberLine)
+            if (generatedTokens.isNotEmpty()) {
+                tokens.addAll(generatedTokens)
+            }
+        }
+
+        if (tokens.isEmpty()) {
+            tokens.add(Token(DataType.ERROR, line, Pair(0, numberLine), Pair(line.length - 1, numberLine)))
         }
         return tokens
     }

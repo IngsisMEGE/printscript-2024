@@ -163,7 +163,7 @@ class OperationRuleTest {
     @Test
     fun test009isRuleValid() {
         val operationRule = rules.OperationRule()
-        val result = operationRule.isTheRuleIncluded(mapOf())
+        val result = operationRule.isTheRuleIncluded()
         assertTrue(result is rules.OperationRule)
     }
 
@@ -171,14 +171,14 @@ class OperationRuleTest {
     fun test010EnforceRule() {
         val operationRule = rules.OperationRule()
 
-        val result = operationRule.isTheRuleIncluded(mapOf()).enforceRule("3+3")
+        val result = operationRule.isTheRuleIncluded().enforceRule("3+3")
         assertEquals("3 + 3", result)
     }
 
     @Test
     fun test011EnforceRule() {
         val operationRule = rules.OperationRule()
-        val result = operationRule.isTheRuleIncluded(mapOf()).enforceRule("3+3+3")
+        val result = operationRule.isTheRuleIncluded().enforceRule("3+3+3")
         assertEquals("3 + 3 + 3", result)
     }
 }
