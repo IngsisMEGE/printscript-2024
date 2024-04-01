@@ -5,6 +5,14 @@ import astn.Method
 import enforcers.Enforcer
 import enforcers.LineJumpOnMethodEnforcer
 
+/**
+ * This class represents the rule for methods in the PrintScript application.
+ * It enforces the rule by using the LineJumpOnMethodEnforcer.
+ *
+ * @property ammountOfJumpLine The name of the property for the amount of jump line.
+ * @property enforcer A list of enforcers that enforce the rule.
+ * @property OperationRule An instance of the OperationRule class which is used to enforce the operation rule.
+ */
 class MethodRule(
     private val ammountOfJumpLine: String,
     override val enforcer: List<Enforcer> = listOf(),

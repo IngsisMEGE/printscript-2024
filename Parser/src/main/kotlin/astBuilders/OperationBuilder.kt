@@ -12,6 +12,21 @@ import token.DataType
 import token.Token
 import java.util.Stack
 
+/**
+ * This class is responsible for building operations in the PrintScript application.
+ * It provides methods to validate and build operations from a list of tokens.
+ *
+ * The isValid function checks if a list of tokens represents a valid operation. It removes comments and semicolons from the list, and then checks if the list contains any operators and values.
+ *
+ * The buildOperation function builds an OpTree from a list of tokens. It first checks if the list of tokens represents a valid operation. If it does, it converts the list of tokens to postfix notation and then builds the OpTree.
+ *
+ * The infixToPostfix function converts a list of tokens from infix notation to postfix notation using the shunting yard algorithm. It throws a SyntacticError if the list of tokens contains an invalid string concatenation or an unmatched left parenthesis.
+ *
+ * The isValidPostfix function checks if a list of tokens in postfix notation represents a valid operation. It returns a pair of a Boolean and a Token. The Boolean is true if the list of tokens represents a valid operation, and the Token is the invalid token if the list of tokens does not represent a valid operation.
+ *
+ * @throws UnexpectedTokenException If the list of tokens does not represent a valid operation, if an unexpected token is encountered, or if a token is encountered at an unexpected position.
+ * @throws SyntacticError If the list of tokens contains an invalid string concatenation, an unmatched left parenthesis, or an invalid token.
+ */
 class OperationBuilder {
     private val operators =
         listOf(

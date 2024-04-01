@@ -133,6 +133,19 @@ class LexerTest {
         assertEquals(DataType.STRING_VALUE, tokens[3].getType())
         assertEquals("\"value\"", tokens[3].getValue())
     }
+   /* @Test
+    fun testWithStringValue() { //Variable name se confunde. Tambien hay problema con el "Hello"
+        val lexer = TemporalLexer()
+        val tokens = lexer.lex("let x: String = \"Hello\";", 1)
+        assertEquals(DataType.DECLARATION_VARIABLE, tokens[0].getType())
+        assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
+        assertEquals("x", tokens[1].getValue())
+        assertEquals(DataType.DOUBLE_DOTS, tokens[2].getType())
+        assertEquals(DataType.STRING_TYPE, tokens[3].getType())
+        assertEquals(DataType.ASSIGNATION, tokens[4].getType())
+        assertEquals(DataType.STRING_VALUE, tokens[5].getType())
+        assertEquals("\"Hello\"", tokens[5].getValue())
+    }*/
 
     @Test
     fun testStringWithEscapedCharacters() {
