@@ -14,8 +14,8 @@ import com.google.gson.reflect.TypeToken
  */
 class JSONManager {
     companion object {
-        fun jsonToMap(json: String): Map<String, Any> {
-            val mapType = object : TypeToken<Map<String, Any>>() {}.type
+        inline fun <reified T> jsonToMap(json: String): Map<String, T> {
+            val mapType = object : TypeToken<Map<String, T>>() {}.type
             return Gson().fromJson(json, mapType)
         }
     }

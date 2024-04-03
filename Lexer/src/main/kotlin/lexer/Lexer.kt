@@ -1,5 +1,7 @@
 package org.example.lexer
 
+import lexer.TokenRegexRule
+import org.example.lexer.token.MethodCallRule
 import token.DataType
 import token.Token
 
@@ -9,7 +11,16 @@ import token.Token
  *
  * @param rules A list of token generation rules that define how to recognize different tokens.
  */
-class Lexer(private val tokenGenerator: List<RegexTokenGenerator>) : LexerInterface {
+class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : LexerInterface {
+    private var tokenGenerator: List<RegexTokenGenerator> =
+        tokenRules.map { (_, rule) ->
+            if (rule.getType() == DataType.METHOD_CALL) {
+                RegexTokenGenerator(rule, MethodCallRule())
+            } else {
+                RegexTokenGenerator(rule)
+            }
+        }
+
     override fun lex(
         line: String,
         numberLine: Int,
@@ -25,6 +36,6 @@ class Lexer(private val tokenGenerator: List<RegexTokenGenerator>) : LexerInterf
         if (tokens.isEmpty()) {
             tokens.add(Token(DataType.ERROR, line, Pair(0, numberLine), Pair(line.length - 1, numberLine)))
         }
-        return tokens
+        return ListTokenManager.removeDuplicates(ListTokenManager.orderTokens(tokens))
     }
 }

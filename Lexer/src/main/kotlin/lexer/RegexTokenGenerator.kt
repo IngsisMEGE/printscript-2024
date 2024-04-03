@@ -1,7 +1,7 @@
 package org.example.lexer
 
+import lexer.TokenRegexRule
 import lexer.tokenRule.TokenRule
-import token.DataType
 import token.Token
 
 /**
@@ -15,16 +15,12 @@ import token.Token
  */
 
 class RegexTokenGenerator(
-    private val pattern: String,
-    private val tokenType: DataType,
-    private val isPatternLiteral: Boolean,
+    private val tokenRegexRule: TokenRegexRule,
     private val tokenCreationException: TokenRule?,
 ) {
     constructor(
-        pattern: String,
-        tokenType: DataType,
-        isPatternLiteral: Boolean,
-    ) : this(pattern, tokenType, isPatternLiteral, null)
+        tokenRegexRule: TokenRegexRule,
+    ) : this(tokenRegexRule, null)
 
     /**
      * Parses the given input line and generates a list of tokens according to the defined regular expression patterns.
@@ -38,7 +34,7 @@ class RegexTokenGenerator(
         numberLine: Int,
     ): List<Token> {
         val tokens = mutableListOf<Token>()
-        val pattern = Regex(pattern)
+        val pattern = Regex(tokenRegexRule.getPattern())
         val matches = pattern.findAll(line)
         matches.forEach { matchResult ->
             val match = matchResult.value
@@ -46,10 +42,17 @@ class RegexTokenGenerator(
             val end = matchResult.range.last
 
             if (tokenCreationException != null) {
-                tokenCreationException.generateToken(tokenType, match, Pair(start, numberLine), Pair(end, numberLine))
+                tokenCreationException.generateToken(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine))
                     ?.let { tokens.add(it) }
             } else {
-                tokens.add(Token(tokenType, if (!isPatternLiteral) match else "", Pair(start, numberLine), Pair(end, numberLine)))
+                tokens.add(
+                    Token(
+                        tokenRegexRule.getType(),
+                        if (!tokenRegexRule.isPatternLiteral()) match else "",
+                        Pair(start, numberLine),
+                        Pair(end, numberLine),
+                    ),
+                )
             }
         }
         return tokens

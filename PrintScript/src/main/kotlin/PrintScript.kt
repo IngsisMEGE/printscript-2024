@@ -1,9 +1,12 @@
 
 package org.example
 
+import JSONManager
 import impl.ParserImpl
+import interfaces.Parser
 import interpreter.RegularInterpreter
-import org.example.lexer.TemporalLexer
+import lexer.TokenRegexRule
+import org.example.lexer.Lexer
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -15,11 +18,11 @@ import java.io.FileNotFoundException
  * @throws Exception If an error occurs while executing the script.
  */
 
-class PrintScript(
-    private val lexer: TemporalLexer = TemporalLexer(),
-    private val parser: ParserImpl = ParserImpl(),
-    private val interpreter: RegularInterpreter = RegularInterpreter(),
-) {
+class PrintScript() {
+    private var lexer = Lexer(getLexerDefaultRules())
+    private val parser: Parser = ParserImpl()
+    private val interpreter = RegularInterpreter()
+
     fun start(path: String): String {
         val file = File(path)
         val output = mutableListOf<String>()
@@ -44,4 +47,14 @@ class PrintScript(
     fun getLexer() = lexer
 
     fun getParser() = parser
+
+    fun updateRegexRules(newRules: Map<String, TokenRegexRule>) {
+        lexer = Lexer(newRules)
+    }
+
+    private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {
+        val file = File("src/main/resources/LexerDefaultRegex.json")
+        val json = file.readText()
+        return JSONManager.jsonToMap<TokenRegexRule>(json)
+    }
 }

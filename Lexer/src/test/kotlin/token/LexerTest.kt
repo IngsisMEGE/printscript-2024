@@ -1,16 +1,38 @@
 package token
 
-import org.example.lexer.TemporalLexer
+import lexer.TokenRegexRule
+import org.example.lexer.Lexer
+import org.example.lexer.LexerInterface
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class LexerTest {
-    private val temporalLexer: TemporalLexer = TemporalLexer()
+    val tokenRulesMap: Map<String, TokenRegexRule> =
+        mapOf(
+            "STRING_VALUE" to TokenRegexRule("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE, false),
+            "DECLARATION_VARIABLE" to TokenRegexRule("\\blet\\b", DataType.DECLARATION_VARIABLE, true),
+            "OPERATOR_PLUS" to TokenRegexRule("\\+", DataType.OPERATOR_PLUS, true),
+            "OPERATOR_MINUS" to TokenRegexRule("-", DataType.OPERATOR_MINUS, true),
+            "OPERATOR_MULTIPLY" to TokenRegexRule("\\*", DataType.OPERATOR_MULTIPLY, true),
+            "OPERATOR_DIVIDE" to TokenRegexRule("/", DataType.OPERATOR_DIVIDE, true),
+            "DOUBLE_DOTS" to TokenRegexRule(":", DataType.DOUBLE_DOTS, true),
+            "SEMICOLON" to TokenRegexRule(";", DataType.SEMICOLON, true),
+            "ASSIGNATION" to TokenRegexRule("=", DataType.ASSIGNATION, true),
+            "LEFT_PARENTHESIS" to TokenRegexRule("\\(", DataType.LEFT_PARENTHESIS, true),
+            "RIGHT_PARENTHESIS" to TokenRegexRule("\\)", DataType.RIGHT_PARENTHESIS, true),
+            "METHOD_CALL" to TokenRegexRule("\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)", DataType.METHOD_CALL, false),
+            "COMA" to TokenRegexRule(",", DataType.COMA, true),
+            "NUMBER_TYPE" to TokenRegexRule("\\bnumber\\b", DataType.NUMBER_TYPE, true),
+            "STRING_TYPE" to TokenRegexRule("\\bstring\\b", DataType.STRING_TYPE, true),
+            "NUMBER_VALUE" to TokenRegexRule("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE, false),
+            "VARIABLE_NAME" to TokenRegexRule("(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")", DataType.VARIABLE_NAME, false),
+        )
 
     @Test
     fun lexTest() {
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val line = "let a;"
-        val result = temporalLexer.lex(line, 1)
+        val result = lexer.lex(line, 1)
         assertEquals(DataType.DECLARATION_VARIABLE, result[0].getType())
         assertEquals("", result[0].getValue())
         assertEquals(DataType.VARIABLE_NAME, result[1].getType())
@@ -20,8 +42,9 @@ class LexerTest {
 
     @Test
     fun lexTest2() {
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val line = "let name = 5;"
-        val result = temporalLexer.lex(line, 1)
+        val result = lexer.lex(line, 1)
 
         assertEquals(DataType.DECLARATION_VARIABLE, result[0].getType())
         assertEquals("", result[0].getValue())
@@ -31,12 +54,14 @@ class LexerTest {
         assertEquals("", result[2].getValue())
         assertEquals(DataType.NUMBER_VALUE, result[3].getType())
         assertEquals("5", result[3].getValue())
+        assertEquals(result.size, 5)
     }
 
     @Test
     fun methodCall() {
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val line = "let letter = sum(5, 5);"
-        val result = temporalLexer.lex(line, 1)
+        val result = lexer.lex(line, 1)
 
         assertEquals(DataType.DECLARATION_VARIABLE, result[0].getType())
         assertEquals("", result[0].getValue())
@@ -60,14 +85,14 @@ class LexerTest {
 
     @Test
     fun testLetKeywordPass() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let", 1)
         assertEquals(DataType.DECLARATION_VARIABLE, tokens[0].getType())
     }
 
     @Test
     fun testLetKeywordTricky() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let letting", 1)
         assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
         assertEquals("letting", tokens[1].getValue())
@@ -75,7 +100,7 @@ class LexerTest {
 
     @Test
     fun testOperatorPlus() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("3 +2", 1)
         assertEquals(DataType.OPERATOR_PLUS, tokens[1].getType())
         assertEquals("2", tokens[2].getValue())
@@ -84,28 +109,29 @@ class LexerTest {
 
     @Test
     fun testStringLiteral() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("\"This is a string\"", 1)
         assertEquals(DataType.STRING_VALUE, tokens[0].getType())
     }
 
     @Test
     fun testMethodCall() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("println(\"Hello World\")", 1)
         assertEquals(DataType.METHOD_CALL, tokens[0].getType())
+        assertEquals(tokens.size, 4)
     }
 
     @Test
     fun testNumberValue() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("42", 1)
         assertEquals(DataType.NUMBER_VALUE, tokens[0].getType())
     }
 
     @Test
     fun testComplexExpression() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("3 + 4 * (2 - 1)", 1)
         val expectedTypes =
             listOf(
@@ -124,7 +150,7 @@ class LexerTest {
 
     @Test
     fun testWhitespaceVariation() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let    varName    =    \"value\";", 1)
         assertEquals(DataType.DECLARATION_VARIABLE, tokens[0].getType())
         assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
@@ -136,7 +162,7 @@ class LexerTest {
 
     @Test
     fun testWithStringValue() { // Variable name se confunde. Tambien hay problema con el "Hello"
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let x: string = \"Hello\";", 1)
         assertEquals(DataType.DECLARATION_VARIABLE, tokens[0].getType())
         assertEquals(DataType.VARIABLE_NAME, tokens[1].getType())
@@ -150,7 +176,7 @@ class LexerTest {
 
     @Test
     fun testStringWithEscapedCharacters() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("\"Line1\\nLine2\"", 1)
         assertEquals(DataType.STRING_VALUE, tokens[0].getType())
         assertEquals("\"Line1\\nLine2\"", tokens[0].getValue())
@@ -158,7 +184,7 @@ class LexerTest {
 
     @Test
     fun testNestedExpressions() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let result = (3 + (2 * 5));", 1)
         val expectedTypes =
             listOf(
@@ -181,7 +207,7 @@ class LexerTest {
 
     @Test
     fun testDeclarationWithTypeNumber() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let a: number= 5;", 1)
         val expectedTypes =
             listOf(
@@ -198,7 +224,7 @@ class LexerTest {
 
     @Test
     fun testDeclarationWithTypeString() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let a: string = 5;", 1)
         val expectedTypes =
             listOf(
@@ -215,7 +241,7 @@ class LexerTest {
 
     @Test
     fun testMethodCallWithParenthesisInisde() {
-        val lexer = TemporalLexer()
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
         val tokens = lexer.lex("let a = sum(5, (5 + 5));", 1)
         val expectedTypes =
             listOf(

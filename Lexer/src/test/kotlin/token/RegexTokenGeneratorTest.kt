@@ -1,5 +1,6 @@
 package token
 
+import lexer.TokenRegexRule
 import org.example.lexer.RegexTokenGenerator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -7,7 +8,7 @@ import org.junit.jupiter.api.Test
 class RegexTokenGeneratorTest {
     @Test
     fun testLiteralPatternTokenGeneration() {
-        val generator = RegexTokenGenerator("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE, true)
+        val generator = RegexTokenGenerator(TokenRegexRule("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE, true))
         val line = "let name = \"Susan\";"
         val tokens = generator.generateToken(line, 1)
 
