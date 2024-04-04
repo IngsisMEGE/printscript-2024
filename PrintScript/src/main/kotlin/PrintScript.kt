@@ -88,9 +88,14 @@ class PrintScript {
         }
     }
 
-    fun updateRegexRules(newRules: String) {
-        val rulesmap = JSONManager.jsonToMap<TokenRegexRule>(newRules)
-        lexer = Lexer(rulesmap)
+    fun updateRegexRules(newRulesPath: String) {
+        val file = File(newRulesPath)
+        if (!file.exists()){
+            throw FileNotFoundException("File not found: $newRulesPath")
+        }
+        val json = file.readText()
+        val newRegexRules = JSONManager.jsonToMap<TokenRegexRule>(json)
+        lexer = Lexer(newRegexRules)
     }
 
     private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {

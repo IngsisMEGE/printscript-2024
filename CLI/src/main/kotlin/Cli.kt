@@ -79,16 +79,16 @@ fun main() {
                 println("Please enter the configuration filepath:")
                 val configFilePath = readlnOrNull()
 
-                try {
+                //try {
                     if (configFilePath != null) {
                         cli.printScript.updateRegexRules(configFilePath)
                     }
                     println("Configurations updated successfully.")
-                } catch (e: FileNotFoundException) {
-                    println("File not found: $configFilePath")
-                } catch (e: Exception) {
-                    println("An error occurred: ${e.message}")
-                }
+//                } catch (e: FileNotFoundException) {
+//                    println("File not found: $configFilePath")
+//                } catch (e: Exception) {
+//                    println("An error occurred: ${e.message}")
+//                }
             }
 
             "5" -> {
