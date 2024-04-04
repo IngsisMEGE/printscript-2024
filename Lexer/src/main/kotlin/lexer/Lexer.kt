@@ -11,7 +11,7 @@ import token.Token
  *
  * @param rules A list of token generation rules that define how to recognize different tokens.
  */
-class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf(), private var line: String = "") : LexerInterface {
+class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : LexerInterface {
     private var tokenGenerator: List<RegexTokenGenerator> =
         tokenRules.map { (_, rule) ->
             if (rule.getType() == DataType.METHOD_CALL) {
@@ -21,9 +21,15 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf(), priva
             }
         }
 
-    private var codeFraction: List<String> = getCodeFraction()
+    private var codeFraction: List<String> = listOf()
 
-    override fun lex(numberLine: Int): List<Token> {
+    override fun lex(
+        line: String,
+        numberLine: Int,
+    ): List<Token> {
+        if (codeFraction.isEmpty()) {
+            codeFraction = getCodeFraction(line)
+        }
         val tokens = mutableListOf<Token>()
         tokenGenerator.forEach { tokenGenerator ->
             val generatedTokens = tokenGenerator.generateToken(codeFraction.first(), numberLine)
@@ -44,10 +50,10 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf(), priva
         return codeFraction.isEmpty()
     }
 
-    private fun getCodeFraction(): List<String> {
+    private fun getCodeFraction(line: String): List<String> {
         val codeFraction: MutableList<String> = mutableListOf()
 
-        val semiColonTokens = getSemiColonTokens()
+        val semiColonTokens = getSemiColonTokens(line)
 
         if (semiColonTokens.isNotEmpty()) {
             var startPos = 0
@@ -66,7 +72,7 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf(), priva
         return codeFraction
     }
 
-    private fun getSemiColonTokens(): List<Token> {
+    private fun getSemiColonTokens(line: String): List<Token> {
         val semiColonTokenType = tokenRules.filterValues { it.getType() == DataType.SEMICOLON }.keys.firstOrNull()
         return if (semiColonTokenType != null) {
             val semiColonRule = tokenRules[semiColonTokenType]!!

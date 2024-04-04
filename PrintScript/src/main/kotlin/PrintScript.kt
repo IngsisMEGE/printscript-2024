@@ -1,6 +1,7 @@
 package org.example
 
 import JSONManager
+import astn.AST
 import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
@@ -23,7 +24,7 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript {
-    private var lexer = Lexer(getLexerDefaultRules(), "")
+    private var lexer = Lexer(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
     private val interpreter = RegularInterpreter()
     private var formatter =
@@ -46,11 +47,12 @@ class PrintScript {
         try {
             var numberLine = 1
             file.forEachLine { line ->
-                val lexer = Lexer(getLexerDefaultRules(), line)
+                if (line.isBlank()){
+                    return@forEachLine
+                }
+                output.add(interpreter.readAST(lexAndParse(line, numberLine)))
                 while (!lexer.isLineFinished()) {
-                    val tokens = lexer.lex(numberLine)
-                    val ast = parser.parse(tokens)
-                    output.add(interpreter.readAST(ast))
+                    output.add(interpreter.readAST(lexAndParse(line, numberLine)))
                 }
                 numberLine++
             }
@@ -70,11 +72,12 @@ class PrintScript {
         try {
             var numberLine = 1
             file.forEachLine { line ->
-                val lexer = Lexer(getLexerDefaultRules(), line)
+                if (line.isBlank()){
+                    return@forEachLine
+                }
+                output.add(formatter.format(lexAndParse(line, numberLine)))
                 while (!lexer.isLineFinished()) {
-                    val tokens = lexer.lex(numberLine)
-                    val ast = parser.parse(tokens)
-                    output.add(formatter.format(ast))
+                    output.add(formatter.format(lexAndParse(line, numberLine)))
                 }
                 numberLine++
             }
@@ -112,9 +115,17 @@ class PrintScript {
                 listOf(
                     VarDeclarationAssignationRule("DotFront", "DotBack", "EqualFront", "EqualBack"),
                     MethodRule("ammountOfLines"),
-                    VarDeclarationRule("SpaceInFront", "SpaceInBack"),
+                    VarDeclarationRule("DotFront", "DotBack"),
                     AssignationRule("EqualFront", "EqualBack"),
                 ),
             )
+    }
+
+    private fun lexAndParse(
+        line: String,
+        numberLine: Int,
+    ): AST {
+        val tokens = lexer.lex(line, numberLine)
+        return parser.parse(tokens)
     }
 }

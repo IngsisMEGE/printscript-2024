@@ -44,7 +44,7 @@ class PrintScriptTest {
     fun testOutputAssignation() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = ""
+        val expectedOutput = "10"
         Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 
