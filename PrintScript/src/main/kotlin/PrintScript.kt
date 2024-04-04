@@ -90,7 +90,7 @@ class PrintScript {
 
     fun updateRegexRules(newRulesPath: String) {
         val file = File(newRulesPath)
-        if (!file.exists()){
+        if (!file.exists()) {
             throw FileNotFoundException("File not found: $newRulesPath")
         }
         val json = file.readText()
