@@ -2,6 +2,7 @@ package org.example.lexer
 
 import lexer.TokenRegexRule
 import lexer.tokenRule.TokenRule
+import token.DataType
 import token.Token
 
 /**
@@ -56,5 +57,9 @@ class RegexTokenGenerator(
             }
         }
         return tokens
+    }
+
+    fun getTokenType(): DataType {
+        return tokenRegexRule.getType()
     }
 }
