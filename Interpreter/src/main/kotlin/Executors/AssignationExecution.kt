@@ -2,8 +2,6 @@ package interpreter.executors
 
 import astn.Assignation
 import interpreter.Value
-import interpreter.VariableType
-import token.DataType
 
 /**
  * This class is responsible for executing variable assignations in the PrintScript application.
@@ -25,24 +23,16 @@ class AssignationExecution : Executor<Assignation> {
         variables: MutableMap<String, Value>,
     ): String {
         val varName = ast.assignation.getValue()
-        val type = getValueType(ast.assignation.getType())
+        val type = variables[ast.assignation.getValue()]?.getType()
         val value = binaryOperator.evaluate(ast.value, variables)
         if (variables.containsKey(varName)) {
-            if (value.getType() == type) {
+            if (type != null && value.getType() == type) {
                 variables[varName] = value
                 return ""
             }
             throw Exception("Variable type mismatch")
         } else {
             throw Exception("Variable not found")
-        }
-    }
-
-    private fun getValueType(dataType: DataType): VariableType {
-        return when (dataType) {
-            DataType.NUMBER_TYPE -> VariableType.NUMBER
-            DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("Unexpected type")
         }
     }
 }
