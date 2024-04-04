@@ -36,8 +36,8 @@ class TestParser {
     @Test
     fun testVariableDeclaration() {
         val parser = ParserImpl()
-        val lexer = Lexer(tokenRulesMap, "let x: number = 5;")
-        val tokens = lexer.lex(1)
+        val lexer = Lexer(tokenRulesMap)
+        val tokens = lexer.lex("let x: number = 5;", 1)
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
