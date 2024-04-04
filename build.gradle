@@ -7,11 +7,16 @@ repositories {
     mavenCentral()
 }
 
+def projectVersion = "1.0.0-SNAPSHOT"
+
 subprojects {
+    version = projectVersion
+
     apply plugin: 'java'
     apply plugin: 'jacoco'
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
     apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'maven-publish'
 
 
     dependencies {
@@ -29,6 +34,24 @@ subprojects {
             xml.required = false
             csv.required = false
             html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        }
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/juancruzestevez02/PrintScript-2024")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
         }
     }
 }
