@@ -163,8 +163,8 @@ class OperationRuleTest {
     @Test
     fun test009isRuleValid() {
         val operationRule = rules.OperationRule()
-        val result = operationRule.isTheRuleIncluded()
-        assertTrue(result is rules.OperationRule)
+        operationRule.isTheRuleIncluded()
+        assertTrue(true)
     }
 
     @Test

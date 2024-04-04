@@ -23,7 +23,7 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript {
-    private var lexer = Lexer(getLexerDefaultRules())
+    private var lexer = Lexer(getLexerDefaultRules(), "")
     private val parser: Parser = ParserImpl()
     private val interpreter = RegularInterpreter()
     private var formatter =
@@ -44,13 +44,18 @@ class PrintScript {
             throw FileNotFoundException("File not found: $path")
         }
         try {
+            var numberLine = 1
             file.forEachLine { line ->
-                val tokens = lexer.lex(line, 1)
-                val ast = parser.parse(tokens)
-                output.add(interpreter.readAST(ast))
+                val lexer = Lexer(getLexerDefaultRules(), line)
+                while (!lexer.isLineFinished()) {
+                    val tokens = lexer.lex(numberLine)
+                    val ast = parser.parse(tokens)
+                    output.add(interpreter.readAST(ast))
+                }
+                numberLine++
             }
 
-            return output.joinToString("\n")
+            return output.joinToString("")
         } catch (e: Exception) {
             return "An error occurred while executing the script. ${e.message}"
         }
@@ -63,11 +68,15 @@ class PrintScript {
             throw FileNotFoundException("File not found: $path")
         }
         try {
+            var numberLine = 1
             file.forEachLine { line ->
-                val tokens = lexer.lex(line, 1)
-                val ast = parser.parse(tokens)
-                val formattedLine = formatter.format(ast)
-                output.add(formattedLine)
+                val lexer = Lexer(getLexerDefaultRules(), line)
+                while (!lexer.isLineFinished()) {
+                    val tokens = lexer.lex(numberLine)
+                    val ast = parser.parse(tokens)
+                    output.add(formatter.format(ast))
+                }
+                numberLine++
             }
 
             return output.joinToString("")

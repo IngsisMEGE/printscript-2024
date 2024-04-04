@@ -1,1 +1,1 @@
-let x = 4; let y = 5;
+let x : number = 4; let y : number = 5; println(x)

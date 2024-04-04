@@ -22,13 +22,13 @@ class PrintScriptTest {
         }
     }
 
-   /* @Test
-    fun testWithSameLine2VariablesWithSemicolon() { // No soportamos actualmente la definicion de variables en la misma linea. let x = 4; let y = 5;
+    @Test
+    fun testWithSameLine2VariablesWithSemicolon() {
         val printScript = PrintScript()
         val path = "src/test/resources/sameLineFile.txt"
-        val expectedOutput = ""
+        val expectedOutput = "4"
         Assertions.assertEquals(expectedOutput, printScript.start(path))
-    }*/
+    }
 
     // Modules testing
 
