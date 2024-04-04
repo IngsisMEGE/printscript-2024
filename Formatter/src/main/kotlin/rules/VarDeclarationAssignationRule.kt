@@ -32,8 +32,8 @@ class VarDeclarationAssignationRule(
             enforcers =
                 enforcers.plus(
                     DoubleDotDeclarationEnforcer(
-                        property[doubleDotSpaceInFrontName] as Int,
-                        property[doubleDotSpaceInBackName] as Int,
+                        property[doubleDotSpaceInFrontName].toString().toInt(),
+                        property[doubleDotSpaceInBackName].toString().toInt(),
                     ),
                 )
         }
@@ -41,8 +41,8 @@ class VarDeclarationAssignationRule(
             enforcers =
                 enforcers.plus(
                     AssignationSpaceEnforcer(
-                        property[assignationSpaceInFrontName] as Int,
-                        property[assignationSpaceInBackName] as Int,
+                        property[assignationSpaceInFrontName].toString().toInt(),
+                        property[assignationSpaceInBackName].toString().toInt(),
                     ),
                 )
         }

@@ -47,4 +47,12 @@ class PrintScriptTest {
         val expectedOutput = ""
         Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
+
+    @Test
+    fun testFormatFile() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileToFormat.txt"
+        val expectedOutput = "let x:number=10;\nlet y:number=20;\n"
+        Assertions.assertEquals(expectedOutput, printScript.format(path))
+    }
 }

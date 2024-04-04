@@ -21,7 +21,7 @@ class MethodRule(
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         val enfocers: MutableList<Enforcer> = enforcer.toMutableList()
         if (property.containsKey(ammountOfJumpLine)) {
-            enfocers.add(LineJumpOnMethodEnforcer(property[ammountOfJumpLine] as Int))
+            enfocers.add(LineJumpOnMethodEnforcer(property[ammountOfJumpLine].toString().toInt()))
         }
         return MethodRule(ammountOfJumpLine, enfocers)
     }
@@ -40,7 +40,6 @@ class MethodRule(
                 val newLine = StringBuilder()
                 newLine.append(ast.methodName.getValue())
                 newLine.append("(")
-                // Missing OPTree Rule
                 val parameters = OperationRule.genericLine(ast.value)
                 newLine.append(OperationRule.enforceRule(parameters))
                 newLine.append(")")

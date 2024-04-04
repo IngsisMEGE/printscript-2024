@@ -22,8 +22,8 @@ class LexerTest {
             "RIGHT_PARENTHESIS" to TokenRegexRule("\\)", DataType.RIGHT_PARENTHESIS, true),
             "METHOD_CALL" to TokenRegexRule("\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)", DataType.METHOD_CALL, false),
             "COMA" to TokenRegexRule(",", DataType.COMA, true),
-            "NUMBER_TYPE" to TokenRegexRule("\\bnumber\\b", DataType.NUMBER_TYPE, true),
-            "STRING_TYPE" to TokenRegexRule("\\bstring\\b", DataType.STRING_TYPE, true),
+            "NUMBER_TYPE" to TokenRegexRule("\\bnumber\\b", DataType.NUMBER_TYPE, false),
+            "STRING_TYPE" to TokenRegexRule("\\bstring\\b", DataType.STRING_TYPE, false),
             "NUMBER_VALUE" to TokenRegexRule("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE, false),
             "VARIABLE_NAME" to TokenRegexRule("(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")", DataType.VARIABLE_NAME, false),
         )

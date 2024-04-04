@@ -30,4 +30,8 @@ class FormatterImpl(override val property: Map<String, Any>, private val rules: 
         }
         return ""
     }
+
+    fun getRules(): List<Rules> {
+        return rules
+    }
 }
