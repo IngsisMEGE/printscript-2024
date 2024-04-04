@@ -26,8 +26,8 @@ class AssignationRule(
             enforcers =
                 enforcers.plus(
                     AssignationSpaceEnforcer(
-                        property[assignationSpaceInFrontName] as Int,
-                        property[assignationSpaceInBackName] as Int,
+                        property[assignationSpaceInFrontName].toString().toInt(),
+                        property[assignationSpaceInBackName].toString().toInt(),
                     ),
                 )
         }

@@ -14,6 +14,7 @@ dependencies {
     implementation project(':Lexer')
     implementation project(':Parser')
     implementation project(':Interpreter')
+    implementation project(':Formatter')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 

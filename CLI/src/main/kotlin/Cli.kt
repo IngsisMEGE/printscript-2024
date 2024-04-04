@@ -9,7 +9,7 @@ import java.lang.Exception
  *
  * @property printScript An instance of the PrintScript class which is used to start the script execution.
  */
-class Cli(val printScript: PrintScript = PrintScript())
+class Cli(var printScript: PrintScript = PrintScript())
 
 /**
  * The main function which starts the CLI.
@@ -22,9 +22,10 @@ fun main() {
     while (true) {
         printASCII()
         println("1. Provide a file path")
-        println("2. Try separate modules")
+        println("2. Format file")
         println("3. Change configurations for the formatter")
-        println("4. Exit")
+        println("4. Change configurations for the Lexer")
+        println("5. Exit")
 
         val input = readlnOrNull()
 
@@ -44,14 +45,50 @@ fun main() {
             }
 
             "2" -> {
-                // .trySeparateModules()
+                println("Please enter the file path:")
+                val filePath = readlnOrNull()
+                try {
+                    if (filePath != null) {
+                        println(cli.printScript.format(filePath))
+                    }
+                } catch (e: FileNotFoundException) {
+                    println("File not found: $filePath")
+                } catch (e: Exception) {
+                    println("An error occurred: ${e.message}")
+                }
             }
 
             "3" -> {
-                // printScript.changeFormatterConfigurations()
+                println("Please enter the configuration filepath:")
+                val configFilePath = readlnOrNull()
+                try {
+                    if (configFilePath != null) {
+                        cli.printScript.changeFormatterConfig(configFilePath)
+                    }
+                } catch (e: FileNotFoundException) {
+                    println("File not found: $configFilePath")
+                } catch (e: Exception) {
+                    println("An error occurred: ${e.message}")
+                }
+                println("Configurations updated successfully.")
+            }
+            "4" -> {
+                println("Please enter the configuration filepath:")
+                val configFilePath = readlnOrNull()
+
+                try {
+                    if (configFilePath != null) {
+                        cli.printScript.updateRegexRules(configFilePath)
+                    }
+                } catch (e: FileNotFoundException) {
+                    println("File not found: $configFilePath")
+                } catch (e: Exception) {
+                    println("An error occurred: ${e.message}")
+                }
+                println("Configurations updated successfully.")
             }
 
-            "4" -> {
+            "5" -> {
                 println("Exiting...")
                 return
             }

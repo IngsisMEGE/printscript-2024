@@ -24,8 +24,8 @@ class VarDeclarationRule(
             enforcers =
                 enforcer.plus(
                     DoubleDotDeclarationEnforcer(
-                        property[doubleDotSpaceInFront] as Int,
-                        property[doubleDotSpaceInBack] as Int,
+                        property[doubleDotSpaceInFront].toString().toInt(),
+                        property[doubleDotSpaceInBack].toString().toInt(),
                     ),
                 )
         }
