@@ -45,21 +45,21 @@ fun main() {
                 }
             }
 
-           "2" -> {
-    println("Please enter the file path:")
-    val filePath = readlnOrNull()
-    try {
-        if (filePath != null) {
-            val formattedContent = cli.printScript.format(filePath)
-            File(filePath).writeText(formattedContent)
-            println("File updated successfully.")
-        }
-    } catch (e: FileNotFoundException) {
-        println("File not found: $filePath")
-    } catch (e: Exception) {
-        println("An error occurred: ${e.message}")
-    }
-}
+            "2" -> {
+                println("Please enter the file path:")
+                val filePath = readlnOrNull()
+                try {
+                    if (filePath != null) {
+                        val formattedContent = cli.printScript.format(filePath)
+                        File(filePath).writeText(formattedContent)
+                        println("File updated successfully.")
+                    }
+                } catch (e: FileNotFoundException) {
+                    println("File not found: $filePath")
+                } catch (e: Exception) {
+                    println("An error occurred: ${e.message}")
+                }
+            }
 
             "3" -> {
                 println("Please enter the configuration filepath:")
