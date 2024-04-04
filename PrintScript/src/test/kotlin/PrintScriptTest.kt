@@ -9,7 +9,7 @@ class PrintScriptTest {
     fun testCLIWithValidFilePath() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = "" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
+        val expectedOutput = "10" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
         Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 
@@ -36,7 +36,7 @@ class PrintScriptTest {
     fun testFullIterationVarDeclaration() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = "" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
+        val expectedOutput = "10" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
         Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 

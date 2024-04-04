@@ -47,7 +47,7 @@ class PrintScript {
         try {
             var numberLine = 1
             file.forEachLine { line ->
-                if (line.isBlank()){
+                if (line.isBlank()) {
                     return@forEachLine
                 }
                 output.add(interpreter.readAST(lexAndParse(line, numberLine)))
@@ -72,7 +72,7 @@ class PrintScript {
         try {
             var numberLine = 1
             file.forEachLine { line ->
-                if (line.isBlank()){
+                if (line.isBlank()) {
                     return@forEachLine
                 }
                 output.add(formatter.format(lexAndParse(line, numberLine)))
