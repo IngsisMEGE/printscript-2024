@@ -1,5 +1,6 @@
 package org.example
 
+import java.io.File
 import java.io.FileNotFoundException
 import java.lang.Exception
 
@@ -49,7 +50,9 @@ fun main() {
                 val filePath = readlnOrNull()
                 try {
                     if (filePath != null) {
-                        println(cli.printScript.format(filePath))
+                        val formattedContent = cli.printScript.format(filePath)
+                        File(filePath).writeText(formattedContent)
+                        println("File updated successfully.")
                     }
                 } catch (e: FileNotFoundException) {
                     println("File not found: $filePath")
