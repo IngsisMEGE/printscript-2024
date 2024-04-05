@@ -24,7 +24,7 @@ class MethodExecutor : Executor<Method> {
         variables: MutableMap<String, Value>,
     ): String {
         if (ast.methodName.getValue() == "println") {
-            return binaryOperator.evaluate(ast.value, variables).getValue().toString()
+            return binaryOperator.evaluate(ast.value, variables).getValue() + "\n"
         } else {
             throw Exception("Method not found")
         }
