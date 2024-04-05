@@ -1,0 +1,82 @@
+let a: number = 5;
+let b: number = 10;
+let c: number = 15;
+let d: number = 20;
+let e: number = 25;
+let f: string = "Hola";
+let g: string = "Mundo";
+
+a = b + c - (d / e);
+b = a * d + (c - e);
+
+println(a);
+println(b);
+
+c = d * (b / a) + e;
+d = (e - a) * (b + c) + 67;
+
+println(c);
+println(d);
+
+let h: string = f + " " + g;
+println(h);
+
+let i: number = a * b;
+let j: number = d / c;
+let k: number = i - j;
+
+println(i);
+println(j);
+println(k);
+
+let l: number = (a + b) * c / d ;
+let m: number = l * (i + j - k);
+
+println(l);
+println(m);
+
+
+println( m);
+
+let p: number = 100;
+let q: number = 200;
+let r: number = 300;
+let s: number = 400;
+let t: number = 500;
+let u: string = "Prueba";
+let v: string = "Lexer";
+let w: string = "Parser";
+let x: string = "Interpreter";
+
+p = q - r + (s * t);
+q = p / (r - s + t);
+r = (p * q) / (s - t);
+
+println(p);
+println(q);
+println(r);
+
+let x1: string = u + " " + v;
+let y1: string = w + " " + x;
+let z1: string = x1 + "" + y1;
+
+println(x1);
+println(y1);
+println(z1);
+
+
+let aa: number = p + (q * r) ;
+let ab: number = aa * p - q / r;
+
+println(aa);
+println(ab);
+let ac : string = "PucaQuiereaGaru";
+let ad: string =ac+  aa  + ab ;
+
+println(ad);
+
+let ae: number = (aa + ab) *  p - q;
+let af: number = ae - (aa * ab) / (p + q - r);
+
+println(ae);
+println(af);
