@@ -12,8 +12,26 @@ class ListTokenManager {
             )
         }
 
-        fun removeDuplicates(tokens: List<Token>): List<Token> {
-            return tokens.distinctBy { it.getInitialPosition().first to it.getFinalPosition().first }
+        fun removeOverlapTokens(tokens: List<Token>): List<Token> {
+            val orderedTokens = orderTokens(tokens)
+            val result = mutableListOf<Token>()
+            var lastToken: Token? = null
+            orderedTokens.forEach { token ->
+                if (lastToken == null) {
+                    result.add(token)
+                    lastToken = token
+                } else {
+                    if (token.getInitialPosition().first > lastToken!!.getFinalPosition().first) {
+                        result.add(token)
+                        lastToken = token
+                    } else if (token.getFinalPosition().first > lastToken!!.getFinalPosition().first) {
+                        result.remove(lastToken)
+                        result.add(token)
+                        lastToken = token
+                    }
+                }
+            }
+            return result
         }
     }
 }

@@ -29,7 +29,7 @@ class ListTokenManagerTest {
     }
 
     @Test
-    fun removeDuplicatesTest() {
+    fun testRemoveOverlapingTokens() {
         val token1 = Token(DataType.SEMICOLON, "a", Pair(3, 3), Pair(1, 4))
         val token2 = Token(DataType.SEMICOLON, "b", Pair(0, 0), Pair(0, 0))
         val token3 = Token(DataType.SEMICOLON, "c", Pair(1, 4), Pair(1, 5))
@@ -45,7 +45,7 @@ class ListTokenManagerTest {
                 token5,
                 token6,
             )
-        val orderedList = ListTokenManager.removeDuplicates(tokenList)
-        assertEquals(orderedList.size, 5)
+        val orderedList = ListTokenManager.removeOverlapTokens(tokenList)
+        assertEquals(orderedList.size, 2)
     }
 }
