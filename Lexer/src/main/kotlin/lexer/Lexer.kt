@@ -43,7 +43,7 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
         }
 
         codeFraction = codeFraction.drop(1)
-        return ListTokenManager.removeDuplicates(ListTokenManager.orderTokens(tokens))
+        return ListTokenManager.removeOverlapTokens(ListTokenManager.orderTokens(tokens))
     }
 
     override fun isLineFinished(): Boolean {

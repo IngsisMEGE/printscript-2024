@@ -178,4 +178,25 @@ class AssignationExecutionTest {
         val result = assignationExecutor.execute(ast2, map)
         assertEquals("", result)
     }
+
+    @Test
+    fun test007AssignationExecutorShouldCreateStringWithSpace() {
+        val valDeclarationExecutor = DeclarationExecution()
+        val assignationExecutor = AssignationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclaration(
+                Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+            )
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationString(Token(DataType.STRING_VALUE, "Hello World", Pair(7, 0), Pair(12, 0))),
+            )
+
+        valDeclarationExecutor.execute(ast1, map)
+        val result = assignationExecutor.execute(ast2, map)
+        assertEquals("", result)
+    }
 }

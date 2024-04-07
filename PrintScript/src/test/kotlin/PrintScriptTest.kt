@@ -84,4 +84,15 @@ class PrintScriptTest {
                 "-1492053744\n"
         assertEquals(expected, printScript.start(path))
     }
+
+    @Test
+    fun test006DeclarationWithSpaceAndAssignation() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/StringWithSpaceAssignationAndDeclaration.txt"
+        val expectedOutput =
+            "let a:string=\"Hello World\";\n" +
+                "a=\"GoodBye World\";\n"
+        assertEquals(expectedOutput, printScript.format(path))
+        assertEquals("", printScript.start(path))
+    }
 }

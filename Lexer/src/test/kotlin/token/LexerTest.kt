@@ -261,4 +261,34 @@ class LexerTest {
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
+
+    @Test
+    fun test006StringWithSpaceInTheMiddle() {
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
+        val tokens = lexer.lex("let a = \"Hello World\";", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.STRING_VALUE,
+                DataType.SEMICOLON,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test006StringWithSpaceInTheMiddleAndSpecialCharacter() {
+        val lexer: LexerInterface = Lexer(tokenRulesMap)
+        val tokens = lexer.lex("let a = \"Hello,:+ number World\";", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.STRING_VALUE,
+                DataType.SEMICOLON,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
 }

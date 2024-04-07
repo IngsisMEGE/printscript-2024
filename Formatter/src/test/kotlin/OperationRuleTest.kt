@@ -91,7 +91,7 @@ class OperationRuleTest {
             listOf(
                 Token(DataType.METHOD_CALL, "println", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.LEFT_PARENTHESIS, "(", Pair(4, 0), Pair(5, 0)),
-                Token(DataType.STRING_VALUE, "Hello", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.NUMBER_VALUE, "3", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
@@ -125,7 +125,7 @@ class OperationRuleTest {
             listOf(
                 Token(DataType.METHOD_CALL, "println", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.LEFT_PARENTHESIS, "(", Pair(4, 0), Pair(5, 0)),
-                Token(DataType.STRING_VALUE, "Hello", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
@@ -142,7 +142,7 @@ class OperationRuleTest {
             listOf(
                 Token(DataType.METHOD_CALL, "println", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.LEFT_PARENTHESIS, "(", Pair(4, 0), Pair(5, 0)),
-                Token(DataType.STRING_VALUE, "Hello", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.STRING_VALUE, "\"Hello\"", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
