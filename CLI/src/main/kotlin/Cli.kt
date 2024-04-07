@@ -1,118 +1,88 @@
 package org.example
 
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.prompt
 import java.io.File
-import java.io.FileNotFoundException
-import java.lang.Exception
 
-/**
- * This class represents the Command Line Interface (CLI) for the PrintScript application.
- * It provides an interactive menu for the user to interact with the application.
- *
- * @property printScript An instance of the PrintScript class which is used to start the script execution.
- */
-class Cli(var printScript: PrintScript = PrintScript())
+fun main(args: Array<String>) =
+    Cli().subcommands(
+        ExecuteScript(),
+        FormatFile(),
+        ChangeFormatterConfig(),
+        ChangeLexerConfig(),
+    ).main(args)
 
-/**
- * The main function which starts the CLI.
- * It provides a loop which continuously presents the user with a menu of options until the user chooses to exit.
- * The options include providing a file path for script execution, trying separate modules, changing formatter configurations, and exiting the application.
- */
+class Cli : CliktCommand() {
+    override fun run() = echo("Welcome to PrintScript CLI. Use --help to see the options.")
+}
 
-fun main() {
-    val cli = Cli()
-    while (true) {
-        printASCII()
-        println("1. Provide a file path")
-        println("2. Format file")
-        println("3. Change configurations for the formatter")
-        println("4. Change configurations for the Lexer")
-        println("5. Exit")
+class ExecuteScript : CliktCommand(help = "Execute a PrintScript file") {
+    private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
+    private val version: String by option(help = "PrintScript version (1.0 or 1.1)").prompt("Enter PrintScript version (1.0 or 1.1)")
 
-        val input = readlnOrNull()
-
-        when (input) {
-            "1" -> {
-                println("Please enter the file path:")
-                val filePath = readlnOrNull()
-                try {
-                    if (filePath != null) {
-                        println(cli.printScript.start(filePath))
-                    }
-                } catch (e: FileNotFoundException) {
-                    println("File not found: $filePath")
-                } catch (e: Exception) {
-                    println("An error occurred: ${e.message}")
+    override fun run() {
+        val printScript =
+            when (version) {
+                "1.0" -> PrintScript()
+                "1.1" -> PrintScript()
+                else -> {
+                    echo("Unsupported version. Defaulting to 1.0")
+                    PrintScript()
                 }
             }
 
-            "2" -> {
-                println("Please enter the file path:")
-                val filePath = readlnOrNull()
-                try {
-                    if (filePath != null) {
-                        val formattedContent = cli.printScript.format(filePath)
-                        File(filePath).writeText(formattedContent)
-                        println("File updated successfully.")
-                    }
-                } catch (e: FileNotFoundException) {
-                    println("File not found: $filePath")
-                } catch (e: Exception) {
-                    println("An error occurred: ${e.message}")
-                }
-            }
-
-            "3" -> {
-                println("Please enter the configuration filepath:")
-                val configFilePath = readlnOrNull()
-                try {
-                    if (configFilePath != null) {
-                        cli.printScript.changeFormatterConfig(configFilePath)
-                    }
-                    println("Configurations updated successfully.")
-                } catch (e: FileNotFoundException) {
-                    println("File not found: $configFilePath")
-                } catch (e: Exception) {
-                    println("An error occurred: ${e.message}")
-                }
-            }
-            "4" -> {
-                println("Please enter the configuration filepath:")
-                val configFilePath = readlnOrNull()
-
-                try {
-                    if (configFilePath != null) {
-                        cli.printScript.updateRegexRules(configFilePath)
-                    }
-                    println("Configurations updated successfully.")
-                } catch (e: FileNotFoundException) {
-                    println("File not found: $configFilePath")
-                } catch (e: Exception) {
-                    println("An error occurred: ${e.message}")
-                }
-            }
-
-            "5" -> {
-                println("Exiting...")
-                return
-            }
-
-            else -> {
-                println("Invalid option. Please try again.")
-            }
+        try {
+            val output = printScript.start(filePath)
+            echo(output)
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
         }
     }
 }
 
-private fun printASCII() {
-    val topAndBottomBorder = "+-----------------------+"
-    val emptyLine = "|                       |"
-    val textLine = "| PrintScript Ing Sis   |"
+class FormatFile : CliktCommand(help = "Format a PrintScript file") {
+    private val filePath: String by option(help = "Path to the PrintScript file to format").prompt("Enter the file path")
 
-    println(topAndBottomBorder)
-    println(emptyLine)
-    println(textLine)
-    println(emptyLine)
-    println(topAndBottomBorder)
-    println("Welcome to the CLI! Please select an option:")
-    println()
+    override fun run() {
+        try {
+            val printScript = PrintScript()
+            val formattedContent = printScript.format(filePath)
+            File(filePath).writeText(formattedContent)
+            echo("File formatted and updated successfully.")
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
+        }
+    }
+}
+
+class ChangeFormatterConfig : CliktCommand(help = "Change formatter configurations") {
+    private val configFilePath: String by option(help = "Path to the configuration file").prompt("Enter the configuration file path")
+
+    override fun run() {
+        try {
+            val printScript = PrintScript()
+            printScript.changeFormatterConfig(configFilePath)
+            echo("Formatter configurations updated successfully.")
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
+        }
+    }
+}
+
+class ChangeLexerConfig : CliktCommand(help = "Change lexer configurations") {
+    private val configFilePath: String by option(
+        help = "Path to the lexer configuration file",
+    ).prompt("Enter the lexer configuration file path")
+
+    override fun run() {
+        try {
+            val printScript = PrintScript()
+            printScript.updateRegexRules(configFilePath)
+            echo("Lexer configurations updated successfully.")
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
+        }
+    }
 }

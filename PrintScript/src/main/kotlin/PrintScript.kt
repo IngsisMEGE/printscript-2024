@@ -39,31 +39,17 @@ class PrintScript {
         )
 
     fun start(path: String): String {
-        val file = File(path)
-        val output = mutableListOf<String>()
-        if (!file.exists()) {
-            throw FileNotFoundException("File not found: $path")
-        }
-        try {
-            var numberLine = 1
-            file.forEachLine { line ->
-                if (line.isBlank()) {
-                    return@forEachLine
-                }
-                output.add(interpreter.readAST(lexAndParse(line, numberLine)))
-                while (!lexer.isLineFinished()) {
-                    output.add(interpreter.readAST(lexAndParse(line, numberLine)))
-                }
-                numberLine++
-            }
-
-            return output.joinToString("")
-        } catch (e: Exception) {
-            return "An error occurred while executing the script. ${e.message}"
-        }
+        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine)) }
     }
 
     fun format(path: String): String {
+        return processFile(path) { line, numberLine -> formatter.format(lexAndParse(line, numberLine)) }
+    }
+
+    private fun processFile(
+        path: String,
+        processLine: (String, Int) -> String,
+    ): String {
         val file = File(path)
         val output = mutableListOf<String>()
         if (!file.exists()) {
@@ -75,9 +61,9 @@ class PrintScript {
                 if (line.isBlank()) {
                     return@forEachLine
                 }
-                output.add(formatter.format(lexAndParse(line, numberLine)))
+                output.add(processLine(line, numberLine))
                 while (!lexer.isLineFinished()) {
-                    output.add(formatter.format(lexAndParse(line, numberLine)))
+                    output.add(processLine(line, numberLine))
                 }
                 numberLine++
             }

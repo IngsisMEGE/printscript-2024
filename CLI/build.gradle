@@ -15,6 +15,7 @@ dependencies {
     implementation project(':Parser')
     implementation project(':Interpreter')
     implementation project(':Formatter')
+    implementation 'com.github.ajalt.clikt:clikt:4.3.0'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
@@ -24,3 +25,5 @@ test {
 kotlin {
     jvmToolchain(18)
 }
+apply plugin: 'application'
+mainClassName = 'org.example.CliKt'
