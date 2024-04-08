@@ -2,17 +2,13 @@ package org.example.lexer
 
 import lexer.TokenRegexRule
 import lexer.tokenRule.TokenRule
-import token.DataType
 import token.Token
 
 /**
- * Generates tokens based on regular expressions. This class can handle both simple pattern matching and more complex scenarios
- * where additional processing is required to determine the token type or value.
+ * A token generator that uses regular expressions to identify and tokenize patterns in the source code.
  *
- * @param pattern The regular expression pattern used for matching tokens in the input string.
- * @param tokenType The type of token to generate when a match is found.
- * @param isPatternLiteral A flag indicating whether the matched pattern should be used as the literal token value.
- * @param tokenCreationException An optional rule for cases where token creation requires special handling beyond simple pattern matching.
+ * @property tokenRegexRule The regular expression rule used to generate tokens.
+ * @property tokenCreationException An optional token rule used to generate tokens that do not match the regular expression pattern.
  */
 
 class RegexTokenGenerator(
@@ -24,11 +20,11 @@ class RegexTokenGenerator(
     ) : this(tokenRegexRule, null)
 
     /**
-     * Parses the given input line and generates a list of tokens according to the defined regular expression patterns.
+     * Generates tokens based on the regular expression rule.
      *
-     * @param line The input line of code to tokenize.
-     * @param numberLine The line number in the source code, used for position tracking.
-     * @return A list of tokens identified in the input line.
+     * @param line The line of source code to tokenize.
+     * @param numberLine The line number of the source code.
+     * @return A list of tokens generated from the regular expression rule.
      */
     fun generateToken(
         line: String,
@@ -42,7 +38,9 @@ class RegexTokenGenerator(
             val start = matchResult.range.first
             val end = matchResult.range.last
 
-            tokenCreationException?.generateToken(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine))?.let { tokens.add(it) }
+            tokenCreationException?.generateToken(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine))?.let {
+                tokens.add(it)
+            }
                 ?: tokens.add(
                     Token(
                         tokenRegexRule.getType(),
@@ -54,5 +52,4 @@ class RegexTokenGenerator(
         }
         return tokens
     }
-
 }

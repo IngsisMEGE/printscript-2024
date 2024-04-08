@@ -6,7 +6,9 @@ class ListTokenManager {
     companion object {
         fun orderTokens(list: List<Token>): List<Token> {
             return list.sortedWith(
-                compareBy({ it.getInitialPosition().first }, { it.getInitialPosition().second }, { it.getFinalPosition().first }, { it.getFinalPosition().second })
+                compareBy({
+                    it.getInitialPosition().first
+                }, { it.getInitialPosition().second }, { it.getFinalPosition().first }, { it.getFinalPosition().second }),
             )
         }
 

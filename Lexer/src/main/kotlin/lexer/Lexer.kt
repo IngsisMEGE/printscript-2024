@@ -6,10 +6,9 @@ import token.DataType
 import token.Token
 
 /**
- * The `Lexer` class is responsible for converting a sequence of characters into a sequence of tokens.
- * It analyzes the input source code to identify lexical components such as keywords, identifiers, literals, and operators.
+ * A lexer that tokenizes source code based on a set of regular expression rules.
  *
- * @param rules A list of token generation rules that define how to recognize different tokens.
+ * @param tokenRules A map of regular expression rules used to generate tokens.
  */
 class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : LexerInterface {
     private var tokenGenerator: List<RegexTokenGenerator> =
@@ -58,12 +57,13 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
         return tokens
     }
 
-    private fun generateErrorToken(numberLine: Int) = Token(
-        DataType.ERROR,
-        codeFraction.first(),
-        Pair(0, numberLine),
-        Pair(codeFraction.first().length - 1, numberLine)
-    )
+    private fun generateErrorToken(numberLine: Int) =
+        Token(
+            DataType.ERROR,
+            codeFraction.first(),
+            Pair(0, numberLine),
+            Pair(codeFraction.first().length - 1, numberLine),
+        )
 
     private fun getCodeFraction(line: String): List<String> {
         val codeFraction: MutableList<String> = mutableListOf()
@@ -82,7 +82,7 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
     private fun separateLineInSegments(
         separatorTokens: List<Token>,
         codeFraction: MutableList<String>,
-        line: String
+        line: String,
     ) {
         var startPos = 0
         separatorTokens.forEach { token ->
@@ -105,6 +105,4 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
             emptyList()
         }
     }
-
-
 }

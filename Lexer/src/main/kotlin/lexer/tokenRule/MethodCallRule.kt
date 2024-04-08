@@ -26,7 +26,7 @@ class MethodCallRule : TokenRule {
         value: String,
         initialPosition: Pair<Int, Int>,
         finalPosition: Pair<Int, Int>,
-        match: MatchResult
+        match: MatchResult,
     ): Token {
         val (methodStartIndex, methodEndIndex) = match.range.first to match.range.last
         val updatedInitialPosition = initialPosition
