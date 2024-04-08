@@ -3,3 +3,4 @@ plugins {
 }
 rootProject.name = 'PrintScript'
 include ('PrintScript' ,'Lexer', 'AST' , 'Token', 'Parser', 'Interpreter', 'Formatter', 'JSONManager','CLI')
+
