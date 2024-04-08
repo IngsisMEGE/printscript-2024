@@ -4,7 +4,7 @@ import token.Token
 
 class ListTokenManager {
     companion object {
-        fun orderTokens(list: List<Token>): List<Token> {
+        private fun orderTokens(list: List<Token>): List<Token> {
             return list.sortedWith(
                 compareBy({
                     it.getInitialPosition().first
@@ -12,7 +12,7 @@ class ListTokenManager {
             )
         }
 
-        fun removeOverlapTokens(tokens: List<Token>): List<Token> {
+        fun orderAndRemoveOverlapTokens(tokens: List<Token>): List<Token> {
             val result = mutableListOf<Token>()
             var lastToken: Token? = null
             orderTokens(tokens).forEach { token ->

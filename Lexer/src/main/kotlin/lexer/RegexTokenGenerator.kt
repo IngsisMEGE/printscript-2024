@@ -19,6 +19,8 @@ class RegexTokenGenerator(
         tokenRegexRule: TokenRegexRule,
     ) : this(tokenRegexRule, null)
 
+    private val pattern = Regex(tokenRegexRule.getPattern())
+
     /**
      * Generates tokens based on the regular expression rule.
      *
@@ -31,7 +33,6 @@ class RegexTokenGenerator(
         numberLine: Int,
     ): List<Token> {
         val tokens = mutableListOf<Token>()
-        val pattern = Regex(tokenRegexRule.getPattern())
         val matches = pattern.findAll(line)
         matches.forEach { matchResult ->
             val match = matchResult.value
@@ -51,5 +52,9 @@ class RegexTokenGenerator(
                 )
         }
         return tokens
+    }
+
+    fun doesItMatch(line: String): Boolean {
+        return pattern.containsMatchIn(line)
     }
 }

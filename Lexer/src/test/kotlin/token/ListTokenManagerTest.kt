@@ -20,12 +20,9 @@ class ListTokenManagerTest {
                 token4,
                 token5,
             )
-        val orderedList = ListTokenManager.orderTokens(tokenList)
+        val orderedList = ListTokenManager.orderAndRemoveOverlapTokens(tokenList)
         assertEquals(orderedList[0], token2)
         assertEquals(orderedList[1], token4)
-        assertEquals(orderedList[2], token5)
-        assertEquals(orderedList[3], token3)
-        assertEquals(orderedList[4], token1)
     }
 
     @Test
@@ -45,7 +42,7 @@ class ListTokenManagerTest {
                 token5,
                 token6,
             )
-        val orderedList = ListTokenManager.removeOverlapTokens(tokenList)
+        val orderedList = ListTokenManager.orderAndRemoveOverlapTokens(tokenList)
         assertEquals(orderedList.size, 2)
     }
 }

@@ -34,7 +34,7 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
         val tokens = generateTokens(numberLine)
 
         codeFraction = codeFraction.drop(1)
-        return ListTokenManager.removeOverlapTokens(ListTokenManager.orderTokens(tokens))
+        return ListTokenManager.orderAndRemoveOverlapTokens(tokens)
     }
 
     private fun isLineEmpty(line: String): Boolean {
@@ -48,6 +48,7 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
     private fun generateTokens(numberLine: Int): MutableList<Token> {
         val tokens = mutableListOf<Token>()
         tokenGenerator.forEach { tokenGenerator ->
+            if (!tokenGenerator.doesItMatch(codeFraction.first())) return@forEach
             val generatedTokens = tokenGenerator.generateToken(codeFraction.first(), numberLine)
             if (generatedTokens.isNotEmpty()) {
                 tokens.addAll(generatedTokens)
