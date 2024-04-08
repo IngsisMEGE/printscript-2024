@@ -1,15 +1,17 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
 group = 'org.example'
-version = 'unspecified'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation project(':AST')
+    implementation project(':Token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
@@ -19,3 +21,5 @@ test {
 kotlin {
     jvmToolchain(18)
 }
+
+tasks.register("prepareKotlinBuildScriptModel"){}
