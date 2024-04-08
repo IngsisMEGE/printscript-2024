@@ -2,8 +2,8 @@ import astn.EmptyAST
 import astn.VarDeclarationAssignation
 import exceptions.SyntacticError
 import impl.ParserImpl
+import lexer.LexerImpl
 import lexer.TokenRegexRule
-import org.example.lexer.Lexer
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -37,8 +37,8 @@ class TestParser {
     @Test
     fun testVariableDeclaration() {
         val parser = ParserImpl()
-        val lexer = Lexer(tokenRulesMap)
-        val tokens = lexer.lex("let x: number = 5;", 1)
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: number = 5;", 1)
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
