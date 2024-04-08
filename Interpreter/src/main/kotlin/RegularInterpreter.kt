@@ -2,6 +2,7 @@ package interpreter
 
 import astn.AST
 import astn.Assignation
+import astn.EmptyAST
 import astn.Method
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
@@ -27,6 +28,7 @@ class RegularInterpreter {
 
     fun readAST(ast: AST): String {
         return when (ast) {
+            is EmptyAST -> ""
             is Assignation -> AssignationExecution().execute(ast, variables)
             is VarDeclaration -> DeclarationExecution().execute(ast, variables)
             is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, variables)

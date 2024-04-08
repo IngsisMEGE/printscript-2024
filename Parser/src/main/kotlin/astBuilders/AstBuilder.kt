@@ -27,7 +27,7 @@ interface AstBuilder {
     companion object {
         fun takeCommentsAndSemiColon(tokens: List<Token>): List<Token> {
             return tokens.filter { token ->
-                token.getType() != DataType.SEMICOLON
+                token.getType() != DataType.SEPARATOR
             }
         }
 

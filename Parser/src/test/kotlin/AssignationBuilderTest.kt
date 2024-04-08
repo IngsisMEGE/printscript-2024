@@ -53,7 +53,7 @@ class AssignationBuilderTest {
         val tokens =
             listOf(
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(0, 1)),
-                Token(DataType.SEMICOLON, ";", Pair(0, 2), Pair(0, 3)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 2), Pair(0, 3)),
             )
         val result = AstBuilder.takeCommentsAndSemiColon(tokens)
         assertEquals(1, result.size)

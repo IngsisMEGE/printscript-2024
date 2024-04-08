@@ -2,7 +2,7 @@ package impl
 
 import astBuilders.BuilderProvider
 import astn.AST
-import exceptions.ParsinException
+import astn.EmptyAST
 import exceptions.SyntacticError
 import interfaces.Parser
 import token.Token
@@ -11,7 +11,7 @@ class ParserImpl : Parser {
     private val builderProvider = BuilderProvider()
 
     override fun parse(input: List<Token>): AST {
-        if (input.isEmpty()) throw ParsinException("Empty input")
+        if (input.isEmpty()) return EmptyAST()
 
         val builders = builderProvider.getBuilderList()
 

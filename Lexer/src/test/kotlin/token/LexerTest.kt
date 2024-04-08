@@ -16,7 +16,7 @@ class LexerTest {
             "OPERATOR_MULTIPLY" to TokenRegexRule("\\*", DataType.OPERATOR_MULTIPLY, true),
             "OPERATOR_DIVIDE" to TokenRegexRule("/", DataType.OPERATOR_DIVIDE, true),
             "DOUBLE_DOTS" to TokenRegexRule(":", DataType.DOUBLE_DOTS, true),
-            "SEMICOLON" to TokenRegexRule(";", DataType.SEMICOLON, true),
+            "SEMICOLON" to TokenRegexRule(";", DataType.SEPARATOR, true),
             "ASSIGNATION" to TokenRegexRule("=", DataType.ASSIGNATION, true),
             "LEFT_PARENTHESIS" to TokenRegexRule("\\(", DataType.LEFT_PARENTHESIS, true),
             "RIGHT_PARENTHESIS" to TokenRegexRule("\\)", DataType.RIGHT_PARENTHESIS, true),
@@ -199,7 +199,7 @@ class LexerTest {
                 DataType.NUMBER_VALUE,
                 DataType.RIGHT_PARENTHESIS,
                 DataType.RIGHT_PARENTHESIS,
-                DataType.SEMICOLON,
+                DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
@@ -216,7 +216,7 @@ class LexerTest {
                 DataType.NUMBER_TYPE,
                 DataType.ASSIGNATION,
                 DataType.NUMBER_VALUE,
-                DataType.SEMICOLON,
+                DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
@@ -233,7 +233,7 @@ class LexerTest {
                 DataType.STRING_TYPE,
                 DataType.ASSIGNATION,
                 DataType.NUMBER_VALUE,
-                DataType.SEMICOLON,
+                DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
@@ -257,7 +257,7 @@ class LexerTest {
                 DataType.NUMBER_VALUE,
                 DataType.RIGHT_PARENTHESIS,
                 DataType.RIGHT_PARENTHESIS,
-                DataType.SEMICOLON,
+                DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
@@ -272,7 +272,7 @@ class LexerTest {
                 DataType.VARIABLE_NAME,
                 DataType.ASSIGNATION,
                 DataType.STRING_VALUE,
-                DataType.SEMICOLON,
+                DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
@@ -287,7 +287,7 @@ class LexerTest {
                 DataType.VARIABLE_NAME,
                 DataType.ASSIGNATION,
                 DataType.STRING_VALUE,
-                DataType.SEMICOLON,
+                DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
