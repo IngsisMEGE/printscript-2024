@@ -22,7 +22,7 @@ class TestParser {
             "OPERATOR_MULTIPLY" to TokenRegexRule("\\*", DataType.OPERATOR_MULTIPLY, true),
             "OPERATOR_DIVIDE" to TokenRegexRule("/", DataType.OPERATOR_DIVIDE, true),
             "DOUBLE_DOTS" to TokenRegexRule(":", DataType.DOUBLE_DOTS, true),
-            "SEMICOLON" to TokenRegexRule(";", DataType.SEMICOLON, true),
+            "SEMICOLON" to TokenRegexRule(";", DataType.SEPARATOR, true),
             "ASSIGNATION" to TokenRegexRule("=", DataType.ASSIGNATION, true),
             "LEFT_PARENTHESIS" to TokenRegexRule("\\(", DataType.LEFT_PARENTHESIS, true),
             "RIGHT_PARENTHESIS" to TokenRegexRule("\\)", DataType.RIGHT_PARENTHESIS, true),

@@ -23,14 +23,30 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
 
     private var codeFraction: List<String> = listOf()
 
+    override fun isLineFinished(): Boolean {
+        return codeFraction.isEmpty()
+    }
+
     override fun lex(
         line: String,
         numberLine: Int,
     ): List<Token> {
-        if (line.isBlank()) return emptyList()
+        if (isLineEmpty(line)) return emptyList()
+        val tokens = generateTokens(numberLine)
+
+        codeFraction = codeFraction.drop(1)
+        return ListTokenManager.removeOverlapTokens(ListTokenManager.orderTokens(tokens))
+    }
+
+    private fun isLineEmpty(line: String): Boolean {
+        if (line.isBlank()) return true
         if (codeFraction.isEmpty()) {
             codeFraction = getCodeFraction(line)
         }
+        return false
+    }
+
+    private fun generateTokens(numberLine: Int): MutableList<Token> {
         val tokens = mutableListOf<Token>()
         tokenGenerator.forEach { tokenGenerator ->
             val generatedTokens = tokenGenerator.generateToken(codeFraction.first(), numberLine)
@@ -38,34 +54,24 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
                 tokens.addAll(generatedTokens)
             }
         }
-
-        if (tokens.isEmpty()) {
-            tokens.add(Token(DataType.ERROR, codeFraction.first(), Pair(0, numberLine), Pair(codeFraction.first().length - 1, numberLine)))
-        }
-
-        codeFraction = codeFraction.drop(1)
-        return ListTokenManager.removeOverlapTokens(ListTokenManager.orderTokens(tokens))
+        if (tokens.isEmpty()) tokens.add(generateErrorToken(numberLine))
+        return tokens
     }
 
-    override fun isLineFinished(): Boolean {
-        return codeFraction.isEmpty()
-    }
+    private fun generateErrorToken(numberLine: Int) = Token(
+        DataType.ERROR,
+        codeFraction.first(),
+        Pair(0, numberLine),
+        Pair(codeFraction.first().length - 1, numberLine)
+    )
 
     private fun getCodeFraction(line: String): List<String> {
         val codeFraction: MutableList<String> = mutableListOf()
 
-        val semiColonTokens = getSemiColonTokens(line)
+        val separatorTokens = getSeparatorTokens(line)
 
-        if (semiColonTokens.isNotEmpty()) {
-            var startPos = 0
-            semiColonTokens.forEach { token ->
-                val endPos = token.getFinalPosition().first + 1
-                codeFraction.add(line.substring(startPos, endPos).trim())
-                startPos = endPos
-            }
-            if (startPos < line.length) {
-                codeFraction.add(line.substring(startPos).trim())
-            }
+        if (separatorTokens.isNotEmpty()) {
+            separateLineInSegments(separatorTokens, codeFraction, line)
         } else {
             codeFraction.add(line)
         }
@@ -73,8 +79,24 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
         return codeFraction
     }
 
-    private fun getSemiColonTokens(line: String): List<Token> {
-        val semiColonTokenType = tokenRules.filterValues { it.getType() == DataType.SEMICOLON }.keys.firstOrNull()
+    private fun separateLineInSegments(
+        separatorTokens: List<Token>,
+        codeFraction: MutableList<String>,
+        line: String
+    ) {
+        var startPos = 0
+        separatorTokens.forEach { token ->
+            val endPos = token.getFinalPosition().first + 1
+            codeFraction.add(line.substring(startPos, endPos).trim())
+            startPos = endPos
+        }
+        if (startPos < line.length) {
+            codeFraction.add(line.substring(startPos).trim())
+        }
+    }
+
+    private fun getSeparatorTokens(line: String): List<Token> {
+        val semiColonTokenType = tokenRules.filterValues { it.getType() == DataType.SEPARATOR }.keys.firstOrNull()
         return if (semiColonTokenType != null) {
             val semiColonRule = tokenRules[semiColonTokenType]!!
             val semiColonGenerator = RegexTokenGenerator(semiColonRule)
@@ -83,4 +105,6 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
             emptyList()
         }
     }
+
+
 }

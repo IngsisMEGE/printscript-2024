@@ -36,7 +36,7 @@
   },
   ";": {
     "pattern": ";",
-    "type": "SEMICOLON",
+    "type": "SEPARATOR",
     "isPatternLiteral": true
   },
   "=": {

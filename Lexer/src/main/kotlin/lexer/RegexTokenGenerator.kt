@@ -42,11 +42,8 @@ class RegexTokenGenerator(
             val start = matchResult.range.first
             val end = matchResult.range.last
 
-            if (tokenCreationException != null) {
-                tokenCreationException.generateToken(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine))
-                    ?.let { tokens.add(it) }
-            } else {
-                tokens.add(
+            tokenCreationException?.generateToken(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine))?.let { tokens.add(it) }
+                ?: tokens.add(
                     Token(
                         tokenRegexRule.getType(),
                         if (!tokenRegexRule.isPatternLiteral()) match else "",
@@ -54,12 +51,8 @@ class RegexTokenGenerator(
                         Pair(end, numberLine),
                     ),
                 )
-            }
         }
         return tokens
     }
 
-    fun getTokenType(): DataType {
-        return tokenRegexRule.getType()
-    }
 }
