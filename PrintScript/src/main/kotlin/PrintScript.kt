@@ -47,10 +47,6 @@ class PrintScript {
         try {
             var numberLine = 1
             file.forEachLine { line ->
-                if (line.isBlank()) {
-                    numberLine++
-                    return@forEachLine
-                }
                 output.add(interpreter.readAST(lexAndParse(line, numberLine)))
                 while (!lexer.isLineFinished()) {
                     output.add(interpreter.readAST(lexAndParse(line, numberLine)))

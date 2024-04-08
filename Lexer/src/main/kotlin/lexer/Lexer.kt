@@ -27,6 +27,7 @@ class Lexer(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) : Lex
         line: String,
         numberLine: Int,
     ): List<Token> {
+        if (line.isBlank()) return emptyList()
         if (codeFraction.isEmpty()) {
             codeFraction = getCodeFraction(line)
         }

@@ -1,5 +1,5 @@
+import astn.EmptyAST
 import astn.VarDeclarationAssignation
-import exceptions.ParsinException
 import exceptions.SyntacticError
 import impl.ParserImpl
 import lexer.TokenRegexRule
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.assertThrows
 import token.DataType
 import token.Token
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class TestParser {
     val tokenRulesMap: Map<String, TokenRegexRule> =
@@ -46,12 +47,12 @@ class TestParser {
     }
 
     @Test
-    fun testParsinException() {
+    fun testEmptyTokenListReturnsEmptyAST() {
         val parser = ParserImpl()
         val tokens = emptyList<Token>()
-        assertThrows<ParsinException> {
-            parser.parse(tokens)
-        }
+
+        val ast = parser.parse(tokens)
+        assertTrue { ast is EmptyAST }
     }
 
     @Test
