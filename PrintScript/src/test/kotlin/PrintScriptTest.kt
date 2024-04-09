@@ -64,7 +64,7 @@ class PrintScriptTest {
                 "490\n" +
                 "405\n" +
                 "67\n" +
-                "\"Hola\"\" \"\"Mundo\"\n" +
+                "Hola Mundo\n" +
                 "12250\n" +
                 "0\n" +
                 "12250\n" +
@@ -74,12 +74,12 @@ class PrintScriptTest {
                 "199900\n" +
                 "499\n" +
                 "-997501\n" +
-                "\"Prueba\"\" \"\"Lexer\"\n" +
-                "\"Parser\"\" \"\"Interpreter\"\n" +
-                "\"Prueba\"\" \"\"Lexer\"\"\"\"Parser\"\" \"\"Interpreter\"\n" +
+                "Prueba Lexer\n" +
+                "Parser Interpreter\n" +
+                "Prueba LexerParser Interpreter\n" +
                 "-497553099\n" +
                 "1988150668\n" +
-                "\"PucaQuiereaGaru\"-4975530991988150668\n" +
+                "PucaQuiereaGaru-4975530991988150668\n" +
                 "-1492051991\n" +
                 "-1492053744\n"
         assertEquals(expected, printScript.start(path))
@@ -108,7 +108,7 @@ class PrintScriptTest {
     fun test008ApostropheString() {
         val printScript = PrintScript()
         val path = "src/test/resources/apostropheStringTest.txt"
-        val expectedOutput = "'Hello World!'\n"
+        val expectedOutput = "Hello World!\n"
         assertEquals(expectedOutput, printScript.start(path))
     }
 }

@@ -33,7 +33,7 @@ class MethodRuleTest {
         val ast =
             astn.Method(
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
-                OperationString(Token(DataType.STRING_VALUE, "\"Hello\"", Pair(7, 0), Pair(12, 0))),
+                OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(7, 0), Pair(12, 0))),
             )
         val methodRule: Rules = MethodRule("ammountOfLines")
 

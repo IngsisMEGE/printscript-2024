@@ -22,7 +22,7 @@ class FormatterImplTest {
                 OperationString(
                     Token(
                         DataType.STRING_VALUE,
-                        "\"Hello\"",
+                        "Hello",
                         Pair(7, 0),
                         Pair(12, 0),
                     ),
@@ -44,7 +44,7 @@ class FormatterImplTest {
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
                 ),
-                OperationString(Token(DataType.STRING_VALUE, "\"Hola\"", Pair(12, 0), Pair(15, 0))),
+                OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
             )
         val map: MutableMap<String, Any> = HashMap()
         map["DotFront"] = 1
