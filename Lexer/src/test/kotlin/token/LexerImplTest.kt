@@ -158,7 +158,7 @@ class LexerImplTest {
         assertEquals("varName", tokens[1].getValue())
         assertEquals(DataType.ASSIGNATION, tokens[2].getType())
         assertEquals(DataType.STRING_VALUE, tokens[3].getType())
-        assertEquals("\"value\"", tokens[3].getValue())
+        assertEquals("value", tokens[3].getValue())
     }
 
     @Test
@@ -172,7 +172,7 @@ class LexerImplTest {
         assertEquals(DataType.STRING_TYPE, tokens[3].getType())
         assertEquals(DataType.ASSIGNATION, tokens[4].getType())
         assertEquals(DataType.STRING_VALUE, tokens[5].getType())
-        assertEquals("\"Hello\"", tokens[5].getValue())
+        assertEquals("Hello", tokens[5].getValue())
     }
 
     @Test
@@ -180,7 +180,7 @@ class LexerImplTest {
         val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
         val tokens = lexerImpl.lex("\"Line1\\nLine2\";", 1)
         assertEquals(DataType.STRING_VALUE, tokens[0].getType())
-        assertEquals("\"Line1\\nLine2\"", tokens[0].getValue())
+        assertEquals("Line1\\nLine2", tokens[0].getValue())
     }
 
     @Test

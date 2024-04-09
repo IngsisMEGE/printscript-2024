@@ -1,5 +1,6 @@
 package lexer
 
+import lexer.tokenRule.StringRule
 import org.example.lexer.Lexer
 import org.example.lexer.ListTokenManager
 import org.example.lexer.RegexTokenGenerator
@@ -17,6 +18,8 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
         tokenRules.map { (_, rule) ->
             if (rule.getType() == DataType.METHOD_CALL) {
                 RegexTokenGenerator(rule, MethodCallRule())
+            } else if (rule.getType() == DataType.STRING_VALUE) {
+                RegexTokenGenerator(rule, StringRule())
             } else {
                 RegexTokenGenerator(rule)
             }
