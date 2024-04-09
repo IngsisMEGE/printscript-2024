@@ -103,4 +103,12 @@ class PrintScriptTest {
         val expectedOutput = "3\n"
         assertEquals(expectedOutput, printScript.start(path))
     }
+
+    @Test
+    fun test008ApostropheString() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/apostropheStringTest.txt"
+        val expectedOutput = "'Hello World!'\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
 }
