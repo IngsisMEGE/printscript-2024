@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class LexerImplTest {
-    val tokenRulesMap: Map<String, TokenRegexRule> =
+    private val tokenRulesMap: Map<String, TokenRegexRule> =
         mapOf(
             "STRING_VALUE" to TokenRegexRule("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE, false),
             "DECLARATION_VARIABLE" to TokenRegexRule("\\blet\\b", DataType.DECLARATION_VARIABLE, true),
