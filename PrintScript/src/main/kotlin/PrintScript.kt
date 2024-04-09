@@ -6,6 +6,7 @@ import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
 import interpreter.RegularInterpreter
+import lexer.LexerImpl
 import lexer.TokenRegexRule
 import org.example.lexer.Lexer
 import rules.AssignationRule
@@ -24,7 +25,7 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript {
-    private var lexer = Lexer(getLexerDefaultRules())
+    private var lexer: Lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
     private val interpreter = RegularInterpreter()
     private var formatter =
@@ -92,7 +93,7 @@ class PrintScript {
         }
         val json = file.readText()
         val newRegexRules = JSONManager.jsonToMap<TokenRegexRule>(json)
-        lexer = Lexer(newRegexRules)
+        lexer = LexerImpl(newRegexRules)
     }
 
     private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {
