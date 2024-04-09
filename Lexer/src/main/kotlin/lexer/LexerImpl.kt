@@ -38,13 +38,15 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
         tokens += ListTokenManager.orderAndRemoveOverlapTokens(generateTokens(numberLine))
 
         codeFraction = codeFraction.drop(1)
-        if (isLineFinished()) {
+        if (isLastTokenSeparator()) {
             val tempTokens = tokens
             tokens = listOf()
             return tempTokens
         }
-        return tokens
+        return listOf()
     }
+
+    private fun isLastTokenSeparator() = tokens.isNotEmpty() && tokens.last().getType() == DataType.SEPARATOR
 
     private fun isLineEmpty(line: String): Boolean {
         if (line.isBlank()) return true

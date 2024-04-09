@@ -28,7 +28,7 @@ class PrintScriptTest {
         val printScript = PrintScript()
         val path = "src/test/resources/sameLineFile.txt"
         val expectedOutput = "4\n"
-        // assertEquals(expectedOutput, printScript.start(path))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
@@ -94,5 +94,13 @@ class PrintScriptTest {
                 "a=\"GoodBye World\";\n"
         assertEquals(expectedOutput, printScript.format(path))
         assertEquals("", printScript.start(path))
+    }
+
+    @Test
+    fun test007LineDiscontinued() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/discontinuedLineTest.txt"
+        val expectedOutput = "3\n"
+        assertEquals(expectedOutput, printScript.start(path))
     }
 }
