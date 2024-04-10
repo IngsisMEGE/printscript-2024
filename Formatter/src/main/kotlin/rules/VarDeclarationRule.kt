@@ -2,8 +2,8 @@ package rules
 
 import astn.AST
 import astn.VarDeclaration
-import enforcers.DoubleDotDeclarationEnforcer
 import enforcers.Enforcer
+import enforcers.SpaceForCharacterEnforcer
 
 /**
  * This class represents the rule for variable declaration in the PrintScript application.
@@ -20,15 +20,17 @@ class VarDeclarationRule(
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = listOf()
-        if (property.containsKey(doubleDotSpaceInFront) && property.containsKey(doubleDotSpaceInBack)) {
-            enforcers =
-                enforcer.plus(
-                    DoubleDotDeclarationEnforcer(
-                        property[doubleDotSpaceInFront].toString().toInt(),
-                        property[doubleDotSpaceInBack].toString().toInt(),
-                    ),
-                )
-        }
+
+        enforcers =
+            enforcers.plus(
+                SpaceForCharacterEnforcer.create(
+                    ":".first(),
+                    doubleDotSpaceInFront,
+                    doubleDotSpaceInBack,
+                    property,
+                ),
+            )
+
         return VarDeclarationRule(doubleDotSpaceInFront, doubleDotSpaceInBack, enforcers)
     }
 
@@ -40,22 +42,20 @@ class VarDeclarationRule(
         return line
     }
 
-    override fun genericLine(ast: AST): String {
-        when (ast) {
-            is VarDeclaration -> {
-                val newLine = StringBuilder()
-                newLine.append("let ")
-                newLine.append(ast.assignation.getValue())
-                newLine.append(":")
-                newLine.append(ast.type.getValue())
-                newLine.append(";")
-
-                return newLine.toString()
-            }
-
-            else -> {
-                return ""
-            }
+    override fun <T : AST> genericLine(ast: T): String {
+        if (ast is VarDeclaration) {
+            val newLine = StringBuilder()
+            newLine.append("let ")
+            newLine.append(ast.assignation.getValue())
+            newLine.append(":")
+            newLine.append(ast.type.getValue())
+            newLine.append(";")
+            return newLine.toString()
         }
+        return ""
+    }
+
+    override fun canCreateGenericLine(ast: AST): Boolean {
+        return ast is VarDeclaration
     }
 }
