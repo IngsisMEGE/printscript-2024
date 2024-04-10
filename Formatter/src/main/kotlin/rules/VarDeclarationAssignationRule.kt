@@ -2,9 +2,8 @@ package rules
 
 import astn.AST
 import astn.VarDeclarationAssignation
-import enforcers.AssignationSpaceEnforcer
-import enforcers.DoubleDotDeclarationEnforcer
 import enforcers.Enforcer
+import enforcers.SpaceForCharacterEnforcer
 
 /**
  * This class represents the rule for variable declaration with assignation in the PrintScript application.
@@ -28,24 +27,27 @@ class VarDeclarationAssignationRule(
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
         operationRule.isTheRuleIncluded()
-        if (property.containsKey(doubleDotSpaceInFrontName) && property.containsKey(doubleDotSpaceInBackName)) {
-            enforcers =
-                enforcers.plus(
-                    DoubleDotDeclarationEnforcer(
-                        property[doubleDotSpaceInFrontName].toString().toInt(),
-                        property[doubleDotSpaceInBackName].toString().toInt(),
-                    ),
-                )
-        }
-        if (property.containsKey(assignationSpaceInFrontName) && property.containsKey(assignationSpaceInBackName)) {
-            enforcers =
-                enforcers.plus(
-                    AssignationSpaceEnforcer(
-                        property[assignationSpaceInFrontName].toString().toInt(),
-                        property[assignationSpaceInBackName].toString().toInt(),
-                    ),
-                )
-        }
+
+        enforcers =
+            enforcers.plus(
+                SpaceForCharacterEnforcer.create(
+                    ":".first(),
+                    doubleDotSpaceInFrontName,
+                    doubleDotSpaceInBackName,
+                    property,
+                ),
+            )
+
+        enforcers =
+            enforcers.plus(
+                SpaceForCharacterEnforcer.create(
+                    "=".first(),
+                    assignationSpaceInFrontName,
+                    assignationSpaceInBackName,
+                    property,
+                ),
+            )
+
         return VarDeclarationAssignationRule(
             doubleDotSpaceInFrontName,
             doubleDotSpaceInBackName,
@@ -63,26 +65,24 @@ class VarDeclarationAssignationRule(
         return line
     }
 
-    override fun genericLine(ast: AST): String {
-        when (ast) {
-            is VarDeclarationAssignation -> {
-                val newLine = StringBuilder()
-                newLine.append("let ")
-                newLine.append(ast.varDeclaration.assignation.getValue())
-                newLine.append(":")
-                newLine.append(ast.varDeclaration.type.getValue())
-                newLine.append("=")
-                val operation = operationRule.genericLine(ast.value)
-                newLine.append(operationRule.enforceRule(operation)) // Esto deberia cambiar si hacemos OPTree Rule
-                newLine.append(";")
+    override fun <T : AST> genericLine(ast: T): String {
+        if (ast is VarDeclarationAssignation) {
+            val newLine = StringBuilder()
+            newLine.append("let ")
+            newLine.append(ast.varDeclaration.assignation.getValue())
+            newLine.append(":")
+            newLine.append(ast.varDeclaration.type.getValue())
+            newLine.append("=")
+            val operation = operationRule.genericLine(ast.value)
+            newLine.append(operationRule.enforceRule(operation))
+            newLine.append(";")
 
-                // Hacer el var Declaration Rule del Operation. Y despues meterle la regla aca.
-                return newLine.toString()
-            }
-
-            else -> {
-                return ""
-            }
+            return newLine.toString()
         }
+        return ""
+    }
+
+    override fun canCreateGenericLine(ast: AST): Boolean {
+        return ast is VarDeclarationAssignation
     }
 }

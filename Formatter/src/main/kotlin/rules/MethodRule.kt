@@ -9,21 +9,21 @@ import enforcers.LineJumpOnMethodEnforcer
  * This class represents the rule for methods in the PrintScript application.
  * It enforces the rule by using the LineJumpOnMethodEnforcer.
  *
- * @property ammountOfJumpLine The name of the property for the amount of jump line.
+ * @property amountOfJumpLine The name of the property for the amount of jump line.
  * @property enforcer A list of enforcers that enforce the rule.
- * @property OperationRule An instance of the OperationRule class which is used to enforce the operation rule.
+ * @property operationRule An instance of the OperationRule class which is used to enforce the operation rule.
  */
 class MethodRule(
-    private val ammountOfJumpLine: String,
+    private val amountOfJumpLine: String,
     override val enforcer: List<Enforcer> = listOf(),
-    private val OperationRule: OperationRule = OperationRule(),
+    private val operationRule: OperationRule = OperationRule(),
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
-        val enfocers: MutableList<Enforcer> = enforcer.toMutableList()
-        if (property.containsKey(ammountOfJumpLine)) {
-            enfocers.add(LineJumpOnMethodEnforcer(property[ammountOfJumpLine].toString().toInt()))
-        }
-        return MethodRule(ammountOfJumpLine, enfocers)
+        var enforcers: List<Enforcer> = enforcer
+
+        enforcers = enforcers.plus(LineJumpOnMethodEnforcer.create(amountOfJumpLine, property))
+
+        return MethodRule(amountOfJumpLine, enforcers)
     }
 
     override fun enforceRule(code: String): String {
@@ -34,20 +34,20 @@ class MethodRule(
         return line
     }
 
-    override fun genericLine(ast: AST): String {
-        when (ast) {
-            is Method -> {
-                val newLine = StringBuilder()
-                newLine.append(ast.methodName.getValue())
-                newLine.append("(")
-                val parameters = OperationRule.genericLine(ast.value)
-                newLine.append(OperationRule.enforceRule(parameters))
-                newLine.append(")")
-                return newLine.toString()
-            }
-            else -> {
-                return ""
-            }
+    override fun <T : AST> genericLine(ast: T): String {
+        if (ast is Method) {
+            val newLine = StringBuilder()
+            newLine.append(ast.methodName.getValue())
+            newLine.append("(")
+            val parameters = operationRule.genericLine(ast.value)
+            newLine.append(operationRule.enforceRule(parameters))
+            newLine.append(")")
+            return newLine.toString()
         }
+        return ""
+    }
+
+    override fun canCreateGenericLine(ast: AST): Boolean {
+        return ast is Method
     }
 }

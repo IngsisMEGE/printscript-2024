@@ -35,7 +35,7 @@ class VarDeclarationRuleTest {
             }
 
         // Assert
-        assertEquals("The ammount of space in front and back must be greater than 0 : Double Dot", exception.message)
+        assertEquals("The amount of space in front must be greater than or equal to 0 for \":\" amount = -1", exception.message)
     }
 
     @Test
@@ -70,7 +70,7 @@ class VarDeclarationRuleTest {
         // Act
         val result = varDeclarationRule.isTheRuleIncluded(property)
 
-        var code = result.genericLine(ast)
+        val code = result.genericLine(ast)
 
         // Assert
         assertEquals("let x : number;", result.enforceRule(code))
