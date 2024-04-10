@@ -2,6 +2,7 @@ package rules
 
 import astn.AST
 import astn.Method
+import enforcers.AddSeparatorAtTheEndEnforcer
 import enforcers.Enforcer
 import enforcers.LineJumpOnMethodEnforcer
 
@@ -22,6 +23,8 @@ class MethodRule(
         var enforcers: List<Enforcer> = enforcer
 
         enforcers = enforcers.plus(LineJumpOnMethodEnforcer.create(amountOfJumpLine, property))
+
+        enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
 
         return MethodRule(amountOfJumpLine, enforcers)
     }

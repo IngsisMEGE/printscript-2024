@@ -2,6 +2,7 @@ package rules
 
 import astn.AST
 import astn.VarDeclaration
+import enforcers.AddSeparatorAtTheEndEnforcer
 import enforcers.Enforcer
 import enforcers.SpaceForCharacterEnforcer
 
@@ -31,6 +32,9 @@ class VarDeclarationRule(
                 ),
             )
 
+        enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
+
+
         return VarDeclarationRule(doubleDotSpaceInFront, doubleDotSpaceInBack, enforcers)
     }
 
@@ -49,7 +53,6 @@ class VarDeclarationRule(
             newLine.append(ast.assignation.getValue())
             newLine.append(":")
             newLine.append(ast.type.getValue())
-            newLine.append(";")
             return newLine.toString()
         }
         return ""

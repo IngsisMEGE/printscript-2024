@@ -28,7 +28,7 @@ class AssignationRuleTest {
             )
         val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val result = assignationRule.genericLine(ast)
-        assertEquals("a=5;", result)
+        assertEquals("a=5", result)
     }
 
     @Test
@@ -37,7 +37,7 @@ class AssignationRuleTest {
         val code = "a=5"
         assignationRule = assignationRule.isTheRuleIncluded(mapOf("EqualFront" to 1, "EqualBack" to 1))
         val result = assignationRule.enforceRule(code)
-        assertEquals("a = 5", result)
+        assertEquals("a = 5;", result)
     }
 
     @Test
@@ -46,6 +46,6 @@ class AssignationRuleTest {
         val code = "a=5"
         assignationRule = assignationRule.isTheRuleIncluded(mapOf("EqualFront" to 1, "EqualBack" to 1))
         val result = assignationRule.enforceRule(code)
-        assertEquals("a = 5", result)
+        assertEquals("a = 5;", result)
     }
 }
