@@ -41,7 +41,7 @@ class InterpreterTest {
                 interpreter.readAST(ast)
             }
 
-        assertEquals("Type Mismatch", exception.message)
+        assertEquals("Type Mismatch at Line 0", exception.message)
     }
 
     @Test
@@ -88,7 +88,7 @@ class InterpreterTest {
             assertThrows<Exception> {
                 interpreter.readAST(ast2)
             }
-        assertEquals("Variable Already Exists", exception.message)
+        assertEquals("Variable Already Exists at Line 0", exception.message)
     }
 
     @Test
@@ -115,7 +115,7 @@ class InterpreterTest {
             assertThrows<Exception> {
                 interpreter.readAST(ast2)
             }
-        assertEquals("Variable Already Exists", exception.message)
+        assertEquals("Variable Already Exists at Line 0", exception.message)
     }
 
     @Test
