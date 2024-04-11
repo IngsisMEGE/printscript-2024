@@ -1,92 +1,74 @@
 {
   "STRING_VALUE": {
     "pattern": "\"(?:\\\\.|[^\"])*\"",
-    "type": "STRING_VALUE",
-    "isPatternLiteral": false
+    "type": "STRING_VALUE"
   },
   "APOSTROPHE_STRING": {
     "pattern": "'(?:\\\\.|[^'])*'",
-    "type": "STRING_VALUE",
-    "isPatternLiteral": false
+    "type": "STRING_VALUE"
   },
   "DECLARATION": {
     "pattern": "\\blet\\b",
-    "type": "DECLARATION_VARIABLE",
-    "isPatternLiteral": true
+    "type": "DECLARATION_VARIABLE"
   },
   "OPERATOR_PLUS": {
     "pattern": "\\+",
-    "type": "OPERATOR_PLUS",
-    "isPatternLiteral": true
+    "type": "OPERATOR_PLUS"
   },
   "OPERATOR_MINUS": {
     "pattern": "-",
-    "type": "OPERATOR_MINUS",
-    "isPatternLiteral": true
+    "type": "OPERATOR_MINUS"
   },
   "\\*": {
     "pattern": "\\*",
-    "type": "OPERATOR_MULTIPLY",
-    "isPatternLiteral": true
+    "type": "OPERATOR_MULTIPLY"
   },
   "/": {
     "pattern": "/",
-    "type": "OPERATOR_DIVIDE",
-    "isPatternLiteral": true
+    "type": "OPERATOR_DIVIDE"
   },
   ":": {
     "pattern": ":",
-    "type": "DOUBLE_DOTS",
-    "isPatternLiteral": true
+    "type": "DOUBLE_DOTS"
   },
   ";": {
     "pattern": ";",
-    "type": "SEPARATOR",
-    "isPatternLiteral": true
+    "type": "SEPARATOR"
   },
   "=": {
     "pattern": "=",
-    "type": "ASSIGNATION",
-    "isPatternLiteral": true
+    "type": "ASSIGNATION"
   },
   "\\(": {
     "pattern": "\\(",
-    "type": "LEFT_PARENTHESIS",
-    "isPatternLiteral": true
+    "type": "LEFT_PARENTHESIS"
   },
   "\\)": {
     "pattern": "\\)",
-    "type": "RIGHT_PARENTHESIS",
-    "isPatternLiteral": true
+    "type": "RIGHT_PARENTHESIS"
   },
   "\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)": {
     "pattern": "\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)",
-    "type": "METHOD_CALL",
-    "isPatternLiteral": false
+    "type": "METHOD_CALL"
   },
   ",": {
     "pattern": ",",
-    "type": "COMA",
-    "isPatternLiteral": true
+    "type": "COMA"
   },
   "\\bnumber\\b": {
     "pattern": "\\bnumber\\b",
-    "type": "NUMBER_TYPE",
-    "isPatternLiteral": false
+    "type": "NUMBER_TYPE"
   },
   "\\bstring\\b": {
     "pattern": "\\bstring\\b",
-    "type": "STRING_TYPE",
-    "isPatternLiteral": false
+    "type": "STRING_TYPE"
   },
   "\\b\\d+\\.?\\d*\\b": {
     "pattern": "\\b\\d+\\.?\\d*\\b",
-    "type": "NUMBER_VALUE",
-    "isPatternLiteral": false
+    "type": "NUMBER_VALUE"
   },
   "(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")": {
     "pattern": "(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")",
-    "type": "VARIABLE_NAME",
-    "isPatternLiteral": false
+    "type": "VARIABLE_NAME"
   }
 }

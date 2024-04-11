@@ -4,8 +4,8 @@ import astn.OperationNumber
 import astn.OperationString
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
+import executors.DeclarationAssignationExecution
 import interpreter.Value
-import interpreter.executors.DeclarationAssignationExecution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import token.DataType
@@ -38,7 +38,7 @@ class DeclarationAssignationExecutionTest {
             assertThrows<Exception> {
                 declarationAssignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable Already Exists", exception.message)
+        assertEquals("Variable Already Exists at Line 0", exception.message)
     }
 
     @Test
@@ -57,7 +57,7 @@ class DeclarationAssignationExecutionTest {
             assertThrows<Exception> {
                 declarationAssignationExecutor.execute(ast1, map)
             }
-        assertEquals("Type Mismatch", exception.message)
+        assertEquals("Type Mismatch at Line 0", exception.message)
     }
 
     @Test

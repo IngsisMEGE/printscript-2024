@@ -2,8 +2,9 @@ package rules
 
 import astn.AST
 import astn.Assignation
-import enforcers.AssignationSpaceEnforcer
+import enforcers.AddSeparatorAtTheEndEnforcer
 import enforcers.Enforcer
+import enforcers.SpaceForCharacterEnforcer
 
 /**
  * This class represents the rule for assignation in the PrintScript application.
@@ -22,16 +23,20 @@ class AssignationRule(
 ) : Rules {
     override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
-        if (property.containsKey(assignationSpaceInFrontName) && property.containsKey(assignationSpaceInBackName)) {
-            enforcers =
-                enforcers.plus(
-                    AssignationSpaceEnforcer(
-                        property[assignationSpaceInFrontName].toString().toInt(),
-                        property[assignationSpaceInBackName].toString().toInt(),
-                    ),
-                )
-        }
-        return AssignationRule(assignationSpaceInFrontName, assignationSpaceInBackName, enforcers)
+
+        enforcers =
+            enforcers.plus(
+                SpaceForCharacterEnforcer.create(
+                    "=".first(),
+                    assignationSpaceInFrontName,
+                    assignationSpaceInBackName,
+                    property,
+                ),
+            )
+
+        enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
+
+        return AssignationRule(assignationSpaceInFrontName, assignationSpaceInBackName, enforcers, operationRule.isTheRuleIncluded())
     }
 
     override fun enforceRule(code: String): String {
@@ -42,20 +47,19 @@ class AssignationRule(
         return line
     }
 
-    override fun genericLine(ast: AST): String {
-        when (ast) {
-            is Assignation -> {
-                val newLine = StringBuilder()
-                newLine.append(ast.assignation.getValue())
-                newLine.append("=")
-                val value = operationRule.genericLine(ast.value)
-                newLine.append(operationRule.enforceRule(value))
-                newLine.append(";")
-                return newLine.toString()
-            }
-            else -> {
-                return ""
-            }
+    override fun <T : AST> genericLine(ast: T): String {
+        if (ast is Assignation) {
+            val newLine = StringBuilder()
+            newLine.append(ast.assignation.getValue())
+            newLine.append("=")
+            val value = operationRule.genericLine(ast.value)
+            newLine.append(operationRule.enforceRule(value))
+            return newLine.toString()
         }
+        return ""
+    }
+
+    override fun canCreateGenericLine(ast: AST): Boolean {
+        return ast is Assignation
     }
 }

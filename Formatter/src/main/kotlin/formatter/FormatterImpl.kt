@@ -10,7 +10,13 @@ import rules.Rules
  * @property property A map of properties that are used to determine the rules to be included.
  * @property rules A list of rules that are used to format the AST.
  */
-class FormatterImpl(override val property: Map<String, Any>, private val rules: List<Rules>) : Formatter {
+class FormatterImpl(override val property: Map<String, Any>, private var rules: List<Rules>) : Formatter {
+    init {
+        val rulesWithEnforcers = rules.map { it.isTheRuleIncluded(property) }
+
+        rules = rulesWithEnforcers
+    }
+
     /**
      * This function formats the given AST according to the rules.
      * It iterates over the rules, includes the rule if it is applicable, generates a line according to the rule, and enforces the rule on the line.
@@ -22,16 +28,16 @@ class FormatterImpl(override val property: Map<String, Any>, private val rules: 
      */
     override fun format(ast: AST): String {
         for (rule in rules) {
-            val newRule = rule.isTheRuleIncluded(property)
-            val newLine = newRule.genericLine(ast)
-            if (newLine != "") {
-                return newRule.enforceRule(newLine) + "\n"
+            if (!rule.canCreateGenericLine(ast)) {
+                continue
             }
+            val newLine = rule.genericLine(ast)
+            return rule.enforceRule(newLine) + "\n"
         }
         return ""
     }
 
-    fun getRules(): List<Rules> {
-        return rules
+    override fun changeProperty(property: Map<String, Any>): Formatter {
+        return FormatterImpl(property, rules)
     }
 }

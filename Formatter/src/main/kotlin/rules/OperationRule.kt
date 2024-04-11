@@ -6,7 +6,7 @@ import astn.OperationNumber
 import astn.OperationString
 import astn.OperationVariable
 import enforcers.Enforcer
-import enforcers.OperatorSpaceEnforcer
+import enforcers.SpaceForCharacterEnforcer
 import token.DataType
 import token.Token
 
@@ -16,9 +16,17 @@ import token.Token
  *
  * @property enforcer A list of enforcers that enforce the rule.
  */
-class OperationRule(val enforcer: List<Enforcer> = listOf()) {
+class OperationRule(private val enforcer: List<Enforcer> = listOf()) {
     fun isTheRuleIncluded(): OperationRule {
-        return OperationRule(listOf(OperatorSpaceEnforcer()))
+        return OperationRule(
+            listOf(
+                SpaceForCharacterEnforcer("+".first(), 1, 1),
+                SpaceForCharacterEnforcer("-".first(), 1, 1),
+                SpaceForCharacterEnforcer("*".first(), 1, 1),
+                SpaceForCharacterEnforcer("/".first(), 1, 1),
+                SpaceForCharacterEnforcer("%".first(), 1, 1),
+            ),
+        )
     }
 
     fun enforceRule(code: String): String {

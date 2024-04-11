@@ -16,5 +16,7 @@ interface Rules {
 
     fun enforceRule(code: String): String
 
-    fun genericLine(ast: AST): String
+    fun <T : AST> genericLine(ast: T): String
+
+    fun canCreateGenericLine(ast: AST): Boolean
 }

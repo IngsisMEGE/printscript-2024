@@ -45,7 +45,7 @@ class RegexTokenGenerator(
                 ?: tokens.add(
                     Token(
                         tokenRegexRule.getType(),
-                        if (!tokenRegexRule.isPatternLiteral()) match else "",
+                        match,
                         Pair(start, numberLine),
                         Pair(end, numberLine),
                     ),
