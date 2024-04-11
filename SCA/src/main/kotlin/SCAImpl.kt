@@ -2,14 +2,14 @@ package analyzers
 
 import astn.AST
 
-class RegularSCA(options: Map<String, Boolean>) {
+class SCAImpl(options: Map<String, Boolean>) : SCA {
     val analyzerList = mutableListOf<Analyzer>()
 
     init {
         buildSCA(options)
     }
 
-    private fun buildSCA(objectBoolMap: Map<String, Boolean>) {
+    override fun buildSCA(objectBoolMap: Map<String, Boolean>) {
         if (objectBoolMap.isEmpty()) {
             analyzerList.add(CamelCaseAnalyzer())
             return
@@ -20,11 +20,11 @@ class RegularSCA(options: Map<String, Boolean>) {
     }
 
     private fun addAnalyzer(
-        nombre: String,
-        valor: Boolean,
+        name: String,
+        value: Boolean,
     ) {
-        if (valor) {
-            when (nombre) {
+        if (value) {
+            when (name) {
                 "CamelCaseFormat" -> analyzerList.add(CamelCaseAnalyzer())
                 "SnakeCaseFormat" -> analyzerList.add(SnakeCaseAnalyzer())
                 "MethodNoExpresion" -> analyzerList.add(MethodOperationAnalyzer())
@@ -33,7 +33,7 @@ class RegularSCA(options: Map<String, Boolean>) {
         }
     }
 
-    fun readAst(ast: AST): String {
+    override fun readAst(ast: AST): String {
         for (analyzer in analyzerList) {
             val response = analyzer.analyze(ast)
             if (response != "") {

@@ -1,4 +1,4 @@
-import analyzers.RegularSCA
+import analyzers.SCAImpl
 import astn.Method
 import astn.OperationHead
 import astn.OperationString
@@ -12,7 +12,7 @@ class SCATests {
     @Test
     fun camelCaseTest() {
         val rules = mapOf("CamelCaseFormat" to true)
-        val sca = RegularSCA(rules)
+        val sca = SCAImpl(rules)
         val declaration =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
@@ -25,7 +25,7 @@ class SCATests {
     @Test
     fun camelCaseTest2() {
         val rules = mapOf("CamelCaseFormat" to true)
-        val sca = RegularSCA(rules)
+        val sca = SCAImpl(rules)
         val declaration =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
@@ -38,7 +38,7 @@ class SCATests {
     @Test
     fun snake_caseTest() {
         val rules = mapOf("SnakeCaseFormat" to true)
-        val sca = RegularSCA(rules)
+        val sca = SCAImpl(rules)
         val declaration =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
@@ -51,7 +51,7 @@ class SCATests {
     @Test
     fun snake_caseTest2() {
         val rules = mapOf("SnakeCaseFormat" to true)
-        val sca = RegularSCA(rules)
+        val sca = SCAImpl(rules)
         val declaration =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
@@ -64,7 +64,7 @@ class SCATests {
     @Test
     fun methodCaseTest() {
         val rules = mapOf("MethodNoExpresion" to true)
-        val sca = RegularSCA(rules)
+        val sca = SCAImpl(rules)
         val method =
             Method(
                 Token(DataType.VARIABLE_NAME, "IAMNOTAMETHOD", Pair(0, 0), Pair(6, 0)),
@@ -77,7 +77,7 @@ class SCATests {
     @Test
     fun methodCaseTest2() {
         val rules = mapOf("MethodNoExpresion" to true)
-        val sca = RegularSCA(rules)
+        val sca = SCAImpl(rules)
         val method =
             Method(
                 Token(DataType.VARIABLE_NAME, "IAMNOTAMETHOD", Pair(0, 0), Pair(6, 0)),
