@@ -25,20 +25,20 @@ class DeclarationExecution : Executor<VarDeclaration> {
         variables: MutableMap<String, Value>,
     ): String {
         val varName = ast.assignation.getValue()
-        val type = getValueType(ast)
+        val type = getValueType(ast.type.getType())
         if (!variables.containsKey(varName)) {
             variables[varName] = Value(type, Optional.empty())
             return ""
         } else {
-            throw Exception("Variable Already Exists at Line ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable Already Exists")
         }
     }
 
-    private fun getValueType(ast: VarDeclaration): VariableType {
-        return when (ast.type.getType()) {
+    private fun getValueType(dataType: DataType): VariableType {
+        return when (dataType) {
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("Unexpected type at Line ${ast.type.getInitialPosition().second}")
+            else -> throw Exception("Unexpected type")
         }
     }
 }
