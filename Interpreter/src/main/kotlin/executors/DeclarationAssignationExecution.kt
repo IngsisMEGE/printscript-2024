@@ -1,9 +1,11 @@
-package interpreter.executors
+package executors
 
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import interpreter.Value
 import interpreter.VariableType
+import interpreter.executors.BinaryOperatorReader
+import interpreter.executors.Executor
 import token.DataType
 
 class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {

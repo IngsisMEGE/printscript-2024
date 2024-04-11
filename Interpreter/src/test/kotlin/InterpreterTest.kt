@@ -4,7 +4,7 @@ import astn.OperationString
 import astn.OperationVariable
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
-import interpreter.RegularInterpreter
+import interpreter.InterpreterImpl
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import token.DataType
@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 class InterpreterTest {
     @Test
     fun test001RegularInterpreterTestVarDeclaration() {
-        val interpreter = RegularInterpreter()
+        val interpreter = InterpreterImpl()
         val ast =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
@@ -26,8 +26,8 @@ class InterpreterTest {
 
     @Test
     fun test002RegularInterpreterTestVarDeclarationAssignation() {
-        val interpreter = RegularInterpreter()
-        val ast: VarDeclarationAssignation =
+        val interpreter = InterpreterImpl()
+        val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
@@ -46,7 +46,7 @@ class InterpreterTest {
 
     @Test
     fun test003RegularInterpreterAssignation() {
-        val interpreter = RegularInterpreter()
+        val interpreter = InterpreterImpl()
 
         val ast2 =
             VarDeclaration(
@@ -60,7 +60,7 @@ class InterpreterTest {
 
     @Test
     fun test004RegularInterpreterMethod() {
-        val interpreter = RegularInterpreter()
+        val interpreter = InterpreterImpl()
         val ast =
             Method(
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
@@ -72,7 +72,7 @@ class InterpreterTest {
 
     @Test
     fun test005DeclareVariableTwoTimesShouldError() {
-        val interpreter = RegularInterpreter()
+        val interpreter = InterpreterImpl()
         val ast =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
@@ -93,7 +93,7 @@ class InterpreterTest {
 
     @Test
     fun test006DeclareVariableWithValueTwoTimesShouldError() {
-        val interpreter = RegularInterpreter()
+        val interpreter = InterpreterImpl()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -120,7 +120,7 @@ class InterpreterTest {
 
     @Test
     fun test007PrintScriptWithVariable() {
-        val interpreter = RegularInterpreter()
+        val interpreter = InterpreterImpl()
         val ast =
             Method(
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
