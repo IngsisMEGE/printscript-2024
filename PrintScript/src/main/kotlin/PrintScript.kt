@@ -5,7 +5,7 @@ import astn.AST
 import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
-import interpreter.RegularInterpreter
+import interpreter.InterpreterImpl
 import lexer.LexerImpl
 import lexer.TokenRegexRule
 import rules.AssignationRule
@@ -26,7 +26,7 @@ import java.io.FileNotFoundException
 class PrintScript {
     private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter = RegularInterpreter()
+    private val interpreter = InterpreterImpl()
     private var formatter =
         FormatterImpl(
             mapOf(),
