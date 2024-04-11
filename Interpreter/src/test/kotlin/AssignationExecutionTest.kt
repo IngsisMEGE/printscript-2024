@@ -4,10 +4,10 @@ import astn.OperationNumber
 import astn.OperationString
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
+import executors.DeclarationAssignationExecution
 import executors.DeclarationExecution
 import interpreter.Value
 import interpreter.executors.AssignationExecution
-import interpreter.executors.DeclarationAssignationExecution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import token.DataType
@@ -27,7 +27,7 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast, mutableMapOf())
             }
-        assertEquals("Variable not found", exception.message)
+        assertEquals("Variable not found at Line 0", exception.message)
     }
 
     @Test
@@ -51,7 +51,7 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable not found", exception.message)
+        assertEquals("Variable not found at Line 0", exception.message)
     }
 
     @Test

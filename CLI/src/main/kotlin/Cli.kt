@@ -8,7 +8,7 @@ import java.io.File
 
 fun main(args: Array<String>) =
     Cli().subcommands(
-        ExecuteScript(),
+        Execute(),
         FormatFile(),
         ChangeFormatterConfig(),
         ChangeLexerConfig(),
@@ -18,7 +18,7 @@ class Cli : CliktCommand() {
     override fun run() = echo("Welcome to PrintScript CLI. Use --help to see the options.")
 }
 
-class ExecuteScript : CliktCommand(help = "Execute a PrintScript file") {
+class Execute : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
     private val version: String by option(help = "PrintScript version (1.0 or 1.1)").prompt("Enter PrintScript version (1.0 or 1.1)")
 

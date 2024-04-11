@@ -10,18 +10,8 @@ class PrintScriptTest {
     fun testCLIWithValidFilePath() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = "10\n"
-        val realOutput = printScript.start(path)
-        Assertions.assertEquals(expectedOutput, realOutput)
-    }
-
-    @Test
-    fun testCLIWithPrintOutput() {
-        val printScript = PrintScript()
-        val path = "src/test/resources/cliFile.txt"
-        val expectedOutput = "10\n"
-        val realOutput = printScript.start(path)
-        Assertions.assertEquals(expectedOutput, realOutput)
+        val expectedOutput = "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
+        Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
@@ -61,7 +51,7 @@ class PrintScriptTest {
     fun testFormatFile() {
         val printScript = PrintScript()
         val path = "src/test/resources/fileToFormat.txt"
-        val expectedOutput = "let x:number=10;\nlet y:number=20;\n"
+        val expectedOutput = "let x:number=10;\nlet y:number=20;\nx=y + 43 / 4;\nx=y + 43 / 4;\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 

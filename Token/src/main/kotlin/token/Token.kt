@@ -10,7 +10,7 @@ package token
  */
 class Token(
     private val type: DataType,
-    private val value: String?,
+    private val value: String,
     private val initialPosition: Pair<Int, Int>,
     private val finalPosition: Pair<Int, Int>,
 ) {
@@ -25,9 +25,6 @@ class Token(
     }
 
     fun getValue(): String {
-        if (value == null) {
-            return ""
-        }
         return value
     }
 

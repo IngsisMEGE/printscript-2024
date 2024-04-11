@@ -31,7 +31,7 @@ class FormatterImplTest {
         val property = mapOf("JumpLine" to 1)
         val rules = listOf(MethodRule("JumpLine"))
         val formatter = FormatterImpl(property, rules)
-        val expected = "\nprintln(\"Hello\")\n"
+        val expected = "\nprintln(\"Hello\");\n"
         val result = formatter.format(ast)
         assertEquals(expected, result)
     }

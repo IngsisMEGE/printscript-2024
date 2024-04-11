@@ -53,7 +53,7 @@ class OperationBuilder {
     }
 
     fun buildOperation(tokens: List<Token>): OpTree {
-        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation")
+        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().first}")
 
         val postfix = infixToPostfix(takeCommentsAndSemiColon(tokens))
         if (!isValidPostfix(postfix).first) {
@@ -107,7 +107,7 @@ class OperationBuilder {
             tokens.any { it.getType() == DataType.STRING_VALUE }
         ) {
             throw SyntacticError(
-                "Invalid string concatenation",
+                "Invalid string concatenation at Line: ${tokens[0].getInitialPosition().second}",
             )
         }
 
