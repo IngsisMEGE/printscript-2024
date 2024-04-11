@@ -22,7 +22,7 @@ class DeclarationExecutorTest {
             assertThrows<Exception> {
                 declarationExecutor.execute(ast, map)
             }
-        assertEquals("Variable Already Exists", exception.message)
+        assertEquals("Variable Already Exists at Line 0", exception.message)
     }
 
     @Test
@@ -38,7 +38,7 @@ class DeclarationExecutorTest {
             assertThrows<Exception> {
                 declarationExecutor.execute(ast, map)
             }
-        assertEquals("Unexpected type", exception.message)
+        assertEquals("Unexpected type at Line 0", exception.message)
     }
 
     @Test
