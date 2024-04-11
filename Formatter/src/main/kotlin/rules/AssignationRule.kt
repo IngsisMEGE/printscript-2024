@@ -2,6 +2,7 @@ package rules
 
 import astn.AST
 import astn.Assignation
+import enforcers.AddSeparatorAtTheEndEnforcer
 import enforcers.Enforcer
 import enforcers.SpaceForCharacterEnforcer
 
@@ -33,7 +34,9 @@ class AssignationRule(
                 ),
             )
 
-        return AssignationRule(assignationSpaceInFrontName, assignationSpaceInBackName, enforcers)
+        enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
+
+        return AssignationRule(assignationSpaceInFrontName, assignationSpaceInBackName, enforcers, operationRule.isTheRuleIncluded())
     }
 
     override fun enforceRule(code: String): String {
@@ -51,7 +54,6 @@ class AssignationRule(
             newLine.append("=")
             val value = operationRule.genericLine(ast.value)
             newLine.append(operationRule.enforceRule(value))
-            newLine.append(";")
             return newLine.toString()
         }
         return ""

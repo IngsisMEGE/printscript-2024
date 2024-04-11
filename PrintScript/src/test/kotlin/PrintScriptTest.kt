@@ -51,7 +51,22 @@ class PrintScriptTest {
     fun testFormatFile() {
         val printScript = PrintScript()
         val path = "src/test/resources/fileToFormat.txt"
-        val expectedOutput = "let x:number=10;\nlet y:number=20;\n"
+        val expectedOutput =
+            "let x:number=10;\n" +
+                "let y:number=20;\n" +
+                "x=y + 43 / 4;\n"
+        assertEquals(expectedOutput, printScript.format(path))
+    }
+
+    @Test
+    fun test002FormatFileWithDefaultLexerRules() {
+        val printScript = PrintScript()
+        printScript.changeFormatterConfig("src/main/resources/FormatterDefault.json")
+        val path = "src/test/resources/fileToFormatWithFormatterDefault.txt"
+        val expectedOutput =
+            "let y : string = \"Hello, World + e\";\n" +
+                "let x : number = 10 + 4 - 41 * 4;\n" +
+                "\nprintln(y + x);\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 

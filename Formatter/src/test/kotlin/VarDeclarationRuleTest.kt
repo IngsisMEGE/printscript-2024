@@ -52,7 +52,7 @@ class VarDeclarationRuleTest {
         val result = varDeclarationRule.genericLine(ast)
 
         // Assert
-        assertEquals("let x:number;", result)
+        assertEquals("let x:number", result)
     }
 
     @Test

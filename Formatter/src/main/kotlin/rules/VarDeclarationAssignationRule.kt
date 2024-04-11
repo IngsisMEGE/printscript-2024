@@ -2,6 +2,7 @@ package rules
 
 import astn.AST
 import astn.VarDeclarationAssignation
+import enforcers.AddSeparatorAtTheEndEnforcer
 import enforcers.Enforcer
 import enforcers.SpaceForCharacterEnforcer
 
@@ -48,12 +49,15 @@ class VarDeclarationAssignationRule(
                 ),
             )
 
+        enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
+
         return VarDeclarationAssignationRule(
             doubleDotSpaceInFrontName,
             doubleDotSpaceInBackName,
             assignationSpaceInFrontName,
             assignationSpaceInBackName,
             enforcers,
+            operationRule.isTheRuleIncluded(),
         )
     }
 
@@ -75,7 +79,6 @@ class VarDeclarationAssignationRule(
             newLine.append("=")
             val operation = operationRule.genericLine(ast.value)
             newLine.append(operationRule.enforceRule(operation))
-            newLine.append(";")
 
             return newLine.toString()
         }

@@ -25,7 +25,7 @@ class MethodRuleTest {
         methodRule = methodRule.isTheRuleIncluded(mapOf("ammountOfLines" to 1))
         val result = methodRule.enforceRule(code)
 
-        assertEquals("\nprintln(\"Hello\")", result)
+        assertEquals("\nprintln(\"Hello\");", result)
     }
 
     @Test

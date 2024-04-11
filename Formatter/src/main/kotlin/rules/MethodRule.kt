@@ -2,6 +2,7 @@ package rules
 
 import astn.AST
 import astn.Method
+import enforcers.AddSeparatorAtTheEndEnforcer
 import enforcers.Enforcer
 import enforcers.LineJumpOnMethodEnforcer
 
@@ -23,7 +24,9 @@ class MethodRule(
 
         enforcers = enforcers.plus(LineJumpOnMethodEnforcer.create(amountOfJumpLine, property))
 
-        return MethodRule(amountOfJumpLine, enforcers)
+        enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
+
+        return MethodRule(amountOfJumpLine, enforcers, operationRule.isTheRuleIncluded())
     }
 
     override fun enforceRule(code: String): String {
