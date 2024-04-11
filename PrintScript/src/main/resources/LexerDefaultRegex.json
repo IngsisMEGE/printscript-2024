@@ -4,6 +4,11 @@
     "type": "STRING_VALUE",
     "isPatternLiteral": false
   },
+  "APOSTROPHE_STRING": {
+    "pattern": "'(?:\\\\.|[^'])*'",
+    "type": "STRING_VALUE",
+    "isPatternLiteral": false
+  },
   "DECLARATION": {
     "pattern": "\\blet\\b",
     "type": "DECLARATION_VARIABLE",
@@ -36,7 +41,7 @@
   },
   ";": {
     "pattern": ";",
-    "type": "SEMICOLON",
+    "type": "SEPARATOR",
     "isPatternLiteral": true
   },
   "=": {

@@ -1,0 +1,6 @@
+let
+varName
+:
+number
+= 3;
+println(varName);

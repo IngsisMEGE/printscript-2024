@@ -32,6 +32,6 @@ class MethodExecutorTest {
                 OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(7, 0), Pair(12, 0))),
             )
         val result = methodExecutor.execute(ast, mutableMapOf())
-        assertEquals("Hello", result)
+        assertEquals("Hello\n", result)
     }
 }

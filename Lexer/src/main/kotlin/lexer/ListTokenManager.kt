@@ -4,7 +4,7 @@ import token.Token
 
 class ListTokenManager {
     companion object {
-        fun orderTokens(list: List<Token>): List<Token> {
+        private fun orderTokens(list: List<Token>): List<Token> {
             return list.sortedWith(
                 compareBy({
                     it.getInitialPosition().first
@@ -12,8 +12,20 @@ class ListTokenManager {
             )
         }
 
-        fun removeDuplicates(tokens: List<Token>): List<Token> {
-            return tokens.distinctBy { it.getInitialPosition().first to it.getFinalPosition().first }
+        fun orderAndRemoveOverlapTokens(tokens: List<Token>): List<Token> {
+            val result = mutableListOf<Token>()
+            var lastToken: Token? = null
+            orderTokens(tokens).forEach { token ->
+                if (lastToken == null || token.getInitialPosition().first > lastToken!!.getFinalPosition().first) {
+                    result.add(token)
+                    lastToken = token
+                } else if (token.getFinalPosition().first > lastToken!!.getFinalPosition().first) {
+                    result.remove(lastToken)
+                    result.add(token)
+                    lastToken = token
+                }
+            }
+            return result
         }
     }
 }

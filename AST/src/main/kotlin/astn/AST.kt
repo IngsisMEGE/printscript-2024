@@ -8,6 +8,8 @@ import token.Token
  */
 interface AST
 
+class EmptyAST() : AST
+
 /**
  * This data class represents a variable declaration node in the AST.
  *
