@@ -34,7 +34,6 @@ class VarDeclarationRule(
 
         enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
 
-
         return VarDeclarationRule(doubleDotSpaceInFront, doubleDotSpaceInBack, enforcers)
     }
 

@@ -22,7 +22,7 @@ class LineJumpOnMethodEnforcer(private val amountOfSpacers: Int) : Enforcer {
             return if (property.containsKey(propertyNameSpace)) {
                 createWithSpace(property[propertyNameSpace].toString().toInt())
             } else {
-                LineJumpOnMethodEnforcer(0)
+                LineJumpOnMethodEnforcer(1)
             }
         }
     }

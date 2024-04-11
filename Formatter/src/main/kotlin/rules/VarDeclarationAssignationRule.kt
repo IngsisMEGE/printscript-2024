@@ -57,6 +57,7 @@ class VarDeclarationAssignationRule(
             assignationSpaceInFrontName,
             assignationSpaceInBackName,
             enforcers,
+            operationRule.isTheRuleIncluded(),
         )
     }
 
