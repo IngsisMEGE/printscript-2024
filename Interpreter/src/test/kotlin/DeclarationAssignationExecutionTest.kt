@@ -38,7 +38,7 @@ class DeclarationAssignationExecutionTest {
             assertThrows<Exception> {
                 declarationAssignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable Already Exists", exception.message)
+        assertEquals("Variable Already Exists at Line 0", exception.message)
     }
 
     @Test
@@ -57,7 +57,7 @@ class DeclarationAssignationExecutionTest {
             assertThrows<Exception> {
                 declarationAssignationExecutor.execute(ast1, map)
             }
-        assertEquals("Type Mismatch", exception.message)
+        assertEquals("Type Mismatch at Line 0", exception.message)
     }
 
     @Test

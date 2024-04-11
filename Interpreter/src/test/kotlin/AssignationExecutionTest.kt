@@ -27,7 +27,7 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast, mutableMapOf())
             }
-        assertEquals("Variable not found", exception.message)
+        assertEquals("Variable not found at Line 0", exception.message)
     }
 
     @Test
@@ -51,7 +51,7 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable not found", exception.message)
+        assertEquals("Variable not found at Line 0", exception.message)
     }
 
     @Test
