@@ -4,10 +4,10 @@ import astn.OperationNumber
 import astn.OperationString
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
+import executors.DeclarationAssignationExecution
 import executors.DeclarationExecution
 import interpreter.Value
 import interpreter.executors.AssignationExecution
-import interpreter.executors.DeclarationAssignationExecution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import token.DataType
