@@ -36,7 +36,7 @@ class AssignationRule(
 
         enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
 
-        return AssignationRule(assignationSpaceInFrontName, assignationSpaceInBackName, enforcers)
+        return AssignationRule(assignationSpaceInFrontName, assignationSpaceInBackName, enforcers, operationRule.isTheRuleIncluded())
     }
 
     override fun enforceRule(code: String): String {

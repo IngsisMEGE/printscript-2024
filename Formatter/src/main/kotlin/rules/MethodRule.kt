@@ -26,7 +26,7 @@ class MethodRule(
 
         enforcers = enforcers.plus(AddSeparatorAtTheEndEnforcer())
 
-        return MethodRule(amountOfJumpLine, enforcers)
+        return MethodRule(amountOfJumpLine, enforcers, operationRule.isTheRuleIncluded())
     }
 
     override fun enforceRule(code: String): String {
