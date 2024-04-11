@@ -30,9 +30,9 @@ class AssignationExecution : Executor<Assignation> {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("Variable type mismatch")
+            throw Exception("Variable type mismatch at Line ${ast.assignation.getInitialPosition().second}")
         } else {
-            throw Exception("Variable not found")
+            throw Exception("Variable not found at Line ${ast.assignation.getInitialPosition().second}")
         }
     }
 }
