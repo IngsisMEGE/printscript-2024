@@ -239,4 +239,50 @@ class OperationBuilderTest {
             operationBuilder.buildOperation(tokens)
         }
     }
+
+    @Test
+    fun test001StringMultiplyNumberShouldException() {
+        val tokens =
+            listOf(
+                Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(0, 5)),
+                Token(DataType.OPERATOR_MULTIPLY, "*", Pair(0, 6), Pair(0, 7)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(0, 8), Pair(0, 9)),
+            )
+        assertThrows<SyntacticError> {
+            operationBuilder.buildOperation(tokens)
+        }
+    }
+
+    @Test
+    fun test002StringDivideNumberShouldException() {
+        val tokens =
+            listOf(
+                Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(0, 5)),
+                Token(DataType.OPERATOR_DIVIDE, "/", Pair(0, 6), Pair(0, 7)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(0, 8), Pair(0, 9)),
+            )
+        assertThrows<SyntacticError> {
+            operationBuilder.buildOperation(tokens)
+        }
+    }
+
+    @Test
+    fun test003OperationBetweenNumbersThenPlusStringShouldWorkFine() {
+        val tokens =
+            listOf(
+                Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(0, 1)),
+                Token(DataType.OPERATOR_MULTIPLY, "*", Pair(0, 2), Pair(0, 3)),
+                Token(DataType.NUMBER_VALUE, "3", Pair(0, 4), Pair(0, 5)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(0, 6), Pair(0, 7)),
+                Token(DataType.STRING_VALUE, "Hello", Pair(0, 4), Pair(0, 9)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(0, 10), Pair(0, 11)),
+                Token(DataType.STRING_VALUE, "World", Pair(0, 12), Pair(0, 17)),
+            )
+        val result = operationBuilder.buildOperation(tokens)
+
+        assertTrue(result is OperationHead)
+        val head = result as OperationHead
+        assertTrue(head.left is OperationHead)
+        assertTrue(head.right is OperationString)
+    }
 }
