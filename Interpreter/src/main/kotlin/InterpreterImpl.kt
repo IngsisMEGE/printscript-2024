@@ -22,15 +22,16 @@ import interpreter.executors.MethodExecutor
  * @throws Exception If the AST is of an unexpected type.
  */
 class InterpreterImpl : Interpreter {
-    private val variables = mutableMapOf<String, Value>()
-
-    override fun readAST(ast: AST): String {
+    override fun readAST(
+        ast: AST,
+        storedVariables: MutableMap<String, Value>,
+    ): String {
         return when (ast) {
             is EmptyAST -> ""
-            is Assignation -> AssignationExecution().execute(ast, variables)
-            is VarDeclaration -> DeclarationExecution().execute(ast, variables)
-            is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, variables)
-            is Method -> MethodExecutor().execute(ast, variables)
+            is Assignation -> AssignationExecution().execute(ast, storedVariables)
+            is VarDeclaration -> DeclarationExecution().execute(ast, storedVariables)
+            is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, storedVariables)
+            is Method -> MethodExecutor().execute(ast, storedVariables)
             else -> throw Exception("Unexpected structure")
         }
     }

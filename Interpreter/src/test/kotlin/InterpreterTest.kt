@@ -5,6 +5,7 @@ import astn.OperationVariable
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import interpreter.InterpreterImpl
+import interpreter.Value
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import token.DataType
@@ -20,7 +21,8 @@ class InterpreterTest {
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
             )
-        val result = interpreter.readAST(ast)
+        val variables = mutableMapOf<String, Value>()
+        val result = interpreter.readAST(ast, variables)
         assertEquals("", result)
     }
 
@@ -35,10 +37,11 @@ class InterpreterTest {
                 ),
                 OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
             )
+        val variables = mutableMapOf<String, Value>()
 
         val exception =
             assertThrows<Exception> {
-                interpreter.readAST(ast)
+                interpreter.readAST(ast, variables)
             }
 
         assertEquals("Type Mismatch at Line 0", exception.message)
@@ -53,8 +56,9 @@ class InterpreterTest {
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                 Token(DataType.VARIABLE_NAME, "a", Pair(5, 0), Pair(6, 0)),
             )
+        val variables = mutableMapOf<String, Value>()
 
-        assertEquals("", interpreter.readAST(ast2))
+        assertEquals("", interpreter.readAST(ast2, variables))
         // Cambialo al error que aparece
     }
 
@@ -66,7 +70,8 @@ class InterpreterTest {
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
                 OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(7, 0), Pair(12, 0))),
             )
-        val result = interpreter.readAST(ast)
+        val variables = mutableMapOf<String, Value>()
+        val result = interpreter.readAST(ast, variables)
         assertEquals("Hello\n", result)
     }
 
@@ -83,10 +88,12 @@ class InterpreterTest {
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
             )
-        interpreter.readAST(ast)
+        val variables = mutableMapOf<String, Value>()
+
+        interpreter.readAST(ast, variables)
         val exception =
             assertThrows<Exception> {
-                interpreter.readAST(ast2)
+                interpreter.readAST(ast2, variables)
             }
         assertEquals("Variable Already Exists at Line 0", exception.message)
     }
@@ -110,10 +117,12 @@ class InterpreterTest {
                 ),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
             )
-        interpreter.readAST(ast)
+        val variables = mutableMapOf<String, Value>()
+
+        interpreter.readAST(ast, variables)
         val exception =
             assertThrows<Exception> {
-                interpreter.readAST(ast2)
+                interpreter.readAST(ast2, variables)
             }
         assertEquals("Variable Already Exists at Line 0", exception.message)
     }
@@ -134,8 +143,10 @@ class InterpreterTest {
                 ),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
             )
-        interpreter.readAST(ast2)
-        val result = interpreter.readAST(ast)
+        val variables = mutableMapOf<String, Value>()
+
+        interpreter.readAST(ast2, variables)
+        val result = interpreter.readAST(ast, variables)
         assertEquals("5\n", result)
     }
 }
