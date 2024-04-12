@@ -6,6 +6,7 @@ import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
 import interpreter.InterpreterImpl
+import interpreter.Value
 import lexer.LexerImpl
 import lexer.TokenRegexRule
 import rules.AssignationRule
@@ -38,8 +39,10 @@ class PrintScript {
             ),
         )
 
+    private val storedVariables = mutableMapOf<String, Value>()
+
     fun start(path: String): String {
-        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine)) }
+        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables) }
     }
 
     fun format(path: String): String {
