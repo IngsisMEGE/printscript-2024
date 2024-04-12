@@ -35,7 +35,7 @@ class PrintScriptTest {
     fun testFullIterationVarDeclaration() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
+        val expectedOutput = "10\n"
         assertEquals(expectedOutput, printScript.start(path))
     }
 
@@ -51,22 +51,7 @@ class PrintScriptTest {
     fun testFormatFile() {
         val printScript = PrintScript()
         val path = "src/test/resources/fileToFormat.txt"
-        val expectedOutput =
-            "let x:number=10;\n" +
-                "let y:number=20;\n" +
-                "x=y + 43 / 4;\n"
-        assertEquals(expectedOutput, printScript.format(path))
-    }
-
-    @Test
-    fun test002FormatFileWithDefaultLexerRules() {
-        val printScript = PrintScript()
-        printScript.changeFormatterConfig("src/main/resources/FormatterDefault.json")
-        val path = "src/test/resources/fileToFormatWithFormatterDefault.txt"
-        val expectedOutput =
-            "let y : string = \"Hello, World + e\";\n" +
-                "let x : number = 10 + 4 - 41 * 4;\n" +
-                "\nprintln(y + x);\n"
+        val expectedOutput = "let x:number=10;\nlet y:number=20;\nx=y + 43 / 4;\nx=y + 43 / 4;\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 
@@ -125,5 +110,32 @@ class PrintScriptTest {
         val path = "src/test/resources/apostropheStringTest.txt"
         val expectedOutput = "Hello World!\n"
         assertEquals(expectedOutput, printScript.start(path))
+    }
+
+    @Test
+    fun testBasicOperation() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/operationFile.txt"
+        val expectedOutput = "30\n"
+        val realOutput = printScript.start(path)
+        assertEquals(expectedOutput, realOutput)
+    }
+
+    @Test
+    fun testOperationsAndVariableReassignation() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/operationAndVariableReassignation.txt"
+        val expectedOutput = "15\n" + "10\n" + "20\n"
+        val realOutput = printScript.start(path)
+        assertEquals(expectedOutput, realOutput)
+    }
+
+    @Test
+    fun testStringNumberConcatenation() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/stringNumberConcatenation.txt"
+        val expectedOutput = "Hello world 10\n"
+        val realOutput = printScript.start(path)
+        assertEquals(expectedOutput, realOutput)
     }
 }

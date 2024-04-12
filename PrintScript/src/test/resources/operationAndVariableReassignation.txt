@@ -1,0 +1,7 @@
+let x : number = 5;
+let y : number = 10;
+let z : number = x + y;
+println(z);
+x = 10;
+println(x);
+println(x + y);
