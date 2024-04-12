@@ -1,8 +1,11 @@
-package interpreter.executors
+package executors
 
+import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import interpreter.Value
 import interpreter.VariableType
+import interpreter.executors.BinaryOperatorReader
+import interpreter.executors.Executor
 import token.DataType
 
 class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
@@ -13,24 +16,24 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
         variables: MutableMap<String, Value>,
     ): String {
         val varName = ast.varDeclaration.assignation.getValue()
-        val type = getValueType(ast.varDeclaration.type.getType())
+        val type = getValueType(ast.varDeclaration)
         val value = binaryOperator.evaluate(ast.value, variables)
         if (!variables.containsKey(varName)) {
             if (value.getType() == type) {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("Type Mismatch")
+            throw Exception("Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second}")
         } else {
-            throw Exception("Variable Already Exists")
+            throw Exception("Variable Already Exists at Line ${ast.varDeclaration.assignation.getInitialPosition().second}")
         }
     }
 
-    private fun getValueType(dataType: DataType): VariableType {
-        return when (dataType) {
+    private fun getValueType(ast: VarDeclaration): VariableType {
+        return when (ast.type.getType()) {
             DataType.NUMBER_TYPE -> VariableType.NUMBER
             DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("Unexpected Type")
+            else -> throw Exception("Unexpected Type at Line ${ast.type.getInitialPosition().second}")
         }
     }
 }
