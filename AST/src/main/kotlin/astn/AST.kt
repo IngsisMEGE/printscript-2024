@@ -49,7 +49,7 @@ data class Method(val methodName: Token, val value: OpTree) : AST
 
 data class IfStatement(val condition: OpTree) : AST
 
-data class CloseIfStatement(val isElse : Boolean) : AST
+data class CloseIfStatement(val isElse: Boolean) : AST
 
 interface OpTree
 
