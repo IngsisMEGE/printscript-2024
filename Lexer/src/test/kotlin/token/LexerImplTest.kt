@@ -25,6 +25,8 @@ class LexerImplTest {
             "COMA" to TokenRegexRule(",", DataType.COMA),
             "NUMBER_TYPE" to TokenRegexRule("\\bnumber\\b", DataType.NUMBER_TYPE),
             "STRING_TYPE" to TokenRegexRule("\\bstring\\b", DataType.STRING_TYPE),
+            "BOOLEAN_TYPE" to TokenRegexRule("\\bboolean\\b", DataType.BOOLEAN_TYPE),
+            "BOOLEAN_VALUE" to TokenRegexRule("\\b(?:true|false)\\b", DataType.BOOLEAN_VALUE),
             "NUMBER_VALUE" to TokenRegexRule("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE),
             "VARIABLE_NAME" to TokenRegexRule("(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")", DataType.VARIABLE_NAME),
         )
@@ -296,6 +298,53 @@ class LexerImplTest {
                 DataType.NUMBER_TYPE,
                 DataType.ASSIGNATION,
                 DataType.NUMBER_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test007BooleanInDeclaration() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let a: boolean;", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.DOUBLE_DOTS,
+                DataType.BOOLEAN_TYPE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test008BooleanDeclarationAssignation() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let a: boolean = true;", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.DOUBLE_DOTS,
+                DataType.BOOLEAN_TYPE,
+                DataType.ASSIGNATION,
+                DataType.BOOLEAN_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test009BooleanAssignation() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let a = true;", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.BOOLEAN_VALUE,
                 DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
