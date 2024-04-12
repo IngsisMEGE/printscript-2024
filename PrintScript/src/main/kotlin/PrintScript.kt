@@ -5,11 +5,9 @@ import astn.AST
 import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
-import interpreter.Interpreter
 import interpreter.InterpreterImpl
 import lexer.LexerImpl
 import lexer.TokenRegexRule
-import org.example.lexer.Lexer
 import rules.AssignationRule
 import rules.MethodRule
 import rules.VarDeclarationAssignationRule
@@ -26,9 +24,9 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript {
-    private var lexer: Lexer = LexerImpl(getLexerDefaultRules())
+    private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter: Interpreter = InterpreterImpl()
+    private val interpreter = InterpreterImpl()
     private var formatter =
         FormatterImpl(
             mapOf(),
@@ -41,28 +39,17 @@ class PrintScript {
         )
 
     fun start(path: String): String {
-        val file = File(path)
-        val output = mutableListOf<String>()
-        if (!file.exists()) {
-            throw FileNotFoundException("File not found: $path")
-        }
-        try {
-            var numberLine = 1
-            file.forEachLine { line ->
-                output.add(interpreter.readAST(lexAndParse(line, numberLine)))
-                while (!lexer.isLineFinished()) {
-                    output.add(interpreter.readAST(lexAndParse(line, numberLine)))
-                }
-                numberLine++
-            }
-
-            return output.joinToString("")
-        } catch (e: Exception) {
-            return "An error occurred while executing the script. ${e.message}"
-        }
+        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine)) }
     }
 
     fun format(path: String): String {
+        return processFile(path) { line, numberLine -> formatter.format(lexAndParse(line, numberLine)) }
+    }
+
+    private fun processFile(
+        path: String,
+        processLine: (String, Int) -> String,
+    ): String {
         val file = File(path)
         val output = mutableListOf<String>()
         if (!file.exists()) {
@@ -74,9 +61,9 @@ class PrintScript {
                 if (line.isBlank()) {
                     return@forEachLine
                 }
-                output.add(formatter.format(lexAndParse(line, numberLine)))
+                output.add(processLine(line, numberLine))
                 while (!lexer.isLineFinished()) {
-                    output.add(formatter.format(lexAndParse(line, numberLine)))
+                    output.add(processLine(line, numberLine))
                 }
                 numberLine++
             }
@@ -87,14 +74,9 @@ class PrintScript {
         }
     }
 
-    fun updateRegexRules(newRulesPath: String) {
-        val file = File(newRulesPath)
-        if (!file.exists()) {
-            throw FileNotFoundException("File not found: $newRulesPath")
-        }
-        val json = file.readText()
-        val newRegexRules = JSONManager.jsonToMap<TokenRegexRule>(json)
-        lexer = LexerImpl(newRegexRules)
+    fun updateRegexRules(newRules: String) {
+        val rulesmap = JSONManager.jsonToMap<TokenRegexRule>(newRules)
+        lexer = LexerImpl(rulesmap)
     }
 
     private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {
