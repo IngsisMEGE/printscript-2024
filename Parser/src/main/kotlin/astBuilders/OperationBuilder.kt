@@ -103,21 +103,13 @@ class OperationBuilder {
         val stack = Stack<Token>()
         val postfix = mutableListOf<Token>()
 
-        if (tokens.any { it.getType() in (operators - listOf(DataType.OPERATOR_PLUS)) } &&
-            tokens.any { it.getType() == DataType.STRING_VALUE }
-        ) {
-            throw SyntacticError(
-                "Invalid string concatenation at Line: ${tokens[0].getInitialPosition().second}",
-            )
-        }
-
         for (token in tokens) {
             when (token.getType()) {
-                DataType.NUMBER_VALUE, DataType.STRING_VALUE, DataType.VARIABLE_NAME -> {
+                in values -> {
                     postfix.add(token)
                 }
 
-                DataType.OPERATOR_PLUS, DataType.OPERATOR_MINUS, DataType.OPERATOR_MULTIPLY, DataType.OPERATOR_DIVIDE -> {
+                in operators -> {
                     while (stack.isNotEmpty() && precedence(stack.peek()) >= precedence(token)) {
                         postfix.add(stack.pop())
                     }
@@ -157,16 +149,22 @@ class OperationBuilder {
 
         for (token in tokens) {
             when (token.getType()) {
-                DataType.NUMBER_VALUE, DataType.STRING_VALUE, DataType.VARIABLE_NAME -> {
+                in values -> {
                     stack.push(token)
                 }
 
-                DataType.OPERATOR_PLUS, DataType.OPERATOR_MINUS, DataType.OPERATOR_MULTIPLY, DataType.OPERATOR_DIVIDE -> {
+                in operators -> {
                     if (stack.size < 2) {
                         return Pair(false, token)
                     } else {
-                        stack.pop()
-                        stack.pop()
+                        val right = stack.pop()
+                        val left = stack.pop()
+                        if (!checkTypeCompatibility(left, right, token)) {
+                            throw SyntacticError(
+                                "Invalid operation between ${left.getType()} and ${right.getType()} at:" +
+                                    " ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                            )
+                        }
                         stack.push(token)
                     }
                 }
@@ -180,5 +178,21 @@ class OperationBuilder {
         } else {
             Pair(false, stack.peek())
         }
+    }
+
+    private fun checkTypeCompatibility(
+        left: Token,
+        right: Token,
+        operator: Token,
+    ): Boolean {
+        val leftType = left.getType()
+        val rightType = right.getType()
+        val operatorType = operator.getType()
+
+        if (leftType == DataType.STRING_VALUE || rightType == DataType.STRING_VALUE) {
+            return operatorType == DataType.OPERATOR_PLUS
+        }
+
+        return true
     }
 }
