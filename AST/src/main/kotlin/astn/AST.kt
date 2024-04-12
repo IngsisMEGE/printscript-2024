@@ -46,6 +46,11 @@ data class Method(val methodName: Token, val value: OpTree) : AST
  * This interface represents an operation tree node in the AST.
  * It is implemented by various classes that represent different types of operations.
  */
+
+data class IfStatement(val condition: OpTree) : AST
+
+data class CloseIfStatement(val isElse: Boolean) : AST
+
 interface OpTree
 
 /**
@@ -77,3 +82,5 @@ data class OperationString(val value: Token) : OpTree
  * @property value The token representing the variable value.
  */
 data class OperationVariable(val value: Token) : OpTree
+
+data class OperationBoolean(val value: Token) : OpTree
