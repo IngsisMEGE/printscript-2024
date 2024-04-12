@@ -194,6 +194,12 @@ class OperationBuilder {
         if (leftType == DataType.STRING_VALUE || rightType == DataType.STRING_VALUE) {
             return operatorType == DataType.OPERATOR_PLUS
         }
+        if (leftType == DataType.BOOLEAN_VALUE) {
+            return operatorType == DataType.OPERATOR_PLUS && rightType == DataType.STRING_VALUE
+        }
+        if (rightType == DataType.BOOLEAN_VALUE) {
+            return operatorType == DataType.OPERATOR_PLUS && leftType == DataType.STRING_VALUE
+        }
 
         return true
     }
