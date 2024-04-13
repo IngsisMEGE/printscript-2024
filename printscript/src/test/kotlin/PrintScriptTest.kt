@@ -138,4 +138,12 @@ class PrintScriptTest {
         val realOutput = printScript.start(path)
         assertEquals(expectedOutput, realOutput)
     }
+
+    @Test
+    fun testAnalyzeWithSCAIssues() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/testFileWithSCAIssues.txt"
+        val expectedOutput = "Invalid typing format in line 4 row 1"
+        assertEquals(expectedOutput, printScript.analyze(path))
+    }
 }
