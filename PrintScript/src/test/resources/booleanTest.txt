@@ -1,0 +1,6 @@
+let x : boolean;
+x = true;
+x = false;
+println(x);
+let str : string = 'Hello';
+println(str + x);

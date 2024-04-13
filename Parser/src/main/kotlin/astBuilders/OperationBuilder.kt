@@ -2,6 +2,7 @@ package astBuilders
 
 import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -75,7 +76,7 @@ class OperationBuilder {
                         DataType.NUMBER_VALUE -> nodes.add(OperationNumber(token))
                         DataType.STRING_VALUE -> nodes.add(OperationString(token))
                         DataType.VARIABLE_NAME -> nodes.add(OperationVariable(token))
-                        DataType.BOOLEAN_VALUE -> nodes.add(OperationVariable(token))
+                        DataType.BOOLEAN_VALUE -> nodes.add(OperationBoolean(token))
                         else -> throw UnexpectedTokenException(
                             "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
                         )
