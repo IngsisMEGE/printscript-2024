@@ -1,7 +1,8 @@
 package org.example
 
-import JSONManager
 import astn.AST
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
@@ -78,7 +79,7 @@ class PrintScript {
     }
 
     fun updateRegexRules(newRules: String) {
-        val rulesmap = JSONManager.jsonToMap<TokenRegexRule>(newRules)
+        val rulesmap = jsonToMap<TokenRegexRule>(newRules)
         lexer = LexerImpl(rulesmap)
     }
 
@@ -88,7 +89,7 @@ class PrintScript {
             file = File("PrintScript/src/main/resources/LexerDefaultRegex.json")
         }
         val json = file.readText()
-        return JSONManager.jsonToMap<TokenRegexRule>(json)
+        return jsonToMap<TokenRegexRule>(json)
     }
 
     fun changeFormatterConfig(configFilePath: String) {
@@ -97,7 +98,7 @@ class PrintScript {
             throw FileNotFoundException("File not found: $configFilePath")
         }
         val json = file.readText()
-        val newProperties = JSONManager.jsonToMap<String>(json)
+        val newProperties = jsonToMap<String>(json)
         formatter =
             FormatterImpl(
                 newProperties,
@@ -116,5 +117,12 @@ class PrintScript {
     ): AST {
         val tokens = lexer.lex(line, numberLine)
         return parser.parse(tokens)
+    }
+
+    companion object {
+        inline fun <reified T> jsonToMap(json: String): Map<String, T> {
+            val mapType = object : TypeToken<Map<String, T>>() {}.type
+            return Gson().fromJson(json, mapType)
+        }
     }
 }
