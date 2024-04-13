@@ -63,6 +63,18 @@
     "pattern": "\\bstring\\b",
     "type": "STRING_TYPE"
   },
+  "\\bboolean\\b": {
+    "pattern": "\\bboolean\\b",
+    "type": "BOOLEAN_TYPE"
+  },
+  "\\btrue\\b": {
+    "pattern": "\\btrue\\b",
+    "type": "BOOLEAN_VALUE"
+  },
+  "\\bfalse\\b": {
+    "pattern": "\\bfalse\\b",
+    "type": "BOOLEAN_VALUE"
+  },
   "\\b\\d+\\.?\\d*\\b": {
     "pattern": "\\b\\d+\\.?\\d*\\b",
     "type": "NUMBER_VALUE"
