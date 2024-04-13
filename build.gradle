@@ -7,8 +7,8 @@ repositories {
     mavenCentral()
 }
 
-def projectVersion = "1.0.0-SNAPSHOT"
-group = "com.juancruzestevez02"
+def projectVersion = "1.0-SNAPSHOT"
+group = "com.IngsisMEGE"
 
 subprojects {
     version = projectVersion
@@ -42,7 +42,7 @@ subprojects {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/juancruzestevez02/PrintScript-2024")
+                url = uri("https://maven.pkg.github.com/IngsisMEGE/printScript-2024")
                 credentials {
                     username = System.getenv("GITHUB_ACTOR")
                     password = System.getenv("GITHUB_TOKEN")

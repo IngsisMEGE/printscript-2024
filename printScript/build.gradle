@@ -2,7 +2,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
-group = 'org.example'
+group = 'org.IngsisMEGE'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,8 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation project(':AST')
-    implementation project(':Token')
+    implementation project(':ast')
+    implementation project(':parser')
+    implementation project(':lexer')
+    implementation project(':interpreter')
+    implementation project(":jsonManager")
+    implementation project(":formatter")
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 

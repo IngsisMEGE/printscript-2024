@@ -2,7 +2,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.10'
 }
 
-group = 'org.example'
+group = 'org.IngsisMEGE'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,17 +10,13 @@ repositories {
 }
 
 dependencies {
-    implementation project(':AST')
-    implementation project(':Token')
+    implementation project(':token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    testImplementation project(':Parser')
 }
-
 
 test {
     useJUnitPlatform()
 }
-
 kotlin {
     jvmToolchain(18)
 }
