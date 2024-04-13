@@ -1,0 +1,3 @@
+let strinG : string = 'Hello World!';
+let normalString : string = "Hello World!";
+println(strinG);

@@ -1,0 +1,5 @@
+let y : string = "Hello, World + e";
+let x: number   = 10+4-41 * 4;
+
+
+println(y + x);
