@@ -10,6 +10,7 @@ fun main(args: Array<String>) =
     Cli().subcommands(
         Execute(),
         FormatFile(),
+        Analyze(),
         ChangeFormatterConfig(),
         ChangeLexerConfig(),
     ).main(args)
@@ -51,6 +52,20 @@ class FormatFile : CliktCommand(help = "Format a PrintScript file") {
             val formattedContent = printScript.format(filePath)
             File(filePath).writeText(formattedContent)
             echo("File formatted and updated successfully.")
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
+        }
+    }
+}
+
+class Analyze : CliktCommand(help = "Analyze a PrintScript file") {
+    private val filePath: String by option(help = "Path to the PrintScript file to analyze").prompt("Enter the file path")
+
+    override fun run() {
+        try {
+            val printScript = PrintScript()
+            val analysis = printScript.analyze(filePath)
+            echo(analysis)
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
