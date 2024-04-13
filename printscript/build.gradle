@@ -1,0 +1,29 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+}
+
+group = 'org.IngsisMEGE'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation project(':ast')
+    implementation project(':parser')
+    implementation project(':lexer')
+    implementation project(':interpreter')
+    implementation project(":formatter")
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(18)
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}

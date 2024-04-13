@@ -15,15 +15,10 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
 
-      - name: Setup Gradle 8.4
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: 8.4
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Build Gradle
+        run: ./gradlew build
 
       - name: Publish package
         run: ./gradlew publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ORG_TOKEN }}
