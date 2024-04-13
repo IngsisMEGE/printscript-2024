@@ -1,4 +1,5 @@
 import astn.Assignation
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -198,5 +199,54 @@ class AssignationExecutionTest {
         valDeclarationExecutor.execute(ast1, map)
         val result = assignationExecutor.execute(ast2, map)
         assertEquals("", result)
+    }
+
+    @Test
+    fun test008AssignationOfBooleanShouldBeCorrect() {
+        val valDeclarationExecutor = DeclarationExecution()
+        val assignationExecutor = AssignationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclaration(
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+            )
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationBoolean(
+                    Token(DataType.BOOLEAN_VALUE, "true", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        valDeclarationExecutor.execute(ast1, map)
+        val result = assignationExecutor.execute(ast2, map)
+        assertEquals("", result)
+    }
+
+    @Test
+    fun test009AssignationBooleanWithOtherTypeShouldThrowError() {
+        val valDeclarationExecutor = DeclarationExecution()
+        val assignationExecutor = AssignationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclaration(
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+            )
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "4", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        valDeclarationExecutor.execute(ast1, map)
+        val exception =
+            assertThrows<Exception> {
+                assignationExecutor.execute(ast2, map)
+            }
+        assertEquals("Variable type mismatch at Line 0 between BOOLEAN and NUMBER", exception.message)
     }
 }

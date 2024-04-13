@@ -66,4 +66,17 @@ class DeclarationExecutorTest {
         val result = declarationExecutor.execute(ast, map)
         assertEquals("", result)
     }
+
+    @Test
+    fun test005DeclarationShouldDeclareCorrectlyBooleanType() {
+        val declarationExecutor = DeclarationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast =
+            VarDeclaration(
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(7, 0), Pair(12, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+            )
+        val result = declarationExecutor.execute(ast, map)
+        assertEquals("", result)
+    }
 }

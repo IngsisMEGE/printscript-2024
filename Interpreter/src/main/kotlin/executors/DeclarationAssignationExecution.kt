@@ -6,7 +6,7 @@ import interpreter.Value
 import interpreter.VariableType
 import interpreter.executors.BinaryOperatorReader
 import interpreter.executors.Executor
-import token.DataType
+import interpreter.executors.utils.ValueTypeAdapter
 
 class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
     private val binaryOperator = BinaryOperatorReader()
@@ -23,17 +23,15 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second}")
+            throw Exception(
+                "Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second} between $type and ${value.getType()}",
+            )
         } else {
             throw Exception("Variable Already Exists at Line ${ast.varDeclaration.assignation.getInitialPosition().second}")
         }
     }
 
     private fun getValueType(ast: VarDeclaration): VariableType {
-        return when (ast.type.getType()) {
-            DataType.NUMBER_TYPE -> VariableType.NUMBER
-            DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("Unexpected Type at Line ${ast.type.getInitialPosition().second}")
-        }
+        return ValueTypeAdapter.transformDataTypeToValueType(ast.type.getType(), ast.type.getInitialPosition())
     }
 }

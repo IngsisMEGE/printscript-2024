@@ -2,6 +2,7 @@ package astBuilders
 
 import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -41,6 +42,7 @@ class OperationBuilder {
             DataType.NUMBER_VALUE,
             DataType.STRING_VALUE,
             DataType.VARIABLE_NAME,
+            DataType.BOOLEAN_VALUE,
         )
 
     fun isValid(tokens: List<Token>): Boolean {
@@ -74,6 +76,7 @@ class OperationBuilder {
                         DataType.NUMBER_VALUE -> nodes.add(OperationNumber(token))
                         DataType.STRING_VALUE -> nodes.add(OperationString(token))
                         DataType.VARIABLE_NAME -> nodes.add(OperationVariable(token))
+                        DataType.BOOLEAN_VALUE -> nodes.add(OperationBoolean(token))
                         else -> throw UnexpectedTokenException(
                             "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
                         )
@@ -191,6 +194,12 @@ class OperationBuilder {
 
         if (leftType == DataType.STRING_VALUE || rightType == DataType.STRING_VALUE) {
             return operatorType == DataType.OPERATOR_PLUS
+        }
+        if (leftType == DataType.BOOLEAN_VALUE) {
+            return operatorType == DataType.OPERATOR_PLUS && rightType == DataType.STRING_VALUE
+        }
+        if (rightType == DataType.BOOLEAN_VALUE) {
+            return operatorType == DataType.OPERATOR_PLUS && leftType == DataType.STRING_VALUE
         }
 
         return true

@@ -40,6 +40,6 @@ class DeclaratorBuilder : AstBuilder {
         checkTokenType(tokens[0], "Let or const", listOf(DataType.DECLARATION_VARIABLE))
         checkTokenType(tokens[1], "Identifier", listOf(DataType.VARIABLE_NAME))
         checkTokenType(tokens[2], "Double dots", listOf(DataType.DOUBLE_DOTS))
-        checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_TYPE, DataType.STRING_TYPE))
+        checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_TYPE, DataType.STRING_TYPE, DataType.BOOLEAN_TYPE))
     }
 }
