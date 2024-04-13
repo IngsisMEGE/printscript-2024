@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
 }
 
-def projectVersion = "1.0-SNAPSHOT"
+def projectVersion = "1.0.0"
 group = "com.IngsisMEGE"
 
 subprojects {
