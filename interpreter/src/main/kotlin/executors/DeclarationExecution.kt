@@ -4,7 +4,7 @@ import astn.VarDeclaration
 import interpreter.Value
 import interpreter.VariableType
 import interpreter.executors.Executor
-import interpreter.executors.utils.ValueTypeAdapter
+import interpreter.executors.utils.*
 import java.util.Optional
 
 /**

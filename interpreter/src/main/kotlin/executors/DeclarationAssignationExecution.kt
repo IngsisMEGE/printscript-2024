@@ -6,7 +6,7 @@ import interpreter.Value
 import interpreter.VariableType
 import interpreter.executors.BinaryOperatorReader
 import interpreter.executors.Executor
-import interpreter.executors.utils.ValueTypeAdapter
+import interpreter.executors.utils.*
 
 class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
     private val binaryOperator = BinaryOperatorReader()
