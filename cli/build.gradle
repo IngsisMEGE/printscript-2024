@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':printScript')
+    implementation project(':printscript')
     implementation project(':lexer')
     implementation project(':parser')
     implementation project(':interpreter')

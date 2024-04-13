@@ -2,5 +2,5 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
 }
 rootProject.name = 'printScript-2024'
-include ('printScript' ,'lexer', 'ast' , 'token', 'parser', 'interpreter', 'formatter', 'cli', 'sca')
+include ('printscript' ,'lexer', 'ast' , 'token', 'parser', 'interpreter', 'formatter', 'cli', 'sca')
 
