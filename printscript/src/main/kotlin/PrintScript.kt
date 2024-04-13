@@ -1,5 +1,6 @@
 package org.example
 
+import analyzers.SCAImpl
 import astn.AST
 import formatter.FormatterImpl
 import impl.ParserImpl
@@ -18,16 +19,19 @@ import java.io.FileNotFoundException
 
 /**
  * This class is responsible for executing a PrintScript program.
- * It uses a TemporalLexer object to lex the program, a ParserImpl object to parse the lexed tokens into an AST, and a RegularInterpreter object to interpret the AST.
+ * It uses a LexerImpl object to lex the program, a ParserImpl object to parse the lexed tokens into an AST,
+ * an InterpreterImpl object to interpret the AST, and a FormatterImpl object to format the AST.
+ * It also uses a SCAImpl object to perform static code analysis on the AST.
  *
  * @throws FileNotFoundException If the file specified by the path does not exist.
- * @throws Exception If an error occurs while executing the script.
+ * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
 class PrintScript {
     private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
     private val interpreter = InterpreterImpl()
+    private val sca = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
     private var formatter =
         FormatterImpl(
             mapOf(),
@@ -47,6 +51,10 @@ class PrintScript {
 
     fun format(path: String): String {
         return processFile(path) { line, numberLine -> formatter.format(lexAndParse(line, numberLine)) }
+    }
+
+    fun analyze(path: String): String {
+        return processFile(path) { line, numberLine -> sca.readAst(lexAndParse(line, numberLine)) }
     }
 
     private fun processFile(
