@@ -16,6 +16,7 @@ dependencies {
     implementation project(':lexer')
     implementation project(':interpreter')
     implementation project(":formatter")
+    implementation project(":sca")
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
