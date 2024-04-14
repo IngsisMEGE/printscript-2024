@@ -55,12 +55,12 @@
     "pattern": "\\)",
     "type": "RIGHT_PARENTHESIS"
   },
-  "{": {
-    "pattern": "{",
+  "LEFT_BRACKET": {
+    "pattern": "\\{",
     "type": "LEFT_BRACKET"
   },
-  "}": {
-    "pattern": "}",
+  "RIGHT_BRACKET": {
+    "pattern": "\\}",
     "type": "RIGHT_BRACKET"
   },
   "METHOD_CALL": {

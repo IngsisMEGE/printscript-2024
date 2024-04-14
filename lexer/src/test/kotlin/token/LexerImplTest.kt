@@ -365,7 +365,10 @@ class LexerImplTest {
         val tokens = lexerImpl.lex("if (true) { let a = 5; }", 1)
         val expectedTypes =
             listOf(
-                DataType.METHOD_CALL,
+                DataType.IF_STATEMENT,
+                DataType.LEFT_PARENTHESIS,
+                DataType.BOOLEAN_VALUE,
+                DataType.RIGHT_PARENTHESIS,
                 DataType.LEFT_BRACKET,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
@@ -388,7 +391,10 @@ class LexerImplTest {
         val tokens = lexerImpl.lex("if (true) { let a = 5; } else { let b = 6; }", 1)
         val expectedTypes =
             listOf(
-                DataType.METHOD_CALL,
+                DataType.IF_STATEMENT,
+                DataType.LEFT_PARENTHESIS,
+                DataType.BOOLEAN_VALUE,
+                DataType.RIGHT_PARENTHESIS,
                 DataType.LEFT_BRACKET,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
