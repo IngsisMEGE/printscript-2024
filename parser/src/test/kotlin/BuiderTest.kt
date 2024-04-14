@@ -47,7 +47,8 @@ class BuiderTest {
                 Token(DataType.DOUBLE_DOTS, "", Pair(6, 0), Pair(7, 0)),
                 Token(DataType.STRING_TYPE, "", Pair(8, 0), Pair(13, 0)),
                 Token(DataType.ASSIGNATION, "", Pair(14, 0), Pair(15, 0)),
-                Token(DataType.STRING_VALUE, "5", Pair(16, 0), Pair(17, 0)),
+                Token(DataType.STRING_VALUE, "\"5\"", Pair(16, 0), Pair(17, 0)),
+                Token(DataType.SEPARATOR, ";", Pair(18, 0), Pair(19, 0)),
             )
         val declarationAssignedBuilder = DeclarationAssignedBuilder()
         val ast = declarationAssignedBuilder.build(tokens)
@@ -69,7 +70,7 @@ class BuiderTest {
                 Token(DataType.DOUBLE_DOTS, "", Pair(6, 0), Pair(7, 0)),
             )
 
-        val declaratorBuilder = DeclaratorBuilder()
+        val declaratorBuilder = DeclaratorBuilder(false)
         assert(!declaratorBuilder.isValid(tokens))
     }
 }

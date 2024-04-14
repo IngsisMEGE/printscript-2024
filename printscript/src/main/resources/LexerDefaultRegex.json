@@ -11,6 +11,14 @@
     "pattern": "\\blet\\b",
     "type": "DECLARATION_VARIABLE"
   },
+  "IFSTATEMENT": {
+    "pattern": "\\bif\\b",
+    "type": "IF_STATEMENT"
+  },
+  "ELSESTATEMENT": {
+    "pattern": "\\belse\\b",
+    "type": "ELSE_STATEMENT"
+  },
   "OPERATOR_PLUS": {
     "pattern": "\\+",
     "type": "OPERATOR_PLUS"
@@ -47,7 +55,15 @@
     "pattern": "\\)",
     "type": "RIGHT_PARENTHESIS"
   },
-  "\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)": {
+  "LEFT_BRACKET": {
+    "pattern": "\\{",
+    "type": "LEFT_BRACKET"
+  },
+  "RIGHT_BRACKET": {
+    "pattern": "\\}",
+    "type": "RIGHT_BRACKET"
+  },
+  "METHOD_CALL": {
     "pattern": "\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)",
     "type": "METHOD_CALL"
   },
