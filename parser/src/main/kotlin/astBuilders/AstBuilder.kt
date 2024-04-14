@@ -27,7 +27,7 @@ interface AstBuilder {
 
     companion object {
         fun takeOutSeparator(tokens: List<Token>): List<Token> {
-            if (tokens.last().getType() == DataType.SEPARATOR){
+            if (tokens.last().getType() == DataType.SEPARATOR) {
                 return tokens.subList(0, tokens.size - 1)
             }
             return tokens
@@ -59,7 +59,7 @@ interface AstBuilder {
             }
         }
 
-        fun mustEndWithSeparator(token : Token) {
+        fun mustEndWithSeparator(token: Token) {
             if (token.getType() != DataType.SEPARATOR) throw MustEndWithSeparator(token.getFinalPosition())
         }
     }

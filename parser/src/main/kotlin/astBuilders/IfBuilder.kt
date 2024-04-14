@@ -18,7 +18,7 @@ class IfBuilder : AstBuilder {
         verifyStructure(tokens)
         val parsedTokens = takeOutSeparator(tokens)
         return astn.IfStatement(operationBuilder.buildOperation(parsedTokens.subList(2, parsedTokens.size - 2)))
-     }
+    }
 
     private fun verifyStructure(tokens: List<Token>) {
         AstBuilder.checkMinLength(tokens, 5, "if statement")
@@ -28,5 +28,5 @@ class IfBuilder : AstBuilder {
         AstBuilder.checkTokenType(tokens[2], "Boolean Value or Variable", listOf(DataType.BOOLEAN_VALUE, DataType.VARIABLE_NAME))
         AstBuilder.checkTokenType(tokens[3], "Parenthesis", listOf(DataType.RIGHT_PARENTHESIS))
         AstBuilder.checkTokenType(tokens[4], "Curly bracket", listOf(DataType.LEFT_BRACKET))
-        }
+    }
 }

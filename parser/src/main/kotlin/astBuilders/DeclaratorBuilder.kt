@@ -7,7 +7,6 @@ import astBuilders.AstBuilder.Companion.mustEndWithSeparator
 import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.AST
 import astn.VarDeclaration
-import exceptions.MustEndWithSeparator
 import token.DataType
 import token.Token
 
@@ -23,7 +22,7 @@ import token.Token
  *
  */
 
-class DeclaratorBuilder(private val isCompleteLine : Boolean) : AstBuilder {
+class DeclaratorBuilder(private val isCompleteLine: Boolean) : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeOutSeparator(tokens)
         if (parsedTokens.size < 4) return false

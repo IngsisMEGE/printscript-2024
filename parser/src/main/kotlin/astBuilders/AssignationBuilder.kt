@@ -4,7 +4,6 @@ import astBuilders.AstBuilder.Companion.mustEndWithSeparator
 import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.AST
 import astn.Assignation
-import exceptions.MustEndWithSeparator
 import token.DataType
 import token.Token
 

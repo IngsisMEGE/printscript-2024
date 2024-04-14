@@ -19,7 +19,7 @@ import token.Token
  * @throws UnexpectedTokenException If the list of tokens does not represent a valid method call, if an unexpected token is encountered, or if a token is encountered at an unexpected position.
  */
 
-class MethodBuilder(private val isCompleteLine : Boolean) : AstBuilder {
+class MethodBuilder(private val isCompleteLine: Boolean) : AstBuilder {
     private val operatorBuilder = OperationBuilder()
 
     override fun isValid(tokens: List<Token>): Boolean {

@@ -7,7 +7,6 @@ import org.example.lexer.RegexTokenGenerator
 import org.example.lexer.token.MethodCallRule
 import token.DataType
 import token.Token
-import javax.xml.crypto.Data
 
 /**
  * A lexer that tokenizes source code based on a set of regular expression rules.
@@ -26,7 +25,7 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
             }
         }
 
-    private val separatorTokens = listOf(DataType.SEPARATOR, DataType.LEFT_BRACKET, DataType.ELSE_STATEMENT , DataType.RIGHT_BRACKET)
+    private val separatorTokens = listOf(DataType.SEPARATOR, DataType.LEFT_BRACKET, DataType.ELSE_STATEMENT, DataType.RIGHT_BRACKET)
 
     private var codeFraction: List<String> = listOf()
 
@@ -113,7 +112,10 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
         }
     }
 
-    private fun getSeparatorTokens(line: String, separatorTypes : List<DataType> ): List<Token> {
+    private fun getSeparatorTokens(
+        line: String,
+        separatorTypes: List<DataType>,
+    ): List<Token> {
         val matchingTokenTypes = tokenRules.filterValues { it.getType() in separatorTypes }
         val separatorTokens = mutableListOf<Token>()
         matchingTokenTypes.forEach { (_, rule) ->

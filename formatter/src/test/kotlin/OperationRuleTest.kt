@@ -43,6 +43,7 @@ class OperationRuleTest {
                 Token(DataType.NUMBER_VALUE, "5", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.SEPARATOR, ";", Pair(4, 0), Pair(5, 0)),
             )
         val ast = ParserImpl().parse(tokenList)
         val operationRule = rules.OperationRule()
@@ -78,6 +79,7 @@ class OperationRuleTest {
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.SEPARATOR, ";", Pair(4, 0), Pair(5, 0)),
             )
         val ast = ParserImpl().parse(tokenList)
         val operationRule = rules.OperationRule()
@@ -95,6 +97,7 @@ class OperationRuleTest {
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.NUMBER_VALUE, "3", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.SEPARATOR, ";", Pair(4, 0), Pair(5, 0)),
             )
         val ast = ParserImpl().parse(tokenList)
         val operationRule = rules.OperationRule()
@@ -112,6 +115,7 @@ class OperationRuleTest {
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.SEPARATOR, ";", Pair(4, 0), Pair(5, 0)),
             )
         val ast = ParserImpl().parse(tokenList)
         val operationRule = rules.OperationRule()
@@ -129,6 +133,7 @@ class OperationRuleTest {
                 Token(DataType.OPERATOR_PLUS, "+", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.RIGHT_PARENTHESIS, ")", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.SEPARATOR, ";", Pair(4, 0), Pair(5, 0)),
             )
         val ast = ParserImpl().parse(tokenList)
         val operationRule = rules.OperationRule()
@@ -153,6 +158,7 @@ class OperationRuleTest {
                     Pair(4, 0),
                     Pair(5, 0),
                 ),
+                Token(DataType.SEPARATOR, ";", Pair(4, 0), Pair(5, 0)),
             )
         val ast = ParserImpl().parse(tokenList)
         val operationRule = rules.OperationRule()
