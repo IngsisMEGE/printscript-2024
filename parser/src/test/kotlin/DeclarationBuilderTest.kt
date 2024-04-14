@@ -6,7 +6,7 @@ import token.DataType
 import token.Token
 
 class DeclarationBuilderTest {
-    private val declaratorBuilder = DeclaratorBuilder()
+    private val declaratorBuilder = DeclaratorBuilder(true)
 
     @Test
     fun testWithValidTokensShouldCorrectlyBuildVarDeclaration() {
@@ -16,6 +16,7 @@ class DeclarationBuilderTest {
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 4), Pair(0, 5)),
                 Token(DataType.DOUBLE_DOTS, ":", Pair(0, 6), Pair(0, 7)),
                 Token(DataType.NUMBER_TYPE, "", Pair(0, 8), Pair(0, 14)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 15), Pair(0, 16)),
             )
         val result = declaratorBuilder.build(tokens) as VarDeclaration
         assertEquals("x", result.assignation.getValue())

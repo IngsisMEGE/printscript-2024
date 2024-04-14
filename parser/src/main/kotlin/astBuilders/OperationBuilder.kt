@@ -1,6 +1,6 @@
 package astBuilders
 
-import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.OpTree
 import astn.OperationBoolean
 import astn.OperationHead
@@ -46,7 +46,7 @@ class OperationBuilder {
         )
 
     fun isValid(tokens: List<Token>): Boolean {
-        val parsedTokens = takeCommentsAndSemiColon(tokens)
+        val parsedTokens = takeOutSeparator(tokens)
         return when {
             parsedTokens.isEmpty() -> false
             parsedTokens.size == 1 -> parsedTokens[0].getType() in values
@@ -57,7 +57,7 @@ class OperationBuilder {
     fun buildOperation(tokens: List<Token>): OpTree {
         if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().first}")
 
-        val postfix = infixToPostfix(takeCommentsAndSemiColon(tokens))
+        val postfix = infixToPostfix(takeOutSeparator(tokens))
         if (!isValidPostfix(postfix).first) {
             throw SyntacticError(
                 "Invalid token ${isValidPostfix(postfix).second?.getValue()} at: ${

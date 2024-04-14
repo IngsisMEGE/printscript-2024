@@ -11,7 +11,7 @@ import token.DataType
 import token.Token
 
 class MethodBuilderTest {
-    private val methodBuilder = MethodBuilder()
+    private val methodBuilder = MethodBuilder(true)
 
     @Test
     fun testMethodCallShouldCorrectlyInterpretMethodCall() {
@@ -21,6 +21,7 @@ class MethodBuilderTest {
                 Token(DataType.LEFT_PARENTHESIS, "", Pair(0, 6), Pair(0, 7)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 8), Pair(0, 9)),
                 Token(DataType.RIGHT_PARENTHESIS, "", Pair(0, 10), Pair(0, 11)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 12), Pair(0, 13)),
             )
         val result = methodBuilder.build(tokens)
 
@@ -39,6 +40,7 @@ class MethodBuilderTest {
                 Token(DataType.OPERATOR_PLUS, "+", Pair(0, 10), Pair(0, 11)),
                 Token(DataType.NUMBER_VALUE, "3", Pair(0, 12), Pair(0, 13)),
                 Token(DataType.RIGHT_PARENTHESIS, "", Pair(0, 14), Pair(0, 15)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 16), Pair(0, 17)),
             )
         val result = methodBuilder.build(tokens)
 
@@ -56,6 +58,7 @@ class MethodBuilderTest {
                 Token(DataType.LEFT_PARENTHESIS, "", Pair(0, 8), Pair(0, 9)),
                 Token(DataType.STRING_VALUE, "Hello", Pair(0, 10), Pair(0, 15)),
                 Token(DataType.RIGHT_PARENTHESIS, "", Pair(0, 16), Pair(0, 17)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 18), Pair(0, 19)),
             )
         assertThrows<UnexpectedTokenException> {
             methodBuilder.build(tokens)
@@ -70,6 +73,7 @@ class MethodBuilderTest {
                 Token(DataType.LEFT_PARENTHESIS, "", Pair(0, 6), Pair(0, 7)),
                 Token(DataType.UNKNOWN, "unknown", Pair(0, 8), Pair(0, 15)),
                 Token(DataType.RIGHT_PARENTHESIS, "", Pair(0, 16), Pair(0, 17)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 18), Pair(0, 19)),
             )
         assertThrows<UnexpectedTokenException> {
             methodBuilder.build(tokens)

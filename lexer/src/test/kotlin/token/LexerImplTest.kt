@@ -11,6 +11,8 @@ class LexerImplTest {
         mapOf(
             "STRING_VALUE" to TokenRegexRule("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE),
             "DECLARATION_VARIABLE" to TokenRegexRule("\\blet\\b", DataType.DECLARATION_VARIABLE),
+            "IF_STATEMENT" to TokenRegexRule("\\bif\\b", DataType.IF_STATEMENT),
+            "ELSE_STATEMENT" to TokenRegexRule("\\}\\s*else", DataType.ELSE_STATEMENT),
             "OPERATOR_PLUS" to TokenRegexRule("\\+", DataType.OPERATOR_PLUS),
             "OPERATOR_MINUS" to TokenRegexRule("-", DataType.OPERATOR_MINUS),
             "OPERATOR_MULTIPLY" to TokenRegexRule("\\*", DataType.OPERATOR_MULTIPLY),
@@ -21,6 +23,8 @@ class LexerImplTest {
             "ASSIGNATION" to TokenRegexRule("=", DataType.ASSIGNATION),
             "LEFT_PARENTHESIS" to TokenRegexRule("\\(", DataType.LEFT_PARENTHESIS),
             "RIGHT_PARENTHESIS" to TokenRegexRule("\\)", DataType.RIGHT_PARENTHESIS),
+            "LEFT_BRACKET" to TokenRegexRule("\\{", DataType.LEFT_BRACKET),
+            "RIGHT_BRACKET" to TokenRegexRule("\\}", DataType.RIGHT_BRACKET),
             "METHOD_CALL" to TokenRegexRule("\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)", DataType.METHOD_CALL),
             "COMA" to TokenRegexRule(",", DataType.COMA),
             "NUMBER_TYPE" to TokenRegexRule("\\bnumber\\b", DataType.NUMBER_TYPE),
@@ -292,6 +296,11 @@ class LexerImplTest {
                 DataType.ASSIGNATION,
                 DataType.STRING_VALUE,
                 DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+        val tokens2 = lexerImpl.lex("let a = \"Hello,:+ number World\"; let b : number = 4;", 1)
+        val expectedTypes2 =
+            listOf(
                 DataType.DECLARATION_VARIABLE,
                 DataType.VARIABLE_NAME,
                 DataType.DOUBLE_DOTS,
@@ -300,7 +309,7 @@ class LexerImplTest {
                 DataType.NUMBER_VALUE,
                 DataType.SEPARATOR,
             )
-        assertEquals(expectedTypes, tokens.map { it.getType() })
+        assertEquals(expectedTypes2, tokens2.map { it.getType() })
     }
 
     @Test
@@ -348,5 +357,67 @@ class LexerImplTest {
                 DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test010IfStatement() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("if (true) { let a = 5; }", 1)
+        val expectedTypes =
+            listOf(
+                DataType.METHOD_CALL,
+                DataType.LEFT_BRACKET,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+
+        val tokens2 = lexerImpl.lex("if (true) { let a = 5; }", 1)
+        val expectedTypes2 =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes2, tokens2.map { it.getType() })
+    }
+
+    @Test
+    fun test011IfWithElseStatement() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("if (true) { let a = 5; } else { let b = 6; }", 1)
+        val expectedTypes =
+            listOf(
+                DataType.METHOD_CALL,
+                DataType.LEFT_BRACKET,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+
+        val tokens2 = lexerImpl.lex("if (true) { let a = 5; } else { let b = 6; }", 1)
+        val expectedTypes2 =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes2, tokens2.map { it.getType() })
+
+        val tokens3 = lexerImpl.lex("if (true) { let a = 5; } else { let b = 6; }", 1)
+        val expectedTypes3 =
+            listOf(
+                DataType.ELSE_STATEMENT
+            )
+
+        assertEquals(expectedTypes3, tokens3.map { it.getType() })
+
+        val tokens4 = lexerImpl.lex("if (true) { let a = 5; } else { let b = 6; }", 1)
+        val expectedTypes4 =
+            listOf(
+                DataType.LEFT_BRACKET
+            )
+
+        assertEquals(expectedTypes4, tokens4.map { it.getType() })
     }
 }
