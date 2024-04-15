@@ -23,7 +23,7 @@ class DeclarationExecutorTest {
             assertThrows<Exception> {
                 declarationExecutor.execute(ast, map)
             }
-        assertEquals("Variable Already Exists at Line 0", exception.message)
+        assertEquals("Variable 'IAMNOTAVARIABLE' already exists at Line 0", exception.message)
     }
 
     @Test
@@ -82,6 +82,21 @@ class DeclarationExecutorTest {
                 true,
             )
         val result = declarationExecutor.execute(ast, map)
+        assertEquals("", result)
+    }
+
+    @Test
+    fun testConstDeclarationWithInitialValue() {
+        val declarationExecutor = DeclarationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast =
+            VarDeclaration(
+                Token(DataType.NUMBER_TYPE, "number", Pair(7, 0), Pair(12, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                false,
+            )
+        val result = declarationExecutor.execute(ast, map)
+
         assertEquals("", result)
     }
 }

@@ -28,7 +28,7 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast, mutableMapOf())
             }
-        assertEquals("Variable not found at Line 0", exception.message)
+        assertEquals("Variable 'IAMNOTAVARIABLE' not found at Line 0", exception.message)
     }
 
     @Test
@@ -53,7 +53,7 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable not found at Line 0", exception.message)
+        assertEquals("Variable 'IAMNOTAVARIABLE' not found at Line 0", exception.message)
     }
 
     @Test
@@ -257,5 +257,40 @@ class AssignationExecutionTest {
                 assignationExecutor.execute(ast2, map)
             }
         assertEquals("Variable type mismatch at Line 0 between BOOLEAN and NUMBER", exception.message)
+    }
+
+    @Test
+    fun testConstAssignation() {
+        val valDeclarationAssignation = DeclarationAssignationExecution()
+        val assignationExecutor = AssignationExecution()
+        val variables = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                    false,
+                ),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "4", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        valDeclarationAssignation.execute(ast1, variables)
+
+        val exception =
+            assertThrows<Exception> {
+                assignationExecutor.execute(ast2, variables)
+            }
+
+        assertEquals("Cannot assign new value to constant 'x'.", exception.message)
     }
 }
