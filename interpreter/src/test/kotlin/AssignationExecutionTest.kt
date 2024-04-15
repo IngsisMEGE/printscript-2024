@@ -41,6 +41,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -65,6 +66,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -88,6 +90,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -110,6 +113,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -134,6 +138,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -160,6 +165,7 @@ class AssignationExecutionTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                    true,
                 ),
                 OperationNumber(
                     Token(DataType.NUMBER_VALUE, "4", Pair(7, 0), Pair(12, 0)),
@@ -189,6 +195,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -210,6 +217,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.BOOLEAN_TYPE, "boolean", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -233,6 +241,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.BOOLEAN_TYPE, "boolean", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(

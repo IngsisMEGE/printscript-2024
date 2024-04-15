@@ -11,6 +11,7 @@ class LexerImplTest {
         mapOf(
             "STRING_VALUE" to TokenRegexRule("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE),
             "DECLARATION_VARIABLE" to TokenRegexRule("\\blet\\b", DataType.DECLARATION_VARIABLE),
+            "DECLARATION_CONSTANT" to TokenRegexRule("\\bconst\\b", DataType.DECLARATION_IMMUTABLE),
             "IF_STATEMENT" to TokenRegexRule("\\bif\\b", DataType.IF_STATEMENT),
             "ELSE_STATEMENT" to TokenRegexRule("\\}\\s*else", DataType.ELSE_STATEMENT),
             "OPERATOR_PLUS" to TokenRegexRule("\\+", DataType.OPERATOR_PLUS),
@@ -425,5 +426,37 @@ class LexerImplTest {
             )
 
         assertEquals(expectedTypes4, tokens4.map { it.getType() })
+    }
+
+    @Test
+    fun test012ConstDeclaration() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("const a = 5;", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_IMMUTABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test013ConstDeclarationAssignation() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("const a: number = 5;", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_IMMUTABLE,
+                DataType.VARIABLE_NAME,
+                DataType.DOUBLE_DOTS,
+                DataType.NUMBER_TYPE,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
     }
 }
