@@ -11,6 +11,18 @@
     "pattern": "\\blet\\b",
     "type": "DECLARATION_VARIABLE"
   },
+  "DECLARATION_IMMUTABLE": {
+    "pattern": "\\bconst\\b",
+    "type": "DECLARATION_IMMUTABLE"
+  },
+  "IFSTATEMENT": {
+    "pattern": "\\bif\\b",
+    "type": "IF_STATEMENT"
+  },
+  "ELSESTATEMENT": {
+    "pattern": "\\belse\\b",
+    "type": "ELSE_STATEMENT"
+  },
   "OPERATOR_PLUS": {
     "pattern": "\\+",
     "type": "OPERATOR_PLUS"
@@ -72,8 +84,8 @@
     "type": "BOOLEAN_VALUE"
   },
   "\\bfalse\\b": {
-        "pattern": "\\bfalse\\b",
-        "type": "BOOLEAN_VALUE"
+    "pattern": "\\bfalse\\b",
+    "type": "BOOLEAN_VALUE"
   },
   "\\b\\d+\\.?\\d*\\b": {
     "pattern": "\\b\\d+\\.?\\d*\\b",

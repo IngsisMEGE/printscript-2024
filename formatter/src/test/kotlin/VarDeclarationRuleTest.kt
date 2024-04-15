@@ -45,6 +45,7 @@ class VarDeclarationRuleTest {
             astn.VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val varDeclarationRule = rules.VarDeclarationRule("SpaceInFront", "SpaceInBack")
 
@@ -61,6 +62,7 @@ class VarDeclarationRuleTest {
             astn.VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val property: MutableMap<String, Any> = HashMap()
         property["SpaceInFront"] = 1

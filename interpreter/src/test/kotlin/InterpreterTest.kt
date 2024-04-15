@@ -22,6 +22,7 @@ class InterpreterTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val variables = mutableMapOf<String, Value>()
         val result = interpreter.readAST(ast, variables)
@@ -36,6 +37,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
+                    true,
                 ),
                 OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
             )
@@ -57,6 +59,7 @@ class InterpreterTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                 Token(DataType.VARIABLE_NAME, "a", Pair(5, 0), Pair(6, 0)),
+                true,
             )
         val variables = mutableMapOf<String, Value>()
 
@@ -84,11 +87,13 @@ class InterpreterTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                true,
             )
         val ast2 =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                true,
             )
         val variables = mutableMapOf<String, Value>()
 
@@ -108,6 +113,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                    true,
                 ),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
             )
@@ -116,6 +122,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                    true,
                 ),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
             )
@@ -142,6 +149,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                    true,
                 ),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
             )
@@ -160,6 +168,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.BOOLEAN_TYPE, "boolean", Pair(0, 0), Pair(7, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(8, 0), Pair(9, 0)),
+                    true,
                 ),
                 OperationBoolean(
                     Token(DataType.BOOLEAN_VALUE, "true", Pair(10, 0), Pair(11, 0)),
@@ -189,6 +198,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.BOOLEAN_TYPE, "boolean", Pair(0, 0), Pair(7, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(8, 0), Pair(9, 0)),
+                    true,
                 ),
                 OperationNumber(
                     Token(DataType.NUMBER_VALUE, "5", Pair(10, 0), Pair(11, 0)),
@@ -212,6 +222,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.STRING_TYPE, "string", Pair(0, 0), Pair(7, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(8, 0), Pair(9, 0)),
+                    true,
                 ),
                 OperationString(
                     Token(DataType.STRING_VALUE, "Hello", Pair(10, 0), Pair(15, 0)),
@@ -241,6 +252,7 @@ class InterpreterTest {
                 VarDeclaration(
                     Token(DataType.BOOLEAN_TYPE, "boolean", Pair(0, 0), Pair(7, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(8, 0), Pair(9, 0)),
+                    true,
                 ),
                 OperationBoolean(
                     Token(DataType.BOOLEAN_VALUE, "true", Pair(10, 0), Pair(11, 0)),
