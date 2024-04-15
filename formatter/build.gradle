@@ -13,7 +13,6 @@ dependencies {
     implementation project(':ast')
     implementation project(':token')
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    testImplementation project(':parser')
 }
 
 
