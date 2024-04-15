@@ -3,8 +3,6 @@ import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import exceptions.SyntacticError
 import impl.ParserImpl
-import lexer.LexerImpl
-import lexer.TokenRegexRule
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -14,34 +12,20 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TestParser {
-    val tokenRulesMap: Map<String, TokenRegexRule> =
-        mapOf(
-            "STRING_VALUE" to TokenRegexRule("\"(?:\\\\.|[^\"])*\"", DataType.STRING_VALUE),
-            "DECLARATION_VARIABLE" to TokenRegexRule("\\blet\\b", DataType.DECLARATION_VARIABLE),
-            "OPERATOR_PLUS" to TokenRegexRule("\\+", DataType.OPERATOR_PLUS),
-            "OPERATOR_MINUS" to TokenRegexRule("-", DataType.OPERATOR_MINUS),
-            "OPERATOR_MULTIPLY" to TokenRegexRule("\\*", DataType.OPERATOR_MULTIPLY),
-            "OPERATOR_DIVIDE" to TokenRegexRule("/", DataType.OPERATOR_DIVIDE),
-            "DOUBLE_DOTS" to TokenRegexRule(":", DataType.DOUBLE_DOTS),
-            "SEMICOLON" to TokenRegexRule(";", DataType.SEPARATOR),
-            "ASSIGNATION" to TokenRegexRule("=", DataType.ASSIGNATION),
-            "LEFT_PARENTHESIS" to TokenRegexRule("\\(", DataType.LEFT_PARENTHESIS),
-            "RIGHT_PARENTHESIS" to TokenRegexRule("\\)", DataType.RIGHT_PARENTHESIS),
-            "METHOD_CALL" to TokenRegexRule("\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)", DataType.METHOD_CALL),
-            "COMA" to TokenRegexRule(",", DataType.COMA),
-            "NUMBER_TYPE" to TokenRegexRule("\\bnumber\\b", DataType.NUMBER_TYPE),
-            "STRING_TYPE" to TokenRegexRule("\\bstring\\b", DataType.STRING_TYPE),
-            "BOOLEAN_TYPE" to TokenRegexRule("\\bboolean\\b", DataType.BOOLEAN_TYPE),
-            "BOOLEAN_VALUE" to TokenRegexRule("\\b(?:true|false)\\b", DataType.BOOLEAN_VALUE),
-            "NUMBER_VALUE" to TokenRegexRule("\\b\\d+\\.?\\d*\\b", DataType.NUMBER_VALUE),
-            "VARIABLE_NAME" to TokenRegexRule("(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")", DataType.VARIABLE_NAME),
-        )
-
     @Test
     fun testVariableDeclaration() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: number = 5;", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.NUMBER_TYPE, "number", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(1, 17), Pair(1, 17)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 18), Pair(1, 18)),
+            )
+
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
@@ -73,8 +57,16 @@ class TestParser {
     @Test
     fun testBooleanAssignation() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: boolean = true;", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.BOOLEAN_VALUE, "true", Pair(1, 17), Pair(1, 20)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 21), Pair(1, 21)),
+            )
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
@@ -85,8 +77,14 @@ class TestParser {
     @Test
     fun testBooleanDeclaration() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: boolean;", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 14), Pair(1, 14)),
+            )
         val ast = parser.parse(tokens) as VarDeclaration
 
         assertNotNull(ast)
@@ -97,8 +95,16 @@ class TestParser {
     @Test
     fun testBooleanDeclarationAssignation() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: boolean = true;", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.BOOLEAN_VALUE, "true", Pair(1, 17), Pair(1, 20)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 21), Pair(1, 21)),
+            )
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
@@ -109,8 +115,18 @@ class TestParser {
     @Test
     fun testBooleanMultiplyNumberShouldError() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: boolean = true * 5;", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.BOOLEAN_VALUE, "true", Pair(1, 17), Pair(1, 20)),
+                Token(DataType.OPERATOR_MULTIPLY, "*", Pair(1, 22), Pair(1, 22)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(1, 24), Pair(1, 24)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 25), Pair(1, 25)),
+            )
         assertThrows<SyntacticError> {
             parser.parse(tokens)
         }
@@ -119,8 +135,18 @@ class TestParser {
     @Test
     fun testBooleanPlusNumberShouldNotError() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: number = true + 5;", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.NUMBER_TYPE, "number", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.BOOLEAN_VALUE, "true", Pair(1, 17), Pair(1, 20)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(1, 22), Pair(1, 22)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(1, 24), Pair(1, 24)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 25), Pair(1, 25)),
+            )
         assertThrows<SyntacticError> {
             parser.parse(tokens)
         }
@@ -129,8 +155,20 @@ class TestParser {
     @Test
     fun test3minus2plusStringShouldBeCorrect() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: string = 3 - 2 + \"hello\";", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.STRING_TYPE, "string", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.NUMBER_VALUE, "3", Pair(1, 17), Pair(1, 17)),
+                Token(DataType.OPERATOR_MINUS, "-", Pair(1, 19), Pair(1, 19)),
+                Token(DataType.NUMBER_VALUE, "2", Pair(1, 21), Pair(1, 21)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(1, 23), Pair(1, 23)),
+                Token(DataType.STRING_VALUE, "hello", Pair(1, 25), Pair(1, 30)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 31), Pair(1, 31)),
+            )
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
@@ -141,8 +179,18 @@ class TestParser {
     @Test
     fun test004BooleanPlusStringShouldBeCorrect() {
         val parser = ParserImpl()
-        val lexerImpl = LexerImpl(tokenRulesMap)
-        val tokens = lexerImpl.lex("let x: string = true + \"hello\";", 1)
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.STRING_TYPE, "string", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.BOOLEAN_VALUE, "true", Pair(1, 17), Pair(1, 20)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(1, 22), Pair(1, 22)),
+                Token(DataType.STRING_VALUE, "hello", Pair(1, 24), Pair(1, 29)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 30), Pair(1, 30)),
+            )
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)

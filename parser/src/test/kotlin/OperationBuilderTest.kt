@@ -28,7 +28,7 @@ class OperationBuilderTest {
     }
 
     @Test
-    fun testbuildOperationwithunexpectedtoken() {
+    fun testBuildOperationwithUnexpectedToken() {
         val tokens =
             listOf(
                 Token(DataType.UNKNOWN, "unknown", Pair(0, 0), Pair(0, 7)),
