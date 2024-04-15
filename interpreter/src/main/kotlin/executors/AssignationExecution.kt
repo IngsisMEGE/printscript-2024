@@ -11,18 +11,25 @@ class AssignationExecution : Executor<Assignation> {
         variables: MutableMap<String, Value>,
     ): String {
         val varName = ast.assignation.getValue()
-        val type = variables[ast.assignation.getValue()]?.getType()
-        val value = binaryOperator.evaluate(ast.value, variables)
-        if (variables.containsKey(varName)) {
-            if (type != null && value.getType() == type) {
-                variables[varName] = value
-                return ""
-            }
-            throw Exception(
-                "Variable type mismatch at Line ${ast.assignation.getInitialPosition().second} between $type and ${value.getType()}",
-            )
-        } else {
-            throw Exception("Variable not found at Line ${ast.assignation.getInitialPosition().second}")
+        val existingValue = variables[varName]
+        val newValue = binaryOperator.evaluate(ast.value, variables)
+
+        if (existingValue == null) {
+            throw Exception("Variable '$varName' not found at Line ${ast.assignation.getInitialPosition().second}")
         }
+
+        if (!existingValue.isMutable()) {
+            throw Exception("Cannot assign new value to constant '$varName'.")
+        }
+
+        if (existingValue.getType() != newValue.getType()) {
+            throw Exception(
+                "Variable type mismatch at Line ${ast.assignation.getInitialPosition().second}" +
+                    " between ${existingValue.getType()} and ${newValue.getType()}",
+            )
+        }
+
+        variables[varName] = newValue
+        return ""
     }
 }

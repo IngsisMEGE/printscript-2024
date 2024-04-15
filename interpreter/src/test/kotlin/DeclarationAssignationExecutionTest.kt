@@ -41,7 +41,7 @@ class DeclarationAssignationExecutionTest {
             assertThrows<Exception> {
                 declarationAssignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable Already Exists at Line 0", exception.message)
+        assertEquals("Variable 'IALREADYEXIST' already exists at Line 0", exception.message)
     }
 
     @Test
