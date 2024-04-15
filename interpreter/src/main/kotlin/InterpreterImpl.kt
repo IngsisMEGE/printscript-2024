@@ -22,6 +22,7 @@ import interpreter.executors.MethodExecutor
  * @throws Exception If the AST is of an unexpected type.
  */
 class InterpreterImpl : Interpreter {
+
     override fun readAST(
         ast: AST,
         storedVariables: MutableMap<String, Value>,

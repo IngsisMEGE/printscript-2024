@@ -17,6 +17,7 @@ class IfExecutor() : Executor<IfStatement>{
             }
             is OperationBoolean -> {
                 val opBoolean = ast.condition as OperationBoolean
+                evaluateBoolean(opBoolean.value)
             }
             else -> throw Exception("Unexpected structure")
         }
