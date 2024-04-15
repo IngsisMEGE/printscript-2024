@@ -1,6 +1,13 @@
 package interpreter
 
-import astn.*
+import astn.AST
+import astn.Assignation
+import astn.CloseIfStatement
+import astn.EmptyAST
+import astn.IfStatement
+import astn.Method
+import astn.VarDeclaration
+import astn.VarDeclarationAssignation
 import executors.DeclarationAssignationExecution
 import executors.DeclarationExecution
 import interpreter.executors.AssignationExecution
@@ -17,8 +24,8 @@ import interpreter.executors.MethodExecutor
  *
  * @throws Exception If the AST is of an unexpected type.
  */
-class InterpreterImpl(private val enterIfScope : () -> Unit = {}, private val mergeScope : () -> Unit = {}) : Interpreter {
-    private var conditionsIfScopes : List<Boolean> = listOf()
+class InterpreterImpl(private val enterIfScope: () -> Unit = {}, private val mergeScope: () -> Unit = {}) : Interpreter {
+    private var conditionsIfScopes: List<Boolean> = listOf()
     private var insideIf = false
     private var insideElse = false
 
@@ -56,7 +63,7 @@ class InterpreterImpl(private val enterIfScope : () -> Unit = {}, private val me
         }
     }
 
-    private fun shouldProcessLine(ast : AST): Boolean {
+    private fun shouldProcessLine(ast: AST): Boolean {
         return if (insideIf) {
             conditionsIfScopes.isNotEmpty() && conditionsIfScopes.last() || ast is CloseIfStatement
         } else if (insideElse) {
@@ -66,7 +73,7 @@ class InterpreterImpl(private val enterIfScope : () -> Unit = {}, private val me
         }
     }
 
-    private fun dropLastCondition(conditions : List<Boolean>) : List<Boolean>{
+    private fun dropLastCondition(conditions: List<Boolean>): List<Boolean> {
         val newConditions = conditions.toMutableList()
         newConditions.removeLast()
         return newConditions

@@ -43,7 +43,7 @@ class PrintScript {
             ),
         )
 
-    private var storedVariables : List<MutableMap<String , Value>> = listOf(mutableMapOf())
+    private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
 
     fun start(path: String): String {
         return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
@@ -130,7 +130,7 @@ class PrintScript {
     }
 
     private fun enterIfScope() {
-        val newStoredVariables = mutableListOf<MutableMap<String , Value>>()
+        val newStoredVariables = mutableListOf<MutableMap<String, Value>>()
         newStoredVariables.addAll(storedVariables)
         newStoredVariables.add(storedVariables.last().toMutableMap())
         storedVariables = newStoredVariables

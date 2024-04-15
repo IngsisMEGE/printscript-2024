@@ -15,7 +15,6 @@ import token.Token
 import kotlin.test.assertEquals
 
 class InterpreterTest {
-
     @Test
     fun test001RegularInterpreterTestVarDeclaration() {
         val interpreter = InterpreterImpl()
@@ -598,7 +597,6 @@ class InterpreterTest {
         interpreter.readAST(astElseIfStatement, variables.last())
         val result2 = interpreter.readAST(astMethod2, variables.last())
         interpreter.readAST(astCloseStatement, variables.last())
-
 
         assertEquals("Hello\n", resul1)
         assertEquals("", result2)

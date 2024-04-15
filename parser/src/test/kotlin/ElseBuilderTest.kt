@@ -24,7 +24,7 @@ class ElseBuilderTest {
     }
 
     @Test
-    fun test002IsValidShouldReturnTrue() {
+    fun test002IsValidShouldReturnFalse() {
         val builder = ElseBuilder()
         val tokens =
             listOf(
@@ -34,11 +34,11 @@ class ElseBuilderTest {
 
         val isValid = builder.isValid(tokens)
 
-        assert(isValid)
+        assert(!isValid)
     }
 
     @Test
-    fun test003IsValidShouldReturnFalse() {
+    fun test003IsValidShouldReturnTrue() {
         val builder = ElseBuilder()
         val tokens =
             listOf(
@@ -47,7 +47,7 @@ class ElseBuilderTest {
 
         val isValid = builder.isValid(tokens)
 
-        assert(!isValid)
+        assert(isValid)
     }
 
     @Test

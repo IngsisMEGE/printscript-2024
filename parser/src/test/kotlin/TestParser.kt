@@ -1,3 +1,4 @@
+import astn.CloseIfStatement
 import astn.EmptyAST
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
@@ -196,5 +197,29 @@ class TestParser {
         assertNotNull(ast)
         assertEquals("x", ast.varDeclaration.assignation.getValue())
         assertEquals("string", ast.varDeclaration.type.getValue())
+    }
+
+    @Test
+    fun test005LeftBracketShouldBeCorrect() {
+        val parser = ParserImpl()
+        val tokens =
+            listOf(
+                Token(DataType.LEFT_BRACKET, "{", Pair(1, 1), Pair(1, 1)),
+            )
+        val ast = parser.parse(tokens) as EmptyAST
+
+        assertNotNull(ast)
+    }
+
+    @Test
+    fun test006RightBracketShouldBeCorrect() {
+        val parser = ParserImpl()
+        val tokens =
+            listOf(
+                Token(DataType.RIGHT_BRACKET, "}", Pair(1, 1), Pair(1, 1)),
+            )
+        val ast = parser.parse(tokens) as CloseIfStatement
+
+        assertNotNull(ast)
     }
 }
