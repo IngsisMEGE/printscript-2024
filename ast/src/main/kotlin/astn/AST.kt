@@ -16,7 +16,7 @@ class EmptyAST() : AST
  * @property type The token representing the type of the variable.
  * @property assignation The token representing the assignation of the variable.
  */
-data class VarDeclaration(val type: Token, val assignation: Token) : AST
+data class VarDeclaration(val type: Token, val assignation: Token, val isMutable: Boolean) : AST
 
 /**
  * This data class represents a variable declaration with assignation node in the AST.

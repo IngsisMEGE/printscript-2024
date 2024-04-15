@@ -78,6 +78,9 @@ class PrintScript {
                 }
                 numberLine++
             }
+            if (lexer.stillHaveTokens()) {
+                throw Exception("File does not end with a separator")
+            }
 
             return output.joinToString("")
         } catch (e: Exception) {
