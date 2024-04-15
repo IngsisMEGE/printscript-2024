@@ -7,6 +7,7 @@ import interpreter.VariableType
 import interpreter.executors.BinaryOperatorReader
 import interpreter.executors.Executor
 import interpreter.executors.utils.ValueTypeAdapter
+import java.util.Optional
 
 class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
     private val binaryOperator = BinaryOperatorReader()
@@ -20,14 +21,15 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
         val value = binaryOperator.evaluate(ast.value, variables)
         if (!variables.containsKey(varName)) {
             if (value.getType() == type) {
-                variables[varName] = value
+                variables[varName] = Value(type, Optional.of(value.getValue()), ast.varDeclaration.isMutable)
                 return ""
+            } else {
+                throw Exception(
+                    "Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second} between $type and ${value.getType()}",
+                )
             }
-            throw Exception(
-                "Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second} between $type and ${value.getType()}",
-            )
         } else {
-            throw Exception("Variable Already Exists at Line ${ast.varDeclaration.assignation.getInitialPosition().second}")
+            throw Exception("Variable '$varName' already exists at Line ${ast.varDeclaration.assignation.getInitialPosition().second}")
         }
     }
 

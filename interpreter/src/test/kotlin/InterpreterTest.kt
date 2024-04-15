@@ -103,7 +103,7 @@ class InterpreterTest {
             assertThrows<Exception> {
                 interpreter.readAST(ast2, variables)
             }
-        assertEquals("Variable Already Exists at Line 0", exception.message)
+        assertEquals("Variable 'x' already exists at Line 0", exception.message)
     }
 
     @Test
@@ -134,7 +134,7 @@ class InterpreterTest {
             assertThrows<Exception> {
                 interpreter.readAST(ast2, variables)
             }
-        assertEquals("Variable Already Exists at Line 0", exception.message)
+        assertEquals("Variable 'x' already exists at Line 0", exception.message)
     }
 
     @Test
