@@ -1,0 +1,7 @@
+let x : number = 1;
+if(false){
+x = 5;
+println(x);
+}else {
+println(x);
+}

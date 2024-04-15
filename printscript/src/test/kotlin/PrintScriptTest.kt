@@ -165,4 +165,20 @@ class PrintScriptTest {
         val expectedOutput = "An error occurred while executing the script. File does not end with a separator"
         assertEquals(expectedOutput, printScript.start(path))
     }
+
+    @Test
+    fun test014SimpleIfTest() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileSimpleIfTest.txt"
+        val expectedOutput = "1\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
+
+    @Test
+    fun test015SimpleIfElseTest() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileSimpleIfWithElseTest.txt"
+        val expectedOutput = "2\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
 }

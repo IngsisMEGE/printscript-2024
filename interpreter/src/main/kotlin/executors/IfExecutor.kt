@@ -14,14 +14,15 @@ class IfExecutor() : Executor<IfStatement>{
             is OperationVariable -> {
                 val opVariable = ast.condition as OperationVariable
                 evaluateVariable(opVariable.value, variables)
+                return variables[opVariable.value.getValue()]!!.getValue()
             }
             is OperationBoolean -> {
                 val opBoolean = ast.condition as OperationBoolean
                 evaluateBoolean(opBoolean.value)
+                return opBoolean.value.getValue()
             }
             else -> throw Exception("Unexpected structure")
         }
-        return ""
     }
 
     private fun evaluateVariable(variable : Token, variables : MutableMap<String , Value> ){
@@ -39,4 +40,12 @@ class IfExecutor() : Executor<IfStatement>{
     private fun evaluateBoolean(bool : Token){
         if (bool.getValue() == "true") return
     }
+
+    fun addCondition(conditions : List<Boolean>, condition : Boolean) : List<Boolean>{
+        val newConditions = conditions.toMutableList()
+        newConditions.add(condition)
+        return newConditions
+    }
+
+
 }
