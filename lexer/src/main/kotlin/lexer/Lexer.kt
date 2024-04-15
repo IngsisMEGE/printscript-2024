@@ -9,4 +9,6 @@ interface Lexer {
     ): List<Token>
 
     fun isLineFinished(): Boolean
+
+    fun stillHaveTokens(): Boolean
 }
