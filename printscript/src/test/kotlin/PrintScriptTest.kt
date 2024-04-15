@@ -157,4 +157,12 @@ class PrintScriptTest {
         val expectedOutput = "Invalid typing format in line 4 row 1"
         assertEquals(expectedOutput, printScript.analyze(path))
     }
+
+    @Test
+    fun testFileEndingWithoutSeparator() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileEndingWithoutSeparator.txt"
+        val expectedOutput = "10\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
 }
