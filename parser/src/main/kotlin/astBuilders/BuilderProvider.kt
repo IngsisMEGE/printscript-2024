@@ -15,6 +15,9 @@ class BuilderProvider {
             MethodBuilder(true),
             DeclarationAssignedBuilder(),
             DeclaratorBuilder(true),
+            ElseBuilder(),
+            IfBuilder(),
+            CloseBuilder(),
         )
 
     fun getBuilderList(): List<AstBuilder> = list
