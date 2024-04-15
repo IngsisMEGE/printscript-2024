@@ -35,6 +35,10 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
         return codeFraction.isEmpty()
     }
 
+    override fun stillHaveTokens(): Boolean {
+        return tokens.isNotEmpty()
+    }
+
     override fun lex(
         line: String,
         numberLine: Int,

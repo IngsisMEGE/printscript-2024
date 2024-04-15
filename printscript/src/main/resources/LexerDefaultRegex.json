@@ -11,6 +11,10 @@
     "pattern": "\\blet\\b",
     "type": "DECLARATION_VARIABLE"
   },
+  "DECLARATION_IMMUTABLE": {
+    "pattern": "\\bconst\\b",
+    "type": "DECLARATION_IMMUTABLE"
+  },
   "IFSTATEMENT": {
     "pattern": "\\bif\\b",
     "type": "IF_STATEMENT"

@@ -26,13 +26,15 @@ class DeclaratorBuilder(private val isCompleteLine: Boolean) : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeOutSeparator(tokens)
         if (parsedTokens.size < 4) return false
-        return parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE || parsedTokens[2].getType() == DataType.DOUBLE_DOTS
+        return parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE || parsedTokens[0].getType() == DataType.DECLARATION_IMMUTABLE ||
+            parsedTokens[2].getType() == DataType.DOUBLE_DOTS
     }
 
     override fun build(tokens: List<Token>): AST {
         verifyStructure(tokens)
         val parsedTokens = takeOutSeparator(tokens)
-        return VarDeclaration(parsedTokens[3], parsedTokens[1])
+        val isMutable = parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE
+        return VarDeclaration(parsedTokens[3], parsedTokens[1], isMutable)
     }
 
     private fun verifyStructure(tokens: List<Token>) {
@@ -41,7 +43,7 @@ class DeclaratorBuilder(private val isCompleteLine: Boolean) : AstBuilder {
         }
         checkMinLength(tokens, 4, "declaration")
         checkMaxLength(tokens, 5, "declaration")
-        checkTokenType(tokens[0], "Let or const", listOf(DataType.DECLARATION_VARIABLE))
+        checkTokenType(tokens[0], "Let or const", listOf(DataType.DECLARATION_VARIABLE, DataType.DECLARATION_IMMUTABLE))
         checkTokenType(tokens[1], "Identifier", listOf(DataType.VARIABLE_NAME))
         checkTokenType(tokens[2], "Double dots", listOf(DataType.DOUBLE_DOTS))
         checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_TYPE, DataType.STRING_TYPE, DataType.BOOLEAN_TYPE))
