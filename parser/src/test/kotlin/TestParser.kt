@@ -1,4 +1,5 @@
 import astn.EmptyAST
+import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import exceptions.SyntacticError
 import impl.ParserImpl
@@ -51,5 +52,85 @@ class TestParser {
         assertThrows<SyntacticError> {
             parser.parse(tokens)
         }
+    }
+
+    @Test
+    fun testBooleanAssignation() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: boolean = true;", 1)
+        val ast = parser.parse(tokens) as VarDeclarationAssignation
+
+        assertNotNull(ast)
+        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("boolean", ast.varDeclaration.type.getValue())
+    }
+
+    @Test
+    fun testBooleanDeclaration() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: boolean;", 1)
+        val ast = parser.parse(tokens) as VarDeclaration
+
+        assertNotNull(ast)
+        assertEquals("x", ast.assignation.getValue())
+        assertEquals("boolean", ast.type.getValue())
+    }
+
+    @Test
+    fun testBooleanDeclarationAssignation() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: boolean = true;", 1)
+        val ast = parser.parse(tokens) as VarDeclarationAssignation
+
+        assertNotNull(ast)
+        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("boolean", ast.varDeclaration.type.getValue())
+    }
+
+    @Test
+    fun testBooleanMultiplyNumberShouldError() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: boolean = true * 5;", 1)
+        assertThrows<SyntacticError> {
+            parser.parse(tokens)
+        }
+    }
+
+    @Test
+    fun testBooleanPlusNumberShouldNotError() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: number = true + 5;", 1)
+        assertThrows<SyntacticError> {
+            parser.parse(tokens)
+        }
+    }
+
+    @Test
+    fun test3minus2plusStringShouldBeCorrect() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: string = 3 - 2 + \"hello\";", 1)
+        val ast = parser.parse(tokens) as VarDeclarationAssignation
+
+        assertNotNull(ast)
+        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("string", ast.varDeclaration.type.getValue())
+    }
+
+    @Test
+    fun test004BooleanPlusStringShouldBeCorrect() {
+        val parser = ParserImpl()
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let x: string = true + \"hello\";", 1)
+        val ast = parser.parse(tokens) as VarDeclarationAssignation
+
+        assertNotNull(ast)
+        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("string", ast.varDeclaration.type.getValue())
     }
 }

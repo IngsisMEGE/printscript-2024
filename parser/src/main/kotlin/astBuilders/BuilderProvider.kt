@@ -12,9 +12,12 @@ class BuilderProvider {
     private val list: List<AstBuilder> =
         listOf(
             AssignationBuilder(),
-            MethodBuilder(),
+            MethodBuilder(true),
             DeclarationAssignedBuilder(),
-            DeclaratorBuilder(),
+            DeclaratorBuilder(true),
+            ElseBuilder(),
+            IfBuilder(),
+            CloseBuilder(),
         )
 
     fun getBuilderList(): List<AstBuilder> = list

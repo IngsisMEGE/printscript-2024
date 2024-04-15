@@ -140,6 +140,17 @@ class PrintScriptTest {
     }
 
     @Test
+    fun test014BooleanTest() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/booleanTest.txt"
+        val expectedOutput =
+            "false\n" +
+                "Hellofalse\n"
+        val realOutput = printScript.start(path)
+        assertEquals(expectedOutput, realOutput)
+    }
+
+    @Test
     fun test012AnalyzeWithSCAIssues() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFileWithSCAIssues.txt"

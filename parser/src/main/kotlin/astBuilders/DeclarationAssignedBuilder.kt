@@ -1,6 +1,6 @@
 package astBuilders
 
-import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.AST
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
@@ -18,11 +18,11 @@ import token.Token
 
  */
 class DeclarationAssignedBuilder : AstBuilder {
-    private val declaratorBuilder = DeclaratorBuilder()
+    private val declaratorBuilder = DeclaratorBuilder(false)
     private val operationBuilder = OperationBuilder()
 
     override fun isValid(tokens: List<Token>): Boolean {
-        val parsedTokens = takeCommentsAndSemiColon(tokens)
+        val parsedTokens = takeOutSeparator(tokens)
         if (parsedTokens.size <= 5) return false
         return declaratorBuilder.isValid(
             parsedTokens.subList(
@@ -33,10 +33,9 @@ class DeclarationAssignedBuilder : AstBuilder {
     }
 
     override fun build(tokens: List<Token>): AST {
-        val parsedTokens = takeCommentsAndSemiColon(tokens)
         return VarDeclarationAssignation(
-            declaratorBuilder.build(parsedTokens.subList(0, 4)) as VarDeclaration,
-            operationBuilder.buildOperation(parsedTokens.subList(5, parsedTokens.size)),
+            declaratorBuilder.build(tokens.subList(0, 4)) as VarDeclaration,
+            operationBuilder.buildOperation(tokens.subList(5, tokens.size)),
         )
     }
 }

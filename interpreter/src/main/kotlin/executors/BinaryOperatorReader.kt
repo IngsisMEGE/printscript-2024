@@ -1,6 +1,7 @@
 package interpreter.executors
 
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -36,6 +37,7 @@ class BinaryOperatorReader() {
         return when (binary) {
             is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()))
             is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()))
+            is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()))
             is OperationVariable -> getVariable(binary.value.getValue(), variables)
             is OperationHead -> evaluateHead(binary, variables)
             else -> throw Exception("Operation not found")
@@ -50,10 +52,10 @@ class BinaryOperatorReader() {
             if (!variables[name]!!.isEmpty()) {
                 return Value(variables[name]!!.getType(), Optional.of(variables[name]!!.getValue()))
             } else {
-                throw Exception("Variable not initialized")
+                throw Exception("Variable \"${name}\" not initialized")
             }
         } else {
-            throw Exception("Variable not found")
+            throw Exception("Variable \"${name}\" not found")
         }
     }
 
@@ -66,7 +68,7 @@ class BinaryOperatorReader() {
         return when {
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
-            else -> throw Exception("Type Mismatch")
+            else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported")
         }
     }
 

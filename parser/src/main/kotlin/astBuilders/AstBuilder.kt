@@ -1,6 +1,7 @@
 package astBuilders
 
 import astn.AST
+import exceptions.MustEndWithSeparator
 import exceptions.SyntacticError
 import exceptions.UnexpectedTokenException
 import token.DataType
@@ -25,10 +26,11 @@ interface AstBuilder {
     fun build(tokens: List<Token>): AST
 
     companion object {
-        fun takeCommentsAndSemiColon(tokens: List<Token>): List<Token> {
-            return tokens.filter { token ->
-                token.getType() != DataType.SEPARATOR
+        fun takeOutSeparator(tokens: List<Token>): List<Token> {
+            if (tokens.last().getType() == DataType.SEPARATOR) {
+                return tokens.subList(0, tokens.size - 1)
             }
+            return tokens
         }
 
         fun checkMinLength(
@@ -55,6 +57,10 @@ interface AstBuilder {
             if (!types.contains(token.getType())) {
                 throw UnexpectedTokenException("$s expected at: ${token.getInitialPosition().first}, ${token.getInitialPosition().second}")
             }
+        }
+
+        fun mustEndWithSeparator(token: Token) {
+            if (token.getType() != DataType.SEPARATOR) throw MustEndWithSeparator(token.getFinalPosition())
         }
     }
 }

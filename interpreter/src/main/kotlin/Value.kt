@@ -23,4 +23,5 @@ class Value(private val type: VariableType, private val result: Optional<String>
 enum class VariableType {
     NUMBER,
     STRING,
+    BOOLEAN,
 }
