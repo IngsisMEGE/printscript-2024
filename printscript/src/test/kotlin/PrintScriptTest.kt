@@ -113,7 +113,7 @@ class PrintScriptTest {
     }
 
     @Test
-    fun testBasicOperation() {
+    fun test009BasicOperation() {
         val printScript = PrintScript()
         val path = "src/test/resources/operationFile.txt"
         val expectedOutput = "30\n"
@@ -122,7 +122,7 @@ class PrintScriptTest {
     }
 
     @Test
-    fun testOperationsAndVariableReassignation() {
+    fun test010OperationsAndVariableReassignation() {
         val printScript = PrintScript()
         val path = "src/test/resources/operationAndVariableReassignation.txt"
         val expectedOutput = "15\n" + "10\n" + "20\n"
@@ -131,7 +131,7 @@ class PrintScriptTest {
     }
 
     @Test
-    fun testStringNumberConcatenation() {
+    fun test011StringNumberConcatenation() {
         val printScript = PrintScript()
         val path = "src/test/resources/stringNumberConcatenation.txt"
         val expectedOutput = "Hello world 10\n"
@@ -151,10 +151,18 @@ class PrintScriptTest {
     }
 
     @Test
-    fun testAnalyzeWithSCAIssues() {
+    fun test012AnalyzeWithSCAIssues() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFileWithSCAIssues.txt"
         val expectedOutput = "Invalid typing format in line 4 row 1"
         assertEquals(expectedOutput, printScript.analyze(path))
+    }
+
+    @Test
+    fun test013IfFileDoesNotEndWithSeparatorShouldThrowException() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/testFileNotEndWithSeparator.txt"
+        val expectedOutput = "An error occurred while executing the script. File does not end with a separator"
+        assertEquals(expectedOutput, printScript.start(path))
     }
 }
