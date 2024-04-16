@@ -2,6 +2,7 @@ package formatter
 
 import astn.AST
 import rules.Rules
+import rules.provider.RuleProvider
 
 /**
  * This class represents the implementation of the Formatter interface in the PrintScript application.
@@ -10,7 +11,9 @@ import rules.Rules
  * @property property A map of properties that are used to determine the rules to be included.
  * @property rules A list of rules that are used to format the AST.
  */
-class FormatterImpl(override val property: Map<String, Any>, private var rules: List<Rules>) : Formatter {
+class FormatterImpl(override val property: Map<String, Any>) : Formatter {
+    private var rules: List<Rules> = RuleProvider.getRules()
+
     init {
         val rulesWithEnforcers = rules.map { it.isTheRuleIncluded(property) }
 
@@ -38,6 +41,6 @@ class FormatterImpl(override val property: Map<String, Any>, private var rules: 
     }
 
     override fun changeProperty(property: Map<String, Any>): Formatter {
-        return FormatterImpl(property, rules)
+        return FormatterImpl(property)
     }
 }

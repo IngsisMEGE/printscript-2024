@@ -29,8 +29,7 @@ class FormatterImplTest {
                 ),
             )
         val property = mapOf("JumpLine" to 1)
-        val rules = listOf(MethodRule("JumpLine"))
-        val formatter = FormatterImpl(property, rules)
+        val formatter = FormatterImpl(property)
         val expected = "\nprintln(\"Hello\");\n"
         val result = formatter.format(ast)
         assertEquals(expected, result)
@@ -51,8 +50,7 @@ class FormatterImplTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        val rules = listOf(VarDeclarationAssignationRule("DotFront", "DotBack", "EqualFront", "EqualBack"))
-        val formatter = FormatterImpl(map, rules)
+        val formatter = FormatterImpl(map)
         val expected = "let dong : number = \"Hola\";\n"
         val result = formatter.format(ast)
         assertEquals(expected, result)
@@ -68,10 +66,7 @@ class FormatterImplTest {
         val property: MutableMap<String, Any> = HashMap()
         property["SpaceInFront"] = 1
         property["SpaceInBack"] = 1
-        val varDeclarationRule = VarDeclarationRule("SpaceInFront", "SpaceInBack")
-
-        val rules = listOf(varDeclarationRule)
-        val formatter = FormatterImpl(property, rules)
+        val formatter = FormatterImpl(property)
         val expected = "let x : number;\n"
         val result = formatter.format(ast)
         assertEquals(expected, result)
@@ -86,12 +81,10 @@ class FormatterImplTest {
                     Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
                 ),
             )
-        val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
-        val rule = listOf(assignationRule)
         val property: MutableMap<String, Any> = HashMap()
         property["EqualFront"] = 1
         property["EqualBack"] = 1
-        val formatter = FormatterImpl(property, rule)
+        val formatter = FormatterImpl(property)
         val expected = "a = 5;\n"
         val result = formatter.format(ast)
         assertEquals(expected, result)
