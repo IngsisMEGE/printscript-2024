@@ -3,7 +3,7 @@ package analyzers
 import astn.AST
 
 class SCAImpl(options: Map<String, Boolean>) : SCA {
-    val analyzerList = mutableListOf<Analyzer>()
+    private val analyzerList = mutableListOf<Analyzer>()
 
     init {
         buildSCA(options)
