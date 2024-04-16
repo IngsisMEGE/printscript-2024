@@ -5,11 +5,6 @@ import astn.VarDeclarationAssignation
 import formatter.FormatterImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import rules.AssignationRule
-import rules.MethodRule
-import rules.Rules
-import rules.VarDeclarationAssignationRule
-import rules.VarDeclarationRule
 import token.DataType
 import token.Token
 
