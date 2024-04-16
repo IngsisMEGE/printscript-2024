@@ -11,6 +11,7 @@ package astBuilders
 class BuilderProvider {
     private val list: List<AstBuilder> =
         listOf(
+            EmptyASTBuilder(),
             AssignationBuilder(),
             MethodBuilder(true),
             DeclarationAssignedBuilder(),

@@ -8,7 +8,7 @@ import token.Token
 class ElseBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeOutSeparator(tokens)
-        if (parsedTokens.size != 2) return false
+        if (parsedTokens.size != 1) return false
         return parsedTokens[0].getType() == DataType.ELSE_STATEMENT
     }
 
@@ -18,8 +18,7 @@ class ElseBuilder : AstBuilder {
     }
 
     private fun validateStructure(tokens: List<Token>) {
-        AstBuilder.checkMinLength(tokens, 2, "else statement")
+        AstBuilder.checkMinLength(tokens, 1, "else statement")
         AstBuilder.checkTokenType(tokens[0], "Else", listOf(DataType.ELSE_STATEMENT))
-        AstBuilder.checkTokenType(tokens[1], "Curly bracket", listOf(DataType.LEFT_BRACKET))
     }
 }

@@ -1,0 +1,10 @@
+let x : boolean = true;
+if (x) {
+let m : number = 0;
+if (false) { x = false;} else {
+println("Hola");
+m = 4;
+}
+}
+
+

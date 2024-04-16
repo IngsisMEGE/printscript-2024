@@ -165,4 +165,35 @@ class PrintScriptTest {
         val expectedOutput = "An error occurred while executing the script. File does not end with a separator"
         assertEquals(expectedOutput, printScript.start(path))
     }
+
+    @Test
+    fun test014SimpleIfTest() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileSimpleIfTest.txt"
+        val expectedOutput = "1\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
+
+    @Test
+    fun test015SimpleIfElseTest() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileSimpleIfWithElseTest.txt"
+        val expectedOutput = "1\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
+
+    @Test
+    fun test016IfInsideIfTest() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileIfInsideIfTest.txt"
+        val expectedOutput = "Hola\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
+
+    @Test
+    fun test017fileIfVariableCreatedInsideIfShouldNotBeRecognized() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileIfVariableCreatedInsideIfShouldNotBeRecognized.txt"
+        assertEquals("An error occurred while executing the script. Variable 'a' not found at Line 5", printScript.start(path))
+    }
 }

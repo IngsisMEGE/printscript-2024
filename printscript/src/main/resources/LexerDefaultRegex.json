@@ -20,7 +20,7 @@
     "type": "IF_STATEMENT"
   },
   "ELSESTATEMENT": {
-    "pattern": "\\belse\\b",
+    "pattern": "\\}\\s*else",
     "type": "ELSE_STATEMENT"
   },
   "OPERATOR_PLUS": {
