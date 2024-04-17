@@ -10,10 +10,6 @@ import interpreter.Value
 import lexer.LexerImpl
 import lexer.TokenRegexRule
 import org.example.utils.JSONManager
-import rules.AssignationRule
-import rules.MethodRule
-import rules.VarDeclarationAssignationRule
-import rules.VarDeclarationRule
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -35,12 +31,6 @@ class PrintScript {
     private var formatter =
         FormatterImpl(
             mapOf(),
-            listOf(
-                VarDeclarationAssignationRule("DotFront", "DotBack", "EqualFront", "EqualBack"),
-                MethodRule("amountOfLines"),
-                VarDeclarationRule("SpaceInFront", "SpaceInBack"),
-                AssignationRule("EqualFront", "EqualBack"),
-            ),
         )
 
     private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
@@ -112,12 +102,6 @@ class PrintScript {
         formatter =
             FormatterImpl(
                 newProperties,
-                listOf(
-                    VarDeclarationAssignationRule("DotFront", "DotBack", "EqualFront", "EqualBack"),
-                    MethodRule("ammountOfLines"),
-                    VarDeclarationRule("DotFront", "DotBack"),
-                    AssignationRule("EqualFront", "EqualBack"),
-                ),
             )
     }
 
