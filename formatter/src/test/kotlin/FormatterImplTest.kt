@@ -1,7 +1,4 @@
-import astn.OperationNumber
-import astn.OperationString
-import astn.VarDeclaration
-import astn.VarDeclarationAssignation
+import astn.*
 import formatter.FormatterImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -83,6 +80,17 @@ class FormatterImplTest {
         property["EqualBack"] = 1
         val formatter = FormatterImpl(property)
         val expected = "a = 5;\n"
+        val result = formatter.format(ast)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun test006formatIfStatement() {
+        val ast = astn.IfStatement(OperationVariable(Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(0, 0))))
+        val property: MutableMap<String, Any> = HashMap()
+        property["Indentation"] = 4
+        val formatter = FormatterImpl(property)
+        val expected = "if (5) {\n    6\n}\n"
         val result = formatter.format(ast)
         assertEquals(expected, result)
     }

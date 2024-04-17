@@ -1,22 +1,11 @@
 package enforcers
 
-class IndentedIfElseBlockEnforcer(private val amountOfIndentation: Int, private val ifCounter: Int = 0) : Enforcer {
-    companion object {
-        private fun createWithIndentation(amountOfIndentation: Int): IndentedIfElseBlockEnforcer {
-            return IndentedIfElseBlockEnforcer(amountOfIndentation)
-        }
+import astn.AST
+import astn.CloseIfStatement
+import astn.IfStatement
 
-        fun create(
-            propertyNameSpace: String,
-            property: Map<String, Any>,
-        ): IndentedIfElseBlockEnforcer {
-            return if (property.containsKey(propertyNameSpace)) {
-                createWithIndentation(property[propertyNameSpace].toString().toInt())
-            } else {
-                IndentedIfElseBlockEnforcer(4)
-            }
-        }
-    }
+class IndentedIfElseBlockEnforcer(private val amountOfIndentation: Int) {
+    private var ifCounter : Int = 0;
 
     init {
         if (amountOfIndentation < 0) {
@@ -24,11 +13,26 @@ class IndentedIfElseBlockEnforcer(private val amountOfIndentation: Int, private 
         }
     }
 
-    override fun enforceRule(code: String): String {
-        if (amountOfIndentation == 0 || ifCounter == 0) return code
+    fun enforceRule(): String {
+        if (amountOfIndentation == 0 || ifCounter == 0) return ""
         val modifiedCode = StringBuilder()
         modifiedCode.append(" ".repeat(amountOfIndentation * ifCounter))
-        modifiedCode.append(code)
         return modifiedCode.toString()
     }
+
+    fun didEnterIf(ast : AST){
+        if (ast is IfStatement ) ifCounter++
+        if (ast is CloseIfStatement && ast.isElse) ifCounter++
+    }
+
+    fun didExitIF(ast : AST){
+        if (ast is CloseIfStatement && ifCounter > 0) {
+            ifCounter--
+        }
+    }
+
+    fun shouldIndent() : Boolean {
+        return ifCounter > 0
+    }
+
 }

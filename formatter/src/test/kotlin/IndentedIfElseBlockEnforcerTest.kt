@@ -8,7 +8,7 @@ class IndentedIfElseBlockEnforcerTest {
         val indentedIfElseBlockEnforcer = IndentedIfElseBlockEnforcer(4)
         val code = "val x = 1"
         val expectedCode = "    val x = 1"
-        assertEquals(expectedCode, indentedIfElseBlockEnforcer.enforceRule(code))
+        assertEquals(expectedCode, indentedIfElseBlockEnforcer.enforceRule(code, 1))
     }
 
     @Test
