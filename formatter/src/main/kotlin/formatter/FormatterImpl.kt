@@ -1,6 +1,8 @@
 package formatter
 
 import astn.AST
+import astn.CloseIfStatement
+import astn.IfStatement
 import rules.Rules
 import rules.provider.RuleProvider
 
@@ -13,6 +15,8 @@ import rules.provider.RuleProvider
  */
 class FormatterImpl(override val property: Map<String, Any>) : Formatter {
     private var rules: List<Rules> = RuleProvider.getRules()
+    private var ifCounter = 0
+    private var isElse = false
 
     init {
         val rulesWithEnforcers = rules.map { it.isTheRuleIncluded(property) }
@@ -31,11 +35,16 @@ class FormatterImpl(override val property: Map<String, Any>) : Formatter {
      */
     override fun format(ast: AST): String {
         for (rule in rules) {
-            if (!rule.canCreateGenericLine(ast)) {
-                continue
+            if (!rule.canCreateGenericLine(ast)) continue
+            if (ast is CloseIfStatement && ifCounter > 0) {
+                ifCounter--
+                isElse = ast.isElse
             }
             val newLine = rule.genericLine(ast)
-            return rule.enforceRule(newLine) + "\n"
+            val enforceLine = rule.enforceRule(newLine) + "\n"
+
+            if (ast is IfStatement || isElse) ifCounter++ // Actualizar todos los rules? Modificar el metodo enforce?
+            return enforceLine
         }
         return ""
     }

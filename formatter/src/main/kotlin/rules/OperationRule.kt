@@ -1,6 +1,7 @@
 package rules
 
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -75,6 +76,7 @@ class OperationRule(private val enforcer: List<Enforcer> = listOf()) {
             is OperationNumber -> postfixAST.value.getValue()
             is OperationString -> "\"" + postfixAST.value.getValue() + "\""
             is OperationVariable -> postfixAST.value.getValue()
+            is OperationBoolean -> postfixAST.value.getValue()
             else -> throw IllegalArgumentException("Invalid OpTree type")
         }
     }

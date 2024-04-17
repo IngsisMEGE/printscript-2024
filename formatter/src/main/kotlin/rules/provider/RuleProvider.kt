@@ -1,6 +1,8 @@
 package rules.provider
 
 import rules.AssignationRule
+import rules.ElseRule
+import rules.IfRule
 import rules.MethodRule
 import rules.Rules
 import rules.VarDeclarationAssignationRule
@@ -14,6 +16,8 @@ class RuleProvider() {
                 MethodRule("ammountOfLines"),
                 VarDeclarationRule("SpaceInFront", "SpaceInBack"),
                 AssignationRule("EqualFront", "EqualBack"),
+                IfRule(),
+                ElseRule(),
             )
         }
     }
