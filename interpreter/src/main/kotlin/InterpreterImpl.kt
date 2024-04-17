@@ -24,7 +24,11 @@ import interpreter.executors.MethodExecutor
  *
  * @throws Exception If the AST is of an unexpected type.
  */
-class InterpreterImpl(private val enterIfScope: () -> Unit = {}, private val mergeScope: () -> Unit = {}) : Interpreter {
+class InterpreterImpl(
+    private val loadInput: (String) -> String,
+    private val enterIfScope: () -> Unit = {},
+    private val mergeScope: () -> Unit = {},
+) : Interpreter {
     private var conditionsIfScopes: List<Boolean> = listOf()
     private var insideIf = false
     private var insideElse = false
@@ -38,10 +42,10 @@ class InterpreterImpl(private val enterIfScope: () -> Unit = {}, private val mer
         }
         return when (ast) {
             is EmptyAST -> ""
-            is Assignation -> AssignationExecution().execute(ast, storedVariables)
+            is Assignation -> AssignationExecution(loadInput).execute(ast, storedVariables)
             is VarDeclaration -> DeclarationExecution().execute(ast, storedVariables)
-            is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, storedVariables)
-            is Method -> MethodExecutor().execute(ast, storedVariables)
+            is VarDeclarationAssignation -> DeclarationAssignationExecution(loadInput).execute(ast, storedVariables)
+            is Method -> MethodExecutor(loadInput).execute(ast, storedVariables)
             is IfStatement -> {
                 val ifExecutor = IfExecutor()
                 val result = ifExecutor.execute(ast, storedVariables)

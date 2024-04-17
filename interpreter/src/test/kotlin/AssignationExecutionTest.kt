@@ -18,7 +18,7 @@ import kotlin.test.Test
 class AssignationExecutionTest {
     @Test
     fun test001AssignationExecutorVariableNotFound() {
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val ast =
             Assignation(
                 Token(DataType.VARIABLE_NAME, "IAMNOTAVARIABLE", Pair(0, 0), Pair(6, 0)),
@@ -34,7 +34,7 @@ class AssignationExecutionTest {
     @Test
     fun test002AssignationExecutorVariableTypeMismatch() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
 
         val ast1 =
@@ -59,7 +59,7 @@ class AssignationExecutionTest {
     @Test
     fun test003AssignationExecutorShouldAssignCorrectly() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
 
         val ast1 =
@@ -83,7 +83,7 @@ class AssignationExecutionTest {
     @Test
     fun test004AssignationExecutorShouldAssignCorrectlyWithStringType() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
 
         val ast1 =
@@ -107,7 +107,7 @@ class AssignationExecutionTest {
     @Test
     fun test005AssignationExecutorShouldAssignCorrectlyAComplexExpression() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
@@ -132,7 +132,7 @@ class AssignationExecutionTest {
     @Test
     fun test006AssignationExecutorShouldConcatenate2String() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
@@ -157,8 +157,8 @@ class AssignationExecutionTest {
 
     @Test
     fun test007AssignationExecutorShouldWorkWithVarDeclarationAssignation() {
-        val valDeclarationAssignation = DeclarationAssignationExecution()
-        val assignationExecutor = AssignationExecution()
+        val valDeclarationAssignation = DeclarationAssignationExecution(::input)
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclarationAssignation(
@@ -189,7 +189,7 @@ class AssignationExecutionTest {
     @Test
     fun test007AssignationExecutorShouldCreateStringWithSpace() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
@@ -211,7 +211,7 @@ class AssignationExecutionTest {
     @Test
     fun test008AssignationOfBooleanShouldBeCorrect() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
@@ -235,7 +235,7 @@ class AssignationExecutionTest {
     @Test
     fun test009AssignationBooleanWithOtherTypeShouldThrowError() {
         val valDeclarationExecutor = DeclarationExecution()
-        val assignationExecutor = AssignationExecution()
+        val assignationExecutor = AssignationExecution(::input)
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
@@ -261,8 +261,8 @@ class AssignationExecutionTest {
 
     @Test
     fun testConstAssignation() {
-        val valDeclarationAssignation = DeclarationAssignationExecution()
-        val assignationExecutor = AssignationExecution()
+        val valDeclarationAssignation = DeclarationAssignationExecution(::input)
+        val assignationExecutor = AssignationExecution(::input)
         val variables = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclarationAssignation(
@@ -292,5 +292,9 @@ class AssignationExecutionTest {
             }
 
         assertEquals("Cannot assign new value to constant 'x'.", exception.message)
+    }
+
+    fun input(message: String): String {
+        return message
     }
 }

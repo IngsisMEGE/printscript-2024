@@ -3,6 +3,7 @@ package interpreter.executors
 import astn.OpTree
 import astn.OperationBoolean
 import astn.OperationHead
+import astn.OperationInput
 import astn.OperationNumber
 import astn.OperationString
 import astn.OperationVariable
@@ -33,13 +34,16 @@ class BinaryOperatorReader() {
     fun evaluate(
         binary: OpTree,
         variables: MutableMap<String, Value>,
+        type: VariableType,
+        loadInput: (String) -> String,
     ): Value {
         return when (binary) {
             is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()), true)
             is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()), true)
             is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()), true)
             is OperationVariable -> getVariable(binary.value.getValue(), variables)
-            is OperationHead -> evaluateHead(binary, variables)
+            is OperationHead -> evaluateHead(binary, variables, type, loadInput)
+            is OperationInput -> parseValue(loadInput(evaluate(binary.value, variables, type, loadInput).getValue()), type)
             else -> throw Exception("Operation not found")
         }
     }
@@ -62,9 +66,11 @@ class BinaryOperatorReader() {
     private fun evaluateHead(
         binary: OperationHead,
         variables: MutableMap<String, Value>,
+        type: VariableType,
+        loadInput: (String) -> String,
     ): Value {
-        val left = evaluate(binary.left, variables)
-        val right = evaluate(binary.right, variables)
+        val left = evaluate(binary.left, variables, type, loadInput)
+        val right = evaluate(binary.right, variables, type, loadInput)
         return when {
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
@@ -96,6 +102,31 @@ class BinaryOperatorReader() {
             DataType.OPERATOR_MULTIPLY -> Value(VariableType.NUMBER, Optional.of((leftNumber * rightNumber).toString()), false)
             DataType.OPERATOR_DIVIDE -> Value(VariableType.NUMBER, Optional.of((leftNumber / rightNumber).toString()), false)
             else -> throw Exception("Operator for number not found")
+        }
+    }
+
+    fun parseValue(
+        value: String,
+        type: VariableType,
+    ): Value {
+        return when (type) {
+            VariableType.STRING -> Value(type, Optional.of(value), true)
+            VariableType.NUMBER -> {
+                val number = value.toIntOrNull()
+                if (number === null) {
+                    throw IllegalArgumentException("El valor $value no es un número válido.")
+                } else {
+                    Value(type, Optional.of(number.toString()), true)
+                }
+            }
+            VariableType.BOOLEAN -> {
+                val booleanValue = value.toBooleanStrictOrNull()
+                if (booleanValue === null) {
+                    throw IllegalArgumentException("El valor $value no es un número válido.")
+                } else {
+                    Value(type, Optional.of(booleanValue.toString()), true)
+                }
+            }
         }
     }
 }

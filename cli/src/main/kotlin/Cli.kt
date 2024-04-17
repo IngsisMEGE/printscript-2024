@@ -26,11 +26,11 @@ class Execute : CliktCommand(help = "Execute a PrintScript file") {
     override fun run() {
         val printScript =
             when (version) {
-                "1.0" -> PrintScript()
-                "1.1" -> PrintScript()
+                "1.0" -> PrintScript(::input)
+                "1.1" -> PrintScript(::input)
                 else -> {
                     echo("Unsupported version. Defaulting to 1.0")
-                    PrintScript()
+                    PrintScript(::input)
                 }
             }
 
@@ -41,6 +41,11 @@ class Execute : CliktCommand(help = "Execute a PrintScript file") {
             echo("Error: ${e.message}", err = true)
         }
     }
+
+    private fun input(message: String): String {
+        print(message)
+        return readlnOrNull() ?: ""
+    }
 }
 
 class FormatFile : CliktCommand(help = "Format a PrintScript file") {
@@ -48,13 +53,18 @@ class FormatFile : CliktCommand(help = "Format a PrintScript file") {
 
     override fun run() {
         try {
-            val printScript = PrintScript()
+            val printScript = PrintScript(::input)
             val formattedContent = printScript.format(filePath)
             File(filePath).writeText(formattedContent)
             echo("File formatted and updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
+    }
+
+    private fun input(message: String): String {
+        print(message)
+        return readlnOrNull() ?: ""
     }
 }
 
@@ -63,12 +73,17 @@ class Analyze : CliktCommand(help = "Analyze a PrintScript file") {
 
     override fun run() {
         try {
-            val printScript = PrintScript()
+            val printScript = PrintScript(::input)
             val analysis = printScript.analyze(filePath)
             echo(analysis)
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
+    }
+
+    private fun input(message: String): String {
+        print(message)
+        return readlnOrNull() ?: ""
     }
 }
 
@@ -77,12 +92,17 @@ class ChangeFormatterConfig : CliktCommand(help = "Change formatter configuratio
 
     override fun run() {
         try {
-            val printScript = PrintScript()
+            val printScript = PrintScript(::input)
             printScript.changeFormatterConfig(configFilePath)
             echo("Formatter configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
+    }
+
+    private fun input(message: String): String {
+        print(message)
+        return readlnOrNull() ?: ""
     }
 }
 
@@ -93,11 +113,16 @@ class ChangeLexerConfig : CliktCommand(help = "Change lexer configurations") {
 
     override fun run() {
         try {
-            val printScript = PrintScript()
+            val printScript = PrintScript(::input)
             printScript.updateRegexRules(configFilePath)
             echo("Lexer configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
+    }
+
+    private fun input(message: String): String {
+        print(message)
+        return readlnOrNull() ?: ""
     }
 }
