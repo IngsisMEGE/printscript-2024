@@ -11,10 +11,14 @@ package astBuilders
 class BuilderProvider {
     private val list: List<AstBuilder> =
         listOf(
+            EmptyASTBuilder(),
             AssignationBuilder(),
-            MethodBuilder(),
+            MethodBuilder(true),
             DeclarationAssignedBuilder(),
-            DeclaratorBuilder(),
+            DeclaratorBuilder(true),
+            ElseBuilder(),
+            IfBuilder(),
+            CloseBuilder(),
         )
 
     fun getBuilderList(): List<AstBuilder> = list

@@ -42,6 +42,7 @@ class AssignationBuilderTest {
                 Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(0, 1)),
                 Token(DataType.ASSIGNATION, "=", Pair(0, 2), Pair(0, 3)),
                 Token(DataType.NUMBER_VALUE, "5", Pair(0, 4), Pair(0, 5)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 6), Pair(0, 7)),
             )
         assertThrows<UnexpectedTokenException> {
             assignationBuilder.build(tokens)
@@ -55,7 +56,7 @@ class AssignationBuilderTest {
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(0, 1)),
                 Token(DataType.SEPARATOR, ";", Pair(0, 2), Pair(0, 3)),
             )
-        val result = AstBuilder.takeCommentsAndSemiColon(tokens)
+        val result = AstBuilder.takeOutSeparator(tokens)
         assertEquals(1, result.size)
         assertEquals(DataType.VARIABLE_NAME, result[0].getType())
     }

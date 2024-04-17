@@ -1,6 +1,7 @@
 package interpreter.executors
 
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -34,8 +35,9 @@ class BinaryOperatorReader() {
         variables: MutableMap<String, Value>,
     ): Value {
         return when (binary) {
-            is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()))
-            is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()))
+            is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()), true)
+            is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()), true)
+            is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()), true)
             is OperationVariable -> getVariable(binary.value.getValue(), variables)
             is OperationHead -> evaluateHead(binary, variables)
             else -> throw Exception("Operation not found")
@@ -48,12 +50,12 @@ class BinaryOperatorReader() {
     ): Value {
         if (variables.containsKey(name)) {
             if (!variables[name]!!.isEmpty()) {
-                return Value(variables[name]!!.getType(), Optional.of(variables[name]!!.getValue()))
+                return Value(variables[name]!!.getType(), Optional.of(variables[name]!!.getValue()), variables[name]!!.isMutable())
             } else {
-                throw Exception("Variable not initialized")
+                throw Exception("Variable \"${name}\" not initialized")
             }
         } else {
-            throw Exception("Variable not found")
+            throw Exception("Variable \"${name}\" not found")
         }
     }
 
@@ -66,7 +68,7 @@ class BinaryOperatorReader() {
         return when {
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
-            else -> throw Exception("Type Mismatch")
+            else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported")
         }
     }
 
@@ -76,7 +78,7 @@ class BinaryOperatorReader() {
         operator: Token,
     ): Value {
         return when (operator.getType()) {
-            DataType.OPERATOR_PLUS -> Value(VariableType.STRING, Optional.of(left.getValue() + right.getValue()))
+            DataType.OPERATOR_PLUS -> Value(VariableType.STRING, Optional.of(left.getValue() + right.getValue()), false)
             else -> throw Exception("Operator for String not found")
         }
     }
@@ -89,10 +91,10 @@ class BinaryOperatorReader() {
         val leftNumber = left.getValue().toInt()
         val rightNumber = right.getValue().toInt()
         return when (operator.getType()) {
-            DataType.OPERATOR_PLUS -> Value(VariableType.NUMBER, Optional.of((leftNumber + rightNumber).toString()))
-            DataType.OPERATOR_MINUS -> Value(VariableType.NUMBER, Optional.of((leftNumber - rightNumber).toString()))
-            DataType.OPERATOR_MULTIPLY -> Value(VariableType.NUMBER, Optional.of((leftNumber * rightNumber).toString()))
-            DataType.OPERATOR_DIVIDE -> Value(VariableType.NUMBER, Optional.of((leftNumber / rightNumber).toString()))
+            DataType.OPERATOR_PLUS -> Value(VariableType.NUMBER, Optional.of((leftNumber + rightNumber).toString()), false)
+            DataType.OPERATOR_MINUS -> Value(VariableType.NUMBER, Optional.of((leftNumber - rightNumber).toString()), false)
+            DataType.OPERATOR_MULTIPLY -> Value(VariableType.NUMBER, Optional.of((leftNumber * rightNumber).toString()), false)
+            DataType.OPERATOR_DIVIDE -> Value(VariableType.NUMBER, Optional.of((leftNumber / rightNumber).toString()), false)
             else -> throw Exception("Operator for number not found")
         }
     }

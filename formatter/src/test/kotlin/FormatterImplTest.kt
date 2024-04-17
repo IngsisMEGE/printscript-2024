@@ -37,6 +37,7 @@ class FormatterImplTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
+                    true,
                 ),
                 OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
             )
@@ -57,6 +58,7 @@ class FormatterImplTest {
             astn.VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val property: MutableMap<String, Any> = HashMap()
         property["SpaceInFront"] = 1

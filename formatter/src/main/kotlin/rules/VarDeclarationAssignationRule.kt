@@ -72,7 +72,7 @@ class VarDeclarationAssignationRule(
     override fun <T : AST> genericLine(ast: T): String {
         if (ast is VarDeclarationAssignation) {
             val newLine = StringBuilder()
-            newLine.append("let ")
+            newLine.append(if (ast.varDeclaration.isMutable) "let " else "const ")
             newLine.append(ast.varDeclaration.assignation.getValue())
             newLine.append(":")
             newLine.append(ast.varDeclaration.type.getValue())

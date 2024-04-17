@@ -26,17 +26,17 @@ import java.io.FileNotFoundException
 class PrintScript {
     private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter = InterpreterImpl()
+    private val interpreter = InterpreterImpl({ enterIfScope() }, { mergeScopes() })
     private val sca = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
     private var formatter =
         FormatterImpl(
             mapOf(),
         )
 
-    private val storedVariables = mutableMapOf<String, Value>()
+    private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
 
     fun start(path: String): String {
-        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables) }
+        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
     }
 
     fun format(path: String): String {
@@ -111,5 +111,25 @@ class PrintScript {
     ): AST {
         val tokens = lexer.lex(line, numberLine)
         return parser.parse(tokens)
+    }
+
+    private fun enterIfScope() {
+        val newStoredVariables = mutableListOf<MutableMap<String, Value>>()
+        newStoredVariables.addAll(storedVariables)
+        newStoredVariables.add(storedVariables.last().toMutableMap())
+        storedVariables = newStoredVariables
+    }
+
+    private fun mergeScopes() {
+        val hasToUpdate = storedVariables[storedVariables.size - 2]
+        val updated = storedVariables.last()
+
+        for ((key, value) in updated) {
+            if (hasToUpdate.containsKey(key)) {
+                hasToUpdate[key] = value
+            }
+        }
+
+        storedVariables = storedVariables.dropLast(1)
     }
 }

@@ -17,6 +17,7 @@ class SCATests {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "snake_case", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val response = sca.readAst(declaration)
         assertEquals("Invalid typing format in line 0 row 0", response)
@@ -30,6 +31,7 @@ class SCATests {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "camelCase", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val response = sca.readAst(declaration)
         assertEquals("", response)
@@ -43,6 +45,7 @@ class SCATests {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "camelCase", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val response = sca.readAst(declaration)
         assertEquals("Invalid typing format in line 0 row 0", response)
@@ -56,6 +59,7 @@ class SCATests {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "snake_case", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val response = sca.readAst(declaration)
         assertEquals("", response)
