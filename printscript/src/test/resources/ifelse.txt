@@ -1,0 +1,7 @@
+const booleanResult: boolean = false;
+if(booleanResult) {
+    println("else statement not working correctly");
+} else {
+    println("else statement working correctly");
+}
+println("outside of conditional");

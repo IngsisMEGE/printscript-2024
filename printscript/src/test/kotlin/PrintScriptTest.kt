@@ -10,7 +10,8 @@ class PrintScriptTest {
     fun testCLIWithValidFilePath() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
+        val expectedOutput =
+            "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
         Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 
@@ -61,27 +62,27 @@ class PrintScriptTest {
         val path = "src/test/resources/longFile.txt"
         val expected =
             "24.2\n" +
-                "474\n" +
-                "416.7355371900827\n" +
-                "779.5884297520668\n" +
-                "Hola Mundo\n" +
-                "11470.8\n" +
-                "1.8707030242935065\n" +
-                "11468.929296975706\n" +
-                "266.316990741035\n" +
-                "996.399999999787\n" +
-                "996.399999999787\n" +
-                "199900\n" +
-                "499.75\n" +
-                "-999000.25\n" +
-                "Prueba Lexer\n" +
-                "Parser Interpreter\n" +
-                "Prueba LexerParser Interpreter\n" +
-                "-4.990504749375E8\n" +
-                "-9.976018994000625E13\n" +
-                "PucaQuiereaGaru-4.990504749375E8-9.976018994000625E13\n" +
-                "-1.994216172919719E19\n" +
-                "-1.9983670291953082E19\n"
+                    "474\n" +
+                    "416.7355371900827\n" +
+                    "779.5884297520668\n" +
+                    "Hola Mundo\n" +
+                    "11470.8\n" +
+                    "1.8707030242935065\n" +
+                    "11468.929296975706\n" +
+                    "266.316990741035\n" +
+                    "996.399999999787\n" +
+                    "996.399999999787\n" +
+                    "199900\n" +
+                    "499.75\n" +
+                    "-999000.25\n" +
+                    "Prueba Lexer\n" +
+                    "Parser Interpreter\n" +
+                    "Prueba LexerParser Interpreter\n" +
+                    "-4.990504749375E8\n" +
+                    "-9.976018994000625E13\n" +
+                    "PucaQuiereaGaru-4.990504749375E8-9.976018994000625E13\n" +
+                    "-1.994216172919719E19\n" +
+                    "-1.9983670291953082E19\n"
         assertEquals(expected, printScript.start(path))
     }
 
@@ -91,7 +92,7 @@ class PrintScriptTest {
         val path = "src/test/resources/StringWithSpaceAssignationAndDeclaration.txt"
         val expectedOutput =
             "let a:string=\"Hello World\";\n" +
-                "a=\"GoodBye World\";\n"
+                    "a=\"GoodBye World\";\n"
         assertEquals(expectedOutput, printScript.format(path))
         assertEquals("", printScript.start(path))
     }
@@ -144,7 +145,10 @@ class PrintScriptTest {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/booleanTest.txt"
         val realOutput = printScript.start(path)
-        assertEquals("An error occurred while executing the script. Operation between STRING and BOOLEAN not supported", realOutput)
+        assertEquals(
+            "An error occurred while executing the script. Operation between STRING and BOOLEAN not supported",
+            realOutput
+        )
     }
 
     @Test
@@ -191,7 +195,10 @@ class PrintScriptTest {
     fun test017fileIfVariableCreatedInsideIfShouldNotBeRecognized() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/fileIfVariableCreatedInsideIfShouldNotBeRecognized.txt"
-        assertEquals("An error occurred while executing the script. Variable 'a' not found at Line 5", printScript.start(path))
+        assertEquals(
+            "An error occurred while executing the script. Variable 'a' not found at Line 5",
+            printScript.start(path)
+        )
     }
 
     @Test
@@ -206,9 +213,20 @@ class PrintScriptTest {
     fun test019fileIfVariableNestedIfFormattedCorrectly() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/fileIfVariableNestedIfFormattedCorrectly.txt"
-        val expectedOutput = "let a:number=10;\nif(a) {\n    let b:number=20;\n    if(b) {\n        let c:number=30;\n    }\n}\n"
+        val expectedOutput =
+            "let a:number=10;\nif(a) {\n    let b:number=20;\n    if(b) {\n        let c:number=30;\n    }\n}\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
+
+    @Test
+    fun testIfElse() {
+        val printScript = PrintScript(::input,"1.1")
+        val path = "src/test/resources/ifElse.txt"
+        val expectedOutput = "else statement working correctly\n" +
+                "outside of conditional\n"
+        assertEquals(expectedOutput, printScript.start(path))
+    }
+
 
     fun input(message: String): String {
         return message

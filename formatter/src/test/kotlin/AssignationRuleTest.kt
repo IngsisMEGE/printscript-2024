@@ -68,4 +68,20 @@ class AssignationRuleTest {
         val result = assignationRule.genericLine(ast)
         assertEquals("a=5+5", result)
     }
+
+    @Test
+    fun test006assignationEqualsReadInput(){
+        val ast =
+            astn.Assignation(
+                Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),
+                astn.OperationInput(
+                    OperationNumber(
+                        Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
+                    ),
+                ),
+            )
+        val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
+        val result = assignationRule.genericLine(ast)
+        assertEquals("a=readInput(5)", result)
+    }
 }
