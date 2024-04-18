@@ -1,7 +1,9 @@
 package interpreter.executors
 
 import astn.Assignation
+import astn.OperationInput
 import interpreter.Value
+import interpreter.VariableType
 
 class AssignationExecution(private val loadInput: (String) -> String) : Executor<Assignation> {
     private val binaryOperator = BinaryOperatorReader()
@@ -29,6 +31,15 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
         }
 
         variables[varName] = newValue
-        return ""
+        return when (ast.value) {
+            is OperationInput ->
+                binaryOperator.evaluate(
+                    (ast.value as OperationInput).value,
+                    variables,
+                    VariableType.STRING,
+                    loadInput,
+                ).getValue()
+            else -> ""
+        }
     }
 }

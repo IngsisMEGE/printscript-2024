@@ -1,6 +1,7 @@
 package interpreter.executors
 
 import astn.Method
+import astn.OperationInput
 import interpreter.Value
 import interpreter.VariableType
 
@@ -25,7 +26,12 @@ class MethodExecutor(private val loadInput: (String) -> String) : Executor<Metho
         variables: MutableMap<String, Value>,
     ): String {
         if (ast.methodName.getValue() == "println") {
-            return binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
+            return when (ast.value) {
+                is OperationInput ->
+                    binaryOperator.evaluate((ast.value as OperationInput).value, variables, VariableType.STRING, loadInput).getValue() +
+                        "\n" + binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
+                else -> binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
+            }
         } else {
             throw Exception("Method not found")
         }

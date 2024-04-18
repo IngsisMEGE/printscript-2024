@@ -1,5 +1,6 @@
 package executors
 
+import astn.OperationInput
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import interpreter.Value
@@ -22,7 +23,16 @@ class DeclarationAssignationExecution(private val loadInput: (String) -> String)
         if (!variables.containsKey(varName)) {
             if (value.getType() == type) {
                 variables[varName] = Value(type, Optional.of(value.getValue()), ast.varDeclaration.isMutable)
-                return ""
+                return when (ast.value) {
+                    is OperationInput ->
+                        binaryOperator.evaluate(
+                            (ast.value as OperationInput).value,
+                            variables,
+                            VariableType.STRING,
+                            loadInput,
+                        ).getValue()
+                    else -> ""
+                }
             } else {
                 throw Exception(
                     "Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second} between $type and ${value.getType()}",
