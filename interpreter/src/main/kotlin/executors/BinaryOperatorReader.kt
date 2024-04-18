@@ -110,7 +110,7 @@ class BinaryOperatorReader() {
                 val result = leftNumber + rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
@@ -118,7 +118,7 @@ class BinaryOperatorReader() {
                 val result = leftNumber - rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
@@ -126,7 +126,7 @@ class BinaryOperatorReader() {
                 val result = leftNumber * rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
@@ -134,12 +134,16 @@ class BinaryOperatorReader() {
                 val result = leftNumber / rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
             else -> throw Exception("Operator for number not found")
         }
+    }
+
+    private fun getValueOfOperation(result: Double): Optional<String> {
+        return Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString())
     }
 
     private fun parseValue(
