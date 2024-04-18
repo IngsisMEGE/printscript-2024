@@ -73,7 +73,7 @@ class PrintScript(private val loadInput: (String) -> String, private val version
                 throw Exception("File does not end with a separator")
             }
 
-            return output.joinToString("").trimEnd('\n')
+            return output.joinToString("")
         } catch (e: Exception) {
             return "An error occurred while executing the script. ${e.message}"
         }
