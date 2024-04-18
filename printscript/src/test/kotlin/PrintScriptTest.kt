@@ -60,28 +60,28 @@ class PrintScriptTest {
         val printScript = PrintScript()
         val path = "src/test/resources/longFile.txt"
         val expected =
-            "25\n" +
-                "490\n" +
-                "405\n" +
-                "67\n" +
-                "Hola Mundo\n" +
-                "12250\n" +
-                "0\n" +
-                "12250\n" +
-                "3113\n" +
-                "0\n" +
-                "0\n" +
-                "199900\n" +
-                "499\n" +
-                "-997501\n" +
-                "Prueba Lexer\n" +
-                "Parser Interpreter\n" +
-                "Prueba LexerParser Interpreter\n" +
-                "-497553099\n" +
-                "1988150668\n" +
-                "PucaQuiereaGaru-4975530991988150668\n" +
-                "-1492051991\n" +
-                "-1492053744"
+            "24.2\n" +
+                    "474\n" +
+                    "416.7355371900827\n" +
+                    "779.5884297520668\n" +
+                    "Hola Mundo\n" +
+                    "11470.8\n" +
+                    "1.8707030242935065\n" +
+                    "11468.929296975706\n" +
+                    "266.316990741035\n" +
+                    "996.399999999787\n" +
+                    "996.399999999787\n" +
+                    "199900\n" +
+                    "499.75\n" +
+                    "-999000.25\n" +
+                    "Prueba Lexer\n" +
+                    "Parser Interpreter\n" +
+                    "Prueba LexerParser Interpreter\n" +
+                    "-4.990504749375E8\n" +
+                    "-9.976018994000625E13\n" +
+                    "PucaQuiereaGaru-4.990504749375E8-9.976018994000625E13\n" +
+                    "-1.994216172919719E19\n" +
+                    "-1.9983670291953082E19"
         assertEquals(expected, printScript.start(path))
     }
 
