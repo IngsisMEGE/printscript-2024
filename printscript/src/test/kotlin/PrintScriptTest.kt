@@ -197,5 +197,4 @@ class PrintScriptTest {
     fun input(message: String): String {
         return message
     }
-
 }

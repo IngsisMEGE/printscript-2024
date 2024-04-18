@@ -1,4 +1,12 @@
-import astn.*
+import astn.Assignation
+import astn.CloseIfStatement
+import astn.EmptyAST
+import astn.Method
+import astn.OperationInput
+import astn.OperationString
+import astn.OperationVariable
+import astn.VarDeclaration
+import astn.VarDeclarationAssignation
 import exceptions.SyntacticError
 import exceptions.UnexpectedTokenException
 import impl.ParserImpl
@@ -249,17 +257,18 @@ class TestParser {
     }
 
     @Test
-    fun test008ReadInputAssignation(){
+    fun test008ReadInputAssignation() {
         val parser = ParserImpl()
-        val tokens = listOf(
-            Token(DataType.VARIABLE_NAME, "x", Pair(1, 1), Pair(1, 1)),
-            Token(DataType.ASSIGNATION, "=", Pair(1, 3), Pair(1, 3)),
-            Token(DataType.METHOD_CALL, "readInput", Pair(1, 5), Pair(1, 13)),
-            Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 14), Pair(1, 14)),
-            Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 15), Pair(1, 33)),
-            Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 34), Pair(1, 34)),
-            Token(DataType.SEPARATOR, ";", Pair(1, 35), Pair(1, 35)),
-        )
+        val tokens =
+            listOf(
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 1), Pair(1, 1)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 3), Pair(1, 3)),
+                Token(DataType.METHOD_CALL, "readInput", Pair(1, 5), Pair(1, 13)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 14), Pair(1, 14)),
+                Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 15), Pair(1, 33)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 34), Pair(1, 34)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 35), Pair(1, 35)),
+            )
 
         val ast = parser.parse(tokens) as Assignation
 
@@ -273,19 +282,20 @@ class TestParser {
     }
 
     @Test
-    fun test009CannotMakeOperationWithReadInput(){
+    fun test009CannotMakeOperationWithReadInput() {
         val parser = ParserImpl()
-        val tokens = listOf(
-            Token(DataType.VARIABLE_NAME, "x", Pair(1, 1), Pair(1, 1)),
-            Token(DataType.ASSIGNATION, "=", Pair(1, 3), Pair(1, 3)),
-            Token(DataType.METHOD_CALL, "readInput", Pair(1, 5), Pair(1, 13)),
-            Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 14), Pair(1, 14)),
-            Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 15), Pair(1, 33)),
-            Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 34), Pair(1, 34)),
-            Token(DataType.OPERATOR_PLUS, "+", Pair(1, 35), Pair(1, 35)),
-            Token(DataType.NUMBER_VALUE, "5", Pair(1, 37), Pair(1, 37)),
-            Token(DataType.SEPARATOR, ";", Pair(1, 38), Pair(1, 38)),
-        )
+        val tokens =
+            listOf(
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 1), Pair(1, 1)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 3), Pair(1, 3)),
+                Token(DataType.METHOD_CALL, "readInput", Pair(1, 5), Pair(1, 13)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 14), Pair(1, 14)),
+                Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 15), Pair(1, 33)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 34), Pair(1, 34)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(1, 35), Pair(1, 35)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(1, 37), Pair(1, 37)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 38), Pair(1, 38)),
+            )
 
         assertThrows<UnexpectedTokenException> {
             parser.parse(tokens)
@@ -293,15 +303,16 @@ class TestParser {
     }
 
     @Test
-    fun test010MethodCallWithVariable(){
+    fun test010MethodCallWithVariable() {
         val parser = ParserImpl()
-        val tokens = listOf(
-            Token(DataType.METHOD_CALL, "print", Pair(1, 1), Pair(1, 5)),
-            Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 6), Pair(1, 6)),
-            Token(DataType.VARIABLE_NAME, "x", Pair(1, 7), Pair(1, 7)),
-            Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 8), Pair(1, 8)),
-            Token(DataType.SEPARATOR, ";", Pair(1, 9), Pair(1, 9)),
-        )
+        val tokens =
+            listOf(
+                Token(DataType.METHOD_CALL, "print", Pair(1, 1), Pair(1, 5)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 7), Pair(1, 7)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 8), Pair(1, 8)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 9), Pair(1, 9)),
+            )
 
         val ast = parser.parse(tokens) as Method
 
@@ -311,6 +322,4 @@ class TestParser {
         assertEquals("print", ast.methodName.getValue())
         assertEquals("x", opVar.value.getValue())
     }
-
-
 }

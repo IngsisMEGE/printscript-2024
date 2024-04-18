@@ -53,7 +53,11 @@ class OperationBuilder {
         return when {
             parsedTokens.isEmpty() -> false
             parsedTokens.size == 1 -> parsedTokens[0].getType() in singleValuesValid
-            else -> parsedTokens.size > 2 && parsedTokens.any { it.getType() in operators } && parsedTokens.any { it.getType() in valuesValidInOperations }
+            else ->
+                parsedTokens.size > 2 &&
+                    parsedTokens.any {
+                        it.getType() in operators
+                    } && parsedTokens.any { it.getType() in valuesValidInOperations }
         }
     }
 
