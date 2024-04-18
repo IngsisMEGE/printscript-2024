@@ -1,0 +1,1 @@
+let a:number=10;if(a) {let b:number=20;if(b) {let c:number=30;}}
