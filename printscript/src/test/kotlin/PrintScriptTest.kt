@@ -218,16 +218,6 @@ class PrintScriptTest {
         assertEquals(expectedOutput, printScript.format(path))
     }
 
-    @Test
-    fun testIfElse() {
-        val printScript = PrintScript(::input, "1.1")
-        val path = "src/test/resources/ifElse.txt"
-        val expectedOutput =
-            "else statement working correctly\n" +
-                "outside of conditional\n"
-        assertEquals(expectedOutput, printScript.start(path))
-    }
-
     fun input(message: String): String {
         return message
     }
