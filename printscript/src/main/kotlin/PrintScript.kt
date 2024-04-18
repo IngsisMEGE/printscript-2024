@@ -23,10 +23,10 @@ import java.io.FileNotFoundException
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript {
+class PrintScript(private val loadInput: (String) -> String) {
     private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter = InterpreterImpl({ enterIfScope() }, { mergeScopes() })
+    private val interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
     private val sca = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
     private var formatter =
         FormatterImpl(

@@ -1,8 +1,14 @@
+import astn.Assignation
 import astn.CloseIfStatement
 import astn.EmptyAST
+import astn.Method
+import astn.OperationInput
+import astn.OperationString
+import astn.OperationVariable
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import exceptions.SyntacticError
+import exceptions.UnexpectedTokenException
 import impl.ParserImpl
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -128,7 +134,7 @@ class TestParser {
                 Token(DataType.NUMBER_VALUE, "5", Pair(1, 24), Pair(1, 24)),
                 Token(DataType.SEPARATOR, ";", Pair(1, 25), Pair(1, 25)),
             )
-        assertThrows<SyntacticError> {
+        assertThrows<UnexpectedTokenException> {
             parser.parse(tokens)
         }
     }
@@ -148,7 +154,7 @@ class TestParser {
                 Token(DataType.NUMBER_VALUE, "5", Pair(1, 24), Pair(1, 24)),
                 Token(DataType.SEPARATOR, ";", Pair(1, 25), Pair(1, 25)),
             )
-        assertThrows<SyntacticError> {
+        assertThrows<UnexpectedTokenException> {
             parser.parse(tokens)
         }
     }
@@ -178,7 +184,7 @@ class TestParser {
     }
 
     @Test
-    fun test004BooleanPlusStringShouldBeCorrect() {
+    fun test004BooleanPlusStringShouldNotBeCorrect() {
         val parser = ParserImpl()
         val tokens =
             listOf(
@@ -192,11 +198,10 @@ class TestParser {
                 Token(DataType.STRING_VALUE, "hello", Pair(1, 24), Pair(1, 29)),
                 Token(DataType.SEPARATOR, ";", Pair(1, 30), Pair(1, 30)),
             )
-        val ast = parser.parse(tokens) as VarDeclarationAssignation
 
-        assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
-        assertEquals("string", ast.varDeclaration.type.getValue())
+        assertThrows<Exception> {
+            parser.parse(tokens)
+        }
     }
 
     @Test
@@ -221,5 +226,100 @@ class TestParser {
         val ast = parser.parse(tokens) as CloseIfStatement
 
         assertNotNull(ast)
+    }
+
+    @Test
+    fun test007ReadInputAssignationTest() {
+        val parser = ParserImpl()
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(1, 1), Pair(1, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 5), Pair(1, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.STRING_TYPE, "string", Pair(1, 8), Pair(1, 13)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 15), Pair(1, 15)),
+                Token(DataType.METHOD_CALL, "readInput", Pair(1, 17), Pair(1, 25)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 26), Pair(1, 26)),
+                Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 27), Pair(1, 45)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 27), Pair(1, 27)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 26), Pair(1, 26)),
+            )
+        val ast = parser.parse(tokens) as VarDeclarationAssignation
+
+        val opInput = ast.value as OperationInput
+
+        val input = opInput.value as OperationString
+
+        assertNotNull(ast)
+        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("string", ast.varDeclaration.type.getValue())
+        assertEquals("Enter your name: ", input.value.getValue())
+    }
+
+    @Test
+    fun test008ReadInputAssignation() {
+        val parser = ParserImpl()
+        val tokens =
+            listOf(
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 1), Pair(1, 1)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 3), Pair(1, 3)),
+                Token(DataType.METHOD_CALL, "readInput", Pair(1, 5), Pair(1, 13)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 14), Pair(1, 14)),
+                Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 15), Pair(1, 33)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 34), Pair(1, 34)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 35), Pair(1, 35)),
+            )
+
+        val ast = parser.parse(tokens) as Assignation
+
+        val opInput = ast.value as OperationInput
+
+        val input = opInput.value as OperationString
+
+        assertNotNull(ast)
+        assertEquals("x", ast.assignation.getValue())
+        assertEquals("Enter your name: ", input.value.getValue())
+    }
+
+    @Test
+    fun test009CannotMakeOperationWithReadInput() {
+        val parser = ParserImpl()
+        val tokens =
+            listOf(
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 1), Pair(1, 1)),
+                Token(DataType.ASSIGNATION, "=", Pair(1, 3), Pair(1, 3)),
+                Token(DataType.METHOD_CALL, "readInput", Pair(1, 5), Pair(1, 13)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 14), Pair(1, 14)),
+                Token(DataType.STRING_VALUE, "Enter your name: ", Pair(1, 15), Pair(1, 33)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 34), Pair(1, 34)),
+                Token(DataType.OPERATOR_PLUS, "+", Pair(1, 35), Pair(1, 35)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(1, 37), Pair(1, 37)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 38), Pair(1, 38)),
+            )
+
+        assertThrows<UnexpectedTokenException> {
+            parser.parse(tokens)
+        }
+    }
+
+    @Test
+    fun test010MethodCallWithVariable() {
+        val parser = ParserImpl()
+        val tokens =
+            listOf(
+                Token(DataType.METHOD_CALL, "print", Pair(1, 1), Pair(1, 5)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(1, 6), Pair(1, 6)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(1, 7), Pair(1, 7)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(1, 8), Pair(1, 8)),
+                Token(DataType.SEPARATOR, ";", Pair(1, 9), Pair(1, 9)),
+            )
+
+        val ast = parser.parse(tokens) as Method
+
+        val opVar = ast.value as OperationVariable
+
+        assertNotNull(ast)
+        assertEquals("print", ast.methodName.getValue())
+        assertEquals("x", opVar.value.getValue())
     }
 }

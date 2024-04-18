@@ -3,6 +3,7 @@ package interpreter.executors
 import astn.OpTree
 import astn.OperationBoolean
 import astn.OperationHead
+import astn.OperationInput
 import astn.OperationNumber
 import astn.OperationString
 import astn.OperationVariable
@@ -33,13 +34,22 @@ class BinaryOperatorReader() {
     fun evaluate(
         binary: OpTree,
         variables: MutableMap<String, Value>,
+        type: VariableType,
+        loadInput: (String) -> String,
     ): Value {
         return when (binary) {
             is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()), true)
             is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()), true)
             is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()), true)
             is OperationVariable -> getVariable(binary.value.getValue(), variables)
-            is OperationHead -> evaluateHead(binary, variables)
+            is OperationHead -> evaluateHead(binary, variables, type, loadInput)
+            is OperationInput -> {
+                val value = evaluate(binary.value, variables, type, loadInput)
+                if (value.getType() != VariableType.STRING) {
+                    throw Exception("Input value must be a string")
+                }
+                parseValue(loadInput(value.getValue()), type)
+            }
             else -> throw Exception("Operation not found")
         }
     }
@@ -62,10 +72,15 @@ class BinaryOperatorReader() {
     private fun evaluateHead(
         binary: OperationHead,
         variables: MutableMap<String, Value>,
+        type: VariableType,
+        loadInput: (String) -> String,
     ): Value {
-        val left = evaluate(binary.left, variables)
-        val right = evaluate(binary.right, variables)
+        val left = evaluate(binary.left, variables, type, loadInput)
+        val right = evaluate(binary.right, variables, type, loadInput)
         return when {
+            left.getType() == VariableType.BOOLEAN || right.getType() == VariableType.BOOLEAN -> throw Exception(
+                "Operation between ${left.getType()} and ${right.getType()} not supported",
+            )
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
             else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported")
@@ -95,7 +110,7 @@ class BinaryOperatorReader() {
                 val result = leftNumber + rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
@@ -103,7 +118,7 @@ class BinaryOperatorReader() {
                 val result = leftNumber - rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
@@ -111,7 +126,7 @@ class BinaryOperatorReader() {
                 val result = leftNumber * rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
@@ -119,11 +134,40 @@ class BinaryOperatorReader() {
                 val result = leftNumber / rightNumber
                 Value(
                     VariableType.NUMBER,
-                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    getValueOfOperation(result),
                     false,
                 )
             }
             else -> throw Exception("Operator for number not found")
+        }
+    }
+
+    private fun getValueOfOperation(result: Double): Optional<String> {
+        return Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString())
+    }
+
+    private fun parseValue(
+        value: String,
+        type: VariableType,
+    ): Value {
+        return when (type) {
+            VariableType.STRING -> Value(type, Optional.of(value), true)
+            VariableType.NUMBER -> {
+                val number = value.toIntOrNull()
+                if (number === null) {
+                    throw IllegalArgumentException("El valor $value no es un número válido.")
+                } else {
+                    Value(type, Optional.of(number.toString()), true)
+                }
+            }
+            VariableType.BOOLEAN -> {
+                val booleanValue = value.toBooleanStrictOrNull()
+                if (booleanValue === null) {
+                    throw IllegalArgumentException("El valor $value no es un número válido.")
+                } else {
+                    Value(type, Optional.of(booleanValue.toString()), true)
+                }
+            }
         }
     }
 }

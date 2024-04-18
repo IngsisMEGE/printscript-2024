@@ -459,4 +459,54 @@ class LexerImplTest {
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
     }
+
+    @Test
+    fun test014readInput() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let a = readInput();", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.METHOD_CALL,
+                DataType.LEFT_PARENTHESIS,
+                DataType.RIGHT_PARENTHESIS,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test015readInputWithParameters() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let a = readInput(\"Enter a number\");", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.METHOD_CALL,
+                DataType.LEFT_PARENTHESIS,
+                DataType.STRING_VALUE,
+                DataType.RIGHT_PARENTHESIS,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test016DecimalNumberShouldWork() {
+        val lexerImpl: Lexer = LexerImpl(tokenRulesMap)
+        val tokens = lexerImpl.lex("let a = 5.5;", 1)
+        val expectedTypes =
+            listOf(
+                DataType.DECLARATION_VARIABLE,
+                DataType.VARIABLE_NAME,
+                DataType.ASSIGNATION,
+                DataType.NUMBER_VALUE,
+                DataType.SEPARATOR,
+            )
+        assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
 }

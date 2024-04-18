@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 class InterpreterTest {
     @Test
     fun test001RegularInterpreterTestVarDeclaration() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
@@ -31,7 +31,7 @@ class InterpreterTest {
 
     @Test
     fun test002RegularInterpreterTestVarDeclarationAssignation() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -53,7 +53,7 @@ class InterpreterTest {
 
     @Test
     fun test003RegularInterpreterAssignation() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
 
         val ast2 =
             VarDeclaration(
@@ -69,7 +69,7 @@ class InterpreterTest {
 
     @Test
     fun test004RegularInterpreterMethod() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             Method(
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
@@ -82,7 +82,7 @@ class InterpreterTest {
 
     @Test
     fun test005DeclareVariableTwoTimesShouldError() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
@@ -107,7 +107,7 @@ class InterpreterTest {
 
     @Test
     fun test006DeclareVariableWithValueTwoTimesShouldError() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -138,7 +138,7 @@ class InterpreterTest {
 
     @Test
     fun test007PrintScriptWithVariable() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             Method(
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
@@ -162,7 +162,7 @@ class InterpreterTest {
 
     @Test
     fun test008DeclareBooleanVariableThenAssignNewValue() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -192,7 +192,7 @@ class InterpreterTest {
 
     @Test
     fun test009DeclareABooleanWithValueShouldError() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -216,7 +216,7 @@ class InterpreterTest {
 
     @Test
     fun test010DeclareStringVariableThenAssignNewValue() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -246,7 +246,7 @@ class InterpreterTest {
 
     @Test
     fun test011DeclareBooleanWithValue() {
-        val interpreter = InterpreterImpl()
+        val interpreter = InterpreterImpl(::input)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -285,7 +285,7 @@ class InterpreterTest {
     @Test
     fun test012IfStatementTrue() {
         val variables: MutableList<MutableMap<String, Value>> = mutableListOf(mutableMapOf())
-        val interpreter = InterpreterImpl({ enterIfScope(variables) }, { mergeScopes(variables) })
+        val interpreter = InterpreterImpl(::input, { enterIfScope(variables) }, { mergeScopes(variables) })
         val astDeclarationAssignation =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -314,7 +314,7 @@ class InterpreterTest {
     @Test
     fun test013IfStatementTrueShouldExecuteNextLines() {
         val variables: MutableList<MutableMap<String, Value>> = mutableListOf(mutableMapOf())
-        val interpreter = InterpreterImpl({ enterIfScope(variables) }, { mergeScopes(variables) })
+        val interpreter = InterpreterImpl(::input, { enterIfScope(variables) }, { mergeScopes(variables) })
         val astDeclarationAssignation =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -351,7 +351,7 @@ class InterpreterTest {
     @Test
     fun test014IfStatementFalseShouldNotExecuteNextLines() {
         val variables: MutableList<MutableMap<String, Value>> = mutableListOf(mutableMapOf())
-        val interpreter = InterpreterImpl({ enterIfScope(variables) }, { mergeScopes(variables) })
+        val interpreter = InterpreterImpl(::input, { enterIfScope(variables) }, { mergeScopes(variables) })
         val astDeclarationAssignation =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -388,7 +388,7 @@ class InterpreterTest {
     @Test
     fun test015IfStatementTrueShouldMergeAssignationAfterClose() {
         val variables: MutableList<MutableMap<String, Value>> = mutableListOf(mutableMapOf())
-        val interpreter = InterpreterImpl({ enterIfScope(variables) }, { mergeScopes(variables) })
+        val interpreter = InterpreterImpl(::input, { enterIfScope(variables) }, { mergeScopes(variables) })
         val astDeclarationAssignation =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -458,7 +458,7 @@ class InterpreterTest {
     @Test
     fun test016IfStatementFalseShouldEnterElse() {
         val variables: MutableList<MutableMap<String, Value>> = mutableListOf(mutableMapOf())
-        val interpreter = InterpreterImpl({ enterIfScope(variables) }, { mergeScopes(variables) })
+        val interpreter = InterpreterImpl(::input, { enterIfScope(variables) }, { mergeScopes(variables) })
         val astDeclarationAssignation =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -530,7 +530,7 @@ class InterpreterTest {
     @Test
     fun test017IfInsideIfShouldMergeScopes() {
         val variables: MutableList<MutableMap<String, Value>> = mutableListOf(mutableMapOf())
-        val interpreter = InterpreterImpl({ enterIfScope(variables) }, { mergeScopes(variables) })
+        val interpreter = InterpreterImpl(::input, { enterIfScope(variables) }, { mergeScopes(variables) })
         val astDeclarationAssignation2 =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -601,5 +601,28 @@ class InterpreterTest {
         assertEquals("Hello\n", resul1)
         assertEquals("", result2)
         assertEquals(2, variables.size)
+    }
+
+    fun input(message: String): String {
+        return message
+    }
+
+    @Test
+    fun testWithDecimalShouldWork() {
+        val interpreter = InterpreterImpl(::input)
+        val ast =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                    true,
+                ),
+                OperationNumber(Token(DataType.NUMBER_VALUE, "5.5", Pair(7, 0), Pair(10, 0))),
+            )
+        val variables = mutableMapOf<String, Value>()
+
+        val result = interpreter.readAST(ast, variables)
+
+        assertEquals("", result)
     }
 }

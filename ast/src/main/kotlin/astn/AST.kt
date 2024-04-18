@@ -84,3 +84,5 @@ data class OperationString(val value: Token) : OpTree
 data class OperationVariable(val value: Token) : OpTree
 
 data class OperationBoolean(val value: Token) : OpTree
+
+data class OperationInput(val value: OpTree) : OpTree

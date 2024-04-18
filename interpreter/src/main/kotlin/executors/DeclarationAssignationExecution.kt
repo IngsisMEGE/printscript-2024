@@ -9,7 +9,7 @@ import interpreter.executors.Executor
 import interpreter.executors.utils.ValueTypeAdapter
 import java.util.Optional
 
-class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
+class DeclarationAssignationExecution(private val loadInput: (String) -> String) : Executor<VarDeclarationAssignation> {
     private val binaryOperator = BinaryOperatorReader()
 
     override fun execute(
@@ -18,7 +18,7 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
     ): String {
         val varName = ast.varDeclaration.assignation.getValue()
         val type = getValueType(ast.varDeclaration)
-        val value = binaryOperator.evaluate(ast.value, variables)
+        val value = binaryOperator.evaluate(ast.value, variables, type, loadInput)
         if (!variables.containsKey(varName)) {
             if (value.getType() == type) {
                 variables[varName] = Value(type, Optional.of(value.getValue()), ast.varDeclaration.isMutable)

@@ -33,9 +33,10 @@ class DeclarationAssignedBuilder : AstBuilder {
     }
 
     override fun build(tokens: List<Token>): AST {
+        val tokensWithoutSeparator = takeOutSeparator(tokens)
         return VarDeclarationAssignation(
-            declaratorBuilder.build(tokens.subList(0, 4)) as VarDeclaration,
-            operationBuilder.buildOperation(tokens.subList(5, tokens.size)),
+            declaratorBuilder.build(tokensWithoutSeparator.subList(0, 4)) as VarDeclaration,
+            operationBuilder.buildOperation(tokensWithoutSeparator.subList(5, tokensWithoutSeparator.size)),
         )
     }
 }

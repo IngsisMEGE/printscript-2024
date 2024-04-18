@@ -2,13 +2,14 @@ package interpreter.executors
 
 import astn.Method
 import interpreter.Value
+import interpreter.VariableType
 
 /**
  * This class is responsible for executing methods. It implements the Executor interface for the Method type.
  *
  * @property binaryOperator A private property of type BinaryOperatorReader. It is used to evaluate the value of the Method object.
  */
-class MethodExecutor : Executor<Method> {
+class MethodExecutor(private val loadInput: (String) -> String) : Executor<Method> {
     private val binaryOperator = BinaryOperatorReader()
 
     /**
@@ -24,7 +25,7 @@ class MethodExecutor : Executor<Method> {
         variables: MutableMap<String, Value>,
     ): String {
         if (ast.methodName.getValue() == "println") {
-            return binaryOperator.evaluate(ast.value, variables).getValue() + "\n"
+            return binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
         } else {
             throw Exception("Method not found")
         }

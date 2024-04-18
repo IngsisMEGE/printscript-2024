@@ -3,7 +3,7 @@ package interpreter.executors
 import astn.Assignation
 import interpreter.Value
 
-class AssignationExecution : Executor<Assignation> {
+class AssignationExecution(private val loadInput: (String) -> String) : Executor<Assignation> {
     private val binaryOperator = BinaryOperatorReader()
 
     override fun execute(
@@ -11,12 +11,11 @@ class AssignationExecution : Executor<Assignation> {
         variables: MutableMap<String, Value>,
     ): String {
         val varName = ast.assignation.getValue()
-        val existingValue = variables[varName]
-        val newValue = binaryOperator.evaluate(ast.value, variables)
+        val existingValue =
+            variables[varName]
+                ?: throw Exception("Variable '$varName' not found at Line ${ast.assignation.getInitialPosition().second}")
 
-        if (existingValue == null) {
-            throw Exception("Variable '$varName' not found at Line ${ast.assignation.getInitialPosition().second}")
-        }
+        val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
 
         if (!existingValue.isMutable()) {
             throw Exception("Cannot assign new value to constant '$varName'.")

@@ -15,7 +15,7 @@ class BinaryOperationReaderTest {
     fun test001EvaluateOperationNumber() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation = OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)))
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
         assertEquals("5", result.getValue())
     }
 
@@ -23,7 +23,7 @@ class BinaryOperationReaderTest {
     fun test002EvaluateOperationString() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation = OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0)))
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
         assertEquals("Hello", result.getValue())
     }
 
@@ -36,7 +36,7 @@ class BinaryOperationReaderTest {
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
             )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER, ::input)
         assertEquals(VariableType.NUMBER, result.getType())
         assertEquals("10", result.getValue())
     }
@@ -58,7 +58,7 @@ class BinaryOperationReaderTest {
                     OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
                 ),
             )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER, ::input)
         assertEquals("35", result.getValue())
         assertEquals(VariableType.NUMBER, result.getType())
     }
@@ -80,30 +80,8 @@ class BinaryOperationReaderTest {
                     OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
                 ),
             )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
         assertEquals("10Hello5", result.getValue())
-        assertEquals(VariableType.STRING, result.getType())
-    }
-
-    @Test
-    fun test006OperationBetweenBooleanAndStringShouldBeCorrect() {
-        val binaryOperationReader = BinaryOperatorReader()
-        val operation =
-            OperationHead(
-                Token(DataType.OPERATOR_PLUS, "+", Pair(0, 0), Pair(1, 0)),
-                OperationHead(
-                    Token(DataType.OPERATOR_PLUS, "+", Pair(0, 0), Pair(1, 0)),
-                    OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0))),
-                    OperationString(Token(DataType.STRING_VALUE, "World", Pair(0, 0), Pair(1, 0))),
-                ),
-                OperationHead(
-                    Token(DataType.OPERATOR_PLUS, "-", Pair(0, 0), Pair(1, 0)),
-                    OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0))),
-                    OperationBoolean(Token(DataType.BOOLEAN_VALUE, "true", Pair(0, 0), Pair(1, 0))),
-                ),
-            )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
-        assertEquals("HelloWorldHellotrue", result.getValue())
         assertEquals(VariableType.STRING, result.getType())
     }
 
@@ -120,7 +98,7 @@ class BinaryOperationReaderTest {
             )
 
         assertThrows<Exception> {
-            binaryOperationReader.evaluate(operation, mutableMapOf())
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
         }
     }
 
@@ -137,12 +115,12 @@ class BinaryOperationReaderTest {
             )
 
         assertThrows<Exception> {
-            binaryOperationReader.evaluate(operation, mutableMapOf())
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
         }
     }
 
     @Test
-    fun test009BooleanAndStringShouldBeCorrect() {
+    fun test009BooleanAndStringShouldNotBeCorrect() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation =
             OperationHead(
@@ -153,8 +131,12 @@ class BinaryOperationReaderTest {
                 ),
             )
 
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf())
-        assertEquals("trueHello", result.getValue())
-        assertEquals(VariableType.STRING, result.getType())
+        assertThrows<Exception> {
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+        }
+    }
+
+    fun input(message: String): String {
+        return message
     }
 }
