@@ -23,7 +23,7 @@ import java.io.FileNotFoundException
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.0") {
+class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.1") {
     private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
     private val interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
@@ -84,7 +84,7 @@ class PrintScript(private val loadInput: (String) -> String, private val version
     }
 
     private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {
-        val fileName = if (version == "1.0") "LexerDefaultRegex.json" else "LexerFullRules.json"
+        val fileName = if (version == "1.1") "LexerFullRules.json" else "LexerDefaultRules.json"
         var file = File("src/main/resources/$fileName")
         if (!file.exists()) {
             file = File("PrintScript/src/main/resources/$fileName")
