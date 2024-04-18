@@ -196,4 +196,20 @@ class PrintScriptTest {
         val path = "src/test/resources/fileIfVariableCreatedInsideIfShouldNotBeRecognized.txt"
         assertEquals("An error occurred while executing the script. Variable 'a' not found at Line 5", printScript.start(path))
     }
+
+    @Test
+    fun test018fileIfVariableFormattedCorrectly() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileIfVariableFormattedCorrectly.txt"
+        val expectedOutput = "let a:number=10;\nif(a) {\n    let b:number=20;\n}\n"
+        assertEquals(expectedOutput, printScript.format(path))
+    }
+
+    @Test
+    fun test019fileIfVariableNestedIfFormattedCorrectly() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/fileIfVariableNestedIfFormattedCorrectly.txt"
+        val expectedOutput = "let a:number=10;\nif(a) {\n    let b:number=20;\n    if(b) {\n        let c:number=30;\n    }\n}\n"
+        assertEquals(expectedOutput, printScript.format(path))
+    }
 }

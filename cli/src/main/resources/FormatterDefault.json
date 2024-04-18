@@ -3,5 +3,6 @@
   "DotBack": "1",
   "EqualFront": "1",
   "EqualBack": "1",
-  "amountOfLines" : "1"
+  "amountOfLines" : "1",
+  "Indentation": "4"
 }
