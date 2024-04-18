@@ -1,8 +1,6 @@
 package formatter
 
 import astn.AST
-import astn.CloseIfStatement
-import astn.IfStatement
 import enforcers.IndentedIfElseBlockEnforcer
 import rules.Rules
 import rules.provider.RuleProvider
@@ -21,9 +19,10 @@ class FormatterImpl(override val property: Map<String, Any>) : Formatter {
     init {
         val rulesWithEnforcers = rules.map { it.isTheRuleIncluded(property) }
 
-        ifElseBlockEnforcer = IndentedIfElseBlockEnforcer(
-            if (property.containsKey("Indentation")) property["Indentation"].toString().toInt() else 4
-        )
+        ifElseBlockEnforcer =
+            IndentedIfElseBlockEnforcer(
+                if (property.containsKey("Indentation")) property["Indentation"].toString().toInt() else 4,
+            )
 
         rules = rulesWithEnforcers
     }
@@ -40,14 +39,15 @@ class FormatterImpl(override val property: Map<String, Any>) : Formatter {
     override fun format(ast: AST): String {
         for (rule in rules) {
             if (!rule.canCreateGenericLine(ast)) continue
-            ifElseBlockEnforcer.didEnterIf(ast)
             val newLine = rule.genericLine(ast)
             val enforceLine = rule.enforceRule(newLine) + "\n"
             if (ifElseBlockEnforcer.shouldIndent()) {
-                val ifIndentEnforce = ifElseBlockEnforcer.enforceRule() + enforceLine
                 ifElseBlockEnforcer.didExitIF(ast)
+                val ifIndentEnforce = ifElseBlockEnforcer.enforceRule() + enforceLine
+                ifElseBlockEnforcer.didEnterIf(ast)
                 return ifIndentEnforce
             }
+            ifElseBlockEnforcer.didEnterIf(ast)
             return enforceLine
         }
         return ""

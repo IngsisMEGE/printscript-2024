@@ -5,7 +5,7 @@ import astn.CloseIfStatement
 import astn.IfStatement
 
 class IndentedIfElseBlockEnforcer(private val amountOfIndentation: Int) {
-    private var ifCounter : Int = 0;
+    private var ifCounter: Int = 0
 
     init {
         if (amountOfIndentation < 0) {
@@ -20,19 +20,18 @@ class IndentedIfElseBlockEnforcer(private val amountOfIndentation: Int) {
         return modifiedCode.toString()
     }
 
-    fun didEnterIf(ast : AST){
-        if (ast is IfStatement ) ifCounter++
+    fun didEnterIf(ast: AST) {
+        if (ast is IfStatement) ifCounter++
         if (ast is CloseIfStatement && ast.isElse) ifCounter++
     }
 
-    fun didExitIF(ast : AST){
+    fun didExitIF(ast: AST) {
         if (ast is CloseIfStatement && ifCounter > 0) {
             ifCounter--
         }
     }
 
-    fun shouldIndent() : Boolean {
+    fun shouldIndent(): Boolean {
         return ifCounter > 0
     }
-
 }
