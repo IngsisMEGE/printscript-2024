@@ -70,7 +70,7 @@ class AssignationRuleTest {
     }
 
     @Test
-    fun test006assignationEqualsReadInput(){
+    fun test006assignationEqualsReadInput() {
         val ast =
             astn.Assignation(
                 Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),

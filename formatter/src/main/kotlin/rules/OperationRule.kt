@@ -1,6 +1,12 @@
 package rules
 
-import astn.*
+import astn.OpTree
+import astn.OperationBoolean
+import astn.OperationHead
+import astn.OperationInput
+import astn.OperationNumber
+import astn.OperationString
+import astn.OperationVariable
 import enforcers.Enforcer
 import enforcers.SpaceForCharacterEnforcer
 import token.DataType

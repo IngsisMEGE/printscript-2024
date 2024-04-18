@@ -169,7 +169,6 @@ class FormatterImplTest {
         assertEquals(expected, result)
     }
 
-
     @Test
     fun test009formatAssignation() {
         val ast =
