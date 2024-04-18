@@ -11,11 +11,9 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
         variables: MutableMap<String, Value>,
     ): String {
         val varName = ast.assignation.getValue()
-        val existingValue = variables[varName]
-
-        if (existingValue == null) {
-            throw Exception("Variable '$varName' not found at Line ${ast.assignation.getInitialPosition().second}")
-        }
+        val existingValue =
+            variables[varName]
+                ?: throw Exception("Variable '$varName' not found at Line ${ast.assignation.getInitialPosition().second}")
 
         val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
 

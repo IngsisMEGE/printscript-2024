@@ -143,11 +143,8 @@ class PrintScriptTest {
     fun test014BooleanTest() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/booleanTest.txt"
-        val expectedOutput =
-            "false\n" +
-                "Hellofalse\n"
         val realOutput = printScript.start(path)
-        assertEquals(expectedOutput, realOutput)
+        assertEquals("An error occurred while executing the script. Operation between STRING and BOOLEAN not supported", realOutput)
     }
 
     @Test
@@ -200,4 +197,5 @@ class PrintScriptTest {
     fun input(message: String): String {
         return message
     }
+
 }

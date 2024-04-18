@@ -86,28 +86,6 @@ class BinaryOperationReaderTest {
     }
 
     @Test
-    fun test006OperationBetweenBooleanAndStringShouldBeCorrect() {
-        val binaryOperationReader = BinaryOperatorReader()
-        val operation =
-            OperationHead(
-                Token(DataType.OPERATOR_PLUS, "+", Pair(0, 0), Pair(1, 0)),
-                OperationHead(
-                    Token(DataType.OPERATOR_PLUS, "+", Pair(0, 0), Pair(1, 0)),
-                    OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0))),
-                    OperationString(Token(DataType.STRING_VALUE, "World", Pair(0, 0), Pair(1, 0))),
-                ),
-                OperationHead(
-                    Token(DataType.OPERATOR_PLUS, "-", Pair(0, 0), Pair(1, 0)),
-                    OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0))),
-                    OperationBoolean(Token(DataType.BOOLEAN_VALUE, "true", Pair(0, 0), Pair(1, 0))),
-                ),
-            )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
-        assertEquals("HelloWorldHellotrue", result.getValue())
-        assertEquals(VariableType.STRING, result.getType())
-    }
-
-    @Test
     fun test007OperationsBetweenBooleanPlus() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation =
@@ -142,7 +120,7 @@ class BinaryOperationReaderTest {
     }
 
     @Test
-    fun test009BooleanAndStringShouldBeCorrect() {
+    fun test009BooleanAndStringShouldNotBeCorrect() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation =
             OperationHead(
@@ -153,9 +131,9 @@ class BinaryOperationReaderTest {
                 ),
             )
 
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
-        assertEquals("trueHello", result.getValue())
-        assertEquals(VariableType.STRING, result.getType())
+        assertThrows<Exception> {
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+        }
     }
 
     fun input(message: String): String {

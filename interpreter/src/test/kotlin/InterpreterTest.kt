@@ -606,4 +606,23 @@ class InterpreterTest {
     fun input(message: String): String {
         return message
     }
+
+    @Test
+    fun testWithDecimalShouldWork() {
+        val interpreter = InterpreterImpl(::input)
+        val ast =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                    true,
+                ),
+                OperationNumber(Token(DataType.NUMBER_VALUE, "5.5", Pair(7, 0), Pair(10, 0))),
+            )
+        val variables = mutableMapOf<String, Value>()
+
+        val result = interpreter.readAST(ast, variables)
+
+        assertEquals("", result)
+    }
 }

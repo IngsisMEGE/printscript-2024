@@ -43,7 +43,13 @@ class BinaryOperatorReader() {
             is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()), true)
             is OperationVariable -> getVariable(binary.value.getValue(), variables)
             is OperationHead -> evaluateHead(binary, variables, type, loadInput)
-            is OperationInput -> parseValue(loadInput(evaluate(binary.value, variables, type, loadInput).getValue()), type)
+            is OperationInput -> {
+                val value = evaluate(binary.value, variables, type, loadInput)
+                if (value.getType() != VariableType.STRING) {
+                    throw Exception("Input value must be a string")
+                }
+                parseValue(loadInput(value.getValue()), type)
+            }
             else -> throw Exception("Operation not found")
         }
     }
@@ -72,6 +78,9 @@ class BinaryOperatorReader() {
         val left = evaluate(binary.left, variables, type, loadInput)
         val right = evaluate(binary.right, variables, type, loadInput)
         return when {
+            left.getType() == VariableType.BOOLEAN || right.getType() == VariableType.BOOLEAN -> throw Exception(
+                "Operation between ${left.getType()} and ${right.getType()} not supported",
+            )
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
             else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported")
@@ -105,7 +114,7 @@ class BinaryOperatorReader() {
         }
     }
 
-    fun parseValue(
+    private fun parseValue(
         value: String,
         type: VariableType,
     ): Value {
