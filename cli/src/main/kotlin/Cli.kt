@@ -21,18 +21,9 @@ class Cli : CliktCommand() {
 
 class Execute : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
-    private val version: String by option(help = "PrintScript version (1.0 or 1.1)").prompt("Enter PrintScript version (1.0 or 1.1)")
 
     override fun run() {
-        val printScript =
-            when (version) {
-                "1.0" -> PrintScript(::input)
-                "1.1" -> PrintScript(::input)
-                else -> {
-                    echo("Unsupported version. Defaulting to 1.0")
-                    PrintScript(::input)
-                }
-            }
+        val printScript = PrintScript(::input)
 
         try {
             val output = printScript.start(filePath)

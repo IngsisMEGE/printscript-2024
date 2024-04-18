@@ -9,7 +9,7 @@ class CliTest {
     @Test
     fun testExecuteCommand() {
         val command = Execute()
-        val result = command.test("--file-path=src/test/resources/testFile.txt --version=1.0")
+        val result = command.test("--file-path=src/test/resources/testFile.txt")
         assertEquals("10\n\n", result.output)
     }
 
