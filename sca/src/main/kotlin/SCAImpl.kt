@@ -1,5 +1,6 @@
 package analyzers
 
+import analyzers.analyzers.InputOperationAnalyzer
 import astn.AST
 
 class SCAImpl(options: Map<String, Boolean>) : SCA {
@@ -28,6 +29,7 @@ class SCAImpl(options: Map<String, Boolean>) : SCA {
                 "CamelCaseFormat" -> analyzerList.add(CamelCaseAnalyzer())
                 "SnakeCaseFormat" -> analyzerList.add(SnakeCaseAnalyzer())
                 "MethodNoExpresion" -> analyzerList.add(MethodOperationAnalyzer())
+                "InputNoExpresion" -> analyzerList.add(InputOperationAnalyzer())
                 else -> {}
             }
         }
