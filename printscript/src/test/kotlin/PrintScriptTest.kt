@@ -10,7 +10,8 @@ class PrintScriptTest {
     fun testCLIWithValidFilePath() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/testFile.txt"
-        val expectedOutput = "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
+        val expectedOutput =
+            "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
         Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 
@@ -144,7 +145,10 @@ class PrintScriptTest {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/booleanTest.txt"
         val realOutput = printScript.start(path)
-        assertEquals("An error occurred while executing the script. Operation between STRING and BOOLEAN not supported", realOutput)
+        assertEquals(
+            "An error occurred while executing the script. Operation between STRING and BOOLEAN not supported",
+            realOutput,
+        )
     }
 
     @Test
@@ -191,7 +195,10 @@ class PrintScriptTest {
     fun test017fileIfVariableCreatedInsideIfShouldNotBeRecognized() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/fileIfVariableCreatedInsideIfShouldNotBeRecognized.txt"
-        assertEquals("An error occurred while executing the script. Variable 'a' not found at Line 5", printScript.start(path))
+        assertEquals(
+            "An error occurred while executing the script. Variable 'a' not found at Line 5",
+            printScript.start(path),
+        )
     }
 
     @Test
@@ -206,7 +213,8 @@ class PrintScriptTest {
     fun test019fileIfVariableNestedIfFormattedCorrectly() {
         val printScript = PrintScript(::input)
         val path = "src/test/resources/fileIfVariableNestedIfFormattedCorrectly.txt"
-        val expectedOutput = "let a:number=10;\nif(a) {\n    let b:number=20;\n    if(b) {\n        let c:number=30;\n    }\n}\n"
+        val expectedOutput =
+            "let a:number=10;\nif(a) {\n    let b:number=20;\n    if(b) {\n        let c:number=30;\n    }\n}\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 

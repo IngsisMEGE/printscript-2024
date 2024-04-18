@@ -168,4 +168,24 @@ class FormatterImplTest {
                 formatter.format(ast7) + formatter.format(ast8) + formatter.format(ast3) + formatter.format(ast4) + formatter.format(ast5)
         assertEquals(expected, result)
     }
+
+    @Test
+    fun test009formatAssignation() {
+        val ast =
+            astn.Assignation(
+                Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),
+                astn.OperationInput(
+                    OperationNumber(
+                        Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
+                    ),
+                ),
+            )
+        val property: MutableMap<String, Any> = HashMap()
+        property["EqualFront"] = 1
+        property["EqualBack"] = 1
+        val formatter = FormatterImpl(property)
+        val expected = "a = readInput(5);\n"
+        val result = formatter.format(ast)
+        assertEquals(expected, result)
+    }
 }
