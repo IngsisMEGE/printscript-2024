@@ -24,7 +24,6 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.0") {
-
     private var lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
     private val interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
@@ -85,14 +84,14 @@ class PrintScript(private val loadInput: (String) -> String, private val version
     }
 
     private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {
-    val fileName = if (version == "1.0") "LexerDefaultRegex.json" else "LexerFullRules.json"
-    var file = File("src/main/resources/$fileName")
-    if (!file.exists()) {
-        file = File("PrintScript/src/main/resources/$fileName")
+        val fileName = if (version == "1.0") "LexerDefaultRegex.json" else "LexerFullRules.json"
+        var file = File("src/main/resources/$fileName")
+        if (!file.exists()) {
+            file = File("PrintScript/src/main/resources/$fileName")
+        }
+        val json = file.readText()
+        return JSONManager.jsonToMap<TokenRegexRule>(json)
     }
-    val json = file.readText()
-    return JSONManager.jsonToMap<TokenRegexRule>(json)
-}
 
     fun changeFormatterConfig(configFilePath: String) {
         val file = File(configFilePath)
