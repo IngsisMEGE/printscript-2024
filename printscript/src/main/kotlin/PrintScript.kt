@@ -72,7 +72,7 @@ class PrintScript {
                 throw Exception("File does not end with a separator")
             }
 
-            return output.joinToString("")
+            return output.joinToString("").trimEnd('\n')
         } catch (e: Exception) {
             return "An error occurred while executing the script. ${e.message}"
         }

@@ -10,14 +10,14 @@ class CliTest {
     fun testExecuteCommand() {
         val command = Execute()
         val result = command.test("--file-path=src/test/resources/testFile.txt --version=1.0")
-        assertEquals("10\n\n", result.output)
+        assertEquals("10\n", result.output)
     }
 
     @Test
     fun testFinalFormattedFile() {
         val command = FormatFile()
         command.test("--file-path=src/test/resources/testFile.txt")
-        val expectedContent = "let x:number=10;\n\nprintln(x);\n"
+        val expectedContent = "let x:number=10;\n\nprintln(x);"
         val actualContent = File("src/test/resources/testFile.txt").readText()
         assertEquals(expectedContent, actualContent)
     }
