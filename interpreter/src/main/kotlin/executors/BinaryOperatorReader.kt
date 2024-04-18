@@ -88,13 +88,41 @@ class BinaryOperatorReader() {
         right: Value,
         operator: Token,
     ): Value {
-        val leftNumber = left.getValue().toInt()
-        val rightNumber = right.getValue().toInt()
+        val leftNumber = left.getValue().toDouble()
+        val rightNumber = right.getValue().toDouble()
         return when (operator.getType()) {
-            DataType.OPERATOR_PLUS -> Value(VariableType.NUMBER, Optional.of((leftNumber + rightNumber).toString()), false)
-            DataType.OPERATOR_MINUS -> Value(VariableType.NUMBER, Optional.of((leftNumber - rightNumber).toString()), false)
-            DataType.OPERATOR_MULTIPLY -> Value(VariableType.NUMBER, Optional.of((leftNumber * rightNumber).toString()), false)
-            DataType.OPERATOR_DIVIDE -> Value(VariableType.NUMBER, Optional.of((leftNumber / rightNumber).toString()), false)
+            DataType.OPERATOR_PLUS -> {
+                val result = leftNumber + rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    false,
+                )
+            }
+            DataType.OPERATOR_MINUS -> {
+                val result = leftNumber - rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    false,
+                )
+            }
+            DataType.OPERATOR_MULTIPLY -> {
+                val result = leftNumber * rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    false,
+                )
+            }
+            DataType.OPERATOR_DIVIDE -> {
+                val result = leftNumber / rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString()),
+                    false,
+                )
+            }
             else -> throw Exception("Operator for number not found")
         }
     }
