@@ -13,6 +13,7 @@ import executors.DeclarationExecution
 import interpreter.executors.AssignationExecution
 import interpreter.executors.IfExecutor
 import interpreter.executors.MethodExecutor
+import interpreter.executors.operationMethod.LoadInputHolder
 
 /**
  * This class is responsible for interpreting the Abstract Syntax Tree (AST) in the PrintScript application.
@@ -33,6 +34,10 @@ class InterpreterImpl(
     private var insideIf = false
     private var insideElse = false
 
+    init {
+        LoadInputHolder.loadInput = loadInput
+    }
+
     override fun readAST(
         ast: AST,
         storedVariables: MutableMap<String, Value>,
@@ -42,10 +47,10 @@ class InterpreterImpl(
         }
         return when (ast) {
             is EmptyAST -> ""
-            is Assignation -> AssignationExecution(loadInput).execute(ast, storedVariables)
+            is Assignation -> AssignationExecution().execute(ast, storedVariables)
             is VarDeclaration -> DeclarationExecution().execute(ast, storedVariables)
-            is VarDeclarationAssignation -> DeclarationAssignationExecution(loadInput).execute(ast, storedVariables)
-            is Method -> MethodExecutor(loadInput).execute(ast, storedVariables)
+            is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, storedVariables)
+            is Method -> MethodExecutor().execute(ast, storedVariables)
             is IfStatement -> {
                 val ifExecutor = IfExecutor()
                 val result = ifExecutor.execute(ast, storedVariables)

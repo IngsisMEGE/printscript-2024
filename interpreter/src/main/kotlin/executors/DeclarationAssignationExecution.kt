@@ -1,6 +1,6 @@
 package executors
 
-import astn.OperationInput
+import astn.OperationMethod
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
 import interpreter.Value
@@ -10,7 +10,7 @@ import interpreter.executors.Executor
 import interpreter.executors.utils.ValueTypeAdapter
 import java.util.Optional
 
-class DeclarationAssignationExecution(private val loadInput: (String) -> String) : Executor<VarDeclarationAssignation> {
+class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
     private val binaryOperator = BinaryOperatorReader()
 
     override fun execute(
@@ -19,17 +19,16 @@ class DeclarationAssignationExecution(private val loadInput: (String) -> String)
     ): String {
         val varName = ast.varDeclaration.varName.getValue()
         val type = getValueType(ast.varDeclaration)
-        val value = binaryOperator.evaluate(ast.value, variables, type, loadInput)
+        val value = binaryOperator.evaluate(ast.value, variables, type)
         if (!variables.containsKey(varName)) {
             if (value.getType() == type) {
                 variables[varName] = Value(type, Optional.of(value.getValue()), ast.varDeclaration.isMutable)
                 return when (ast.value) {
-                    is OperationInput ->
+                    is OperationMethod ->
                         binaryOperator.evaluate(
-                            (ast.value as OperationInput).value,
+                            (ast.value as OperationMethod).value,
                             variables,
                             VariableType.STRING,
-                            loadInput,
                         ).getValue()
                     else -> ""
                 }

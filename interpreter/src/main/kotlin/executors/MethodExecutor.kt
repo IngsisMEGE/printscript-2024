@@ -1,7 +1,7 @@
 package interpreter.executors
 
 import astn.Method
-import astn.OperationInput
+import astn.OperationMethod
 import interpreter.Value
 import interpreter.VariableType
 
@@ -10,7 +10,7 @@ import interpreter.VariableType
  *
  * @property binaryOperator A private property of type BinaryOperatorReader. It is used to evaluate the value of the Method object.
  */
-class MethodExecutor(private val loadInput: (String) -> String) : Executor<Method> {
+class MethodExecutor : Executor<Method> {
     private val binaryOperator = BinaryOperatorReader()
 
     /**
@@ -27,10 +27,10 @@ class MethodExecutor(private val loadInput: (String) -> String) : Executor<Metho
     ): String {
         if (ast.methodName.getValue() == "println") {
             return when (ast.value) {
-                is OperationInput ->
-                    binaryOperator.evaluate((ast.value as OperationInput).value, variables, VariableType.STRING, loadInput).getValue() +
-                        "\n" + binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
-                else -> binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
+                is OperationMethod ->
+                    binaryOperator.evaluate((ast.value as OperationMethod).value, variables, VariableType.STRING).getValue() +
+                        "\n" + binaryOperator.evaluate(ast.value, variables, VariableType.STRING).getValue() + "\n"
+                else -> binaryOperator.evaluate(ast.value, variables, VariableType.STRING).getValue() + "\n"
             }
         } else {
             throw Exception("Method ${ast.methodName.getValue()} not found at Line ${ast.methodName.getInitialPosition().second}")

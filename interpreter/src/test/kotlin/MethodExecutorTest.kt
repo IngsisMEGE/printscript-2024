@@ -10,7 +10,7 @@ import token.Token
 class MethodExecutorTest {
     @Test
     fun test001MethodExecutorMethodNotFound() {
-        val methodExecutor = MethodExecutor(::input)
+        val methodExecutor = MethodExecutor()
         val ast =
             Method(
                 Token(DataType.VARIABLE_NAME, "IAMNOTAMETHOD", Pair(0, 0), Pair(6, 0)),
@@ -25,7 +25,7 @@ class MethodExecutorTest {
 
     @Test
     fun test002MethodExecutorMethodPrintln() {
-        val methodExecutor = MethodExecutor(::input)
+        val methodExecutor = MethodExecutor()
         val ast =
             Method(
                 Token(DataType.VARIABLE_NAME, "println", Pair(0, 0), Pair(6, 0)),
