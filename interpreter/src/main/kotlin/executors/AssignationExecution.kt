@@ -17,14 +17,14 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
             variables[varName]
                 ?: throw Exception("Variable '$varName' not found at Line ${ast.varName.getInitialPosition().second}")
 
-        val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
-
         if (!existingValue.isMutable()) {
             throw Exception(
                 "Cannot assign new value to constant '$varName' at Line" +
                     " ${ast.varName.getInitialPosition().first} : ${ast.varName.getInitialPosition().second}.",
             )
         }
+
+        val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
 
         if (existingValue.getType() != newValue.getType()) {
             throw Exception(
