@@ -18,7 +18,7 @@ class DeclarationBuilderTest {
                 Token(DataType.NUMBER_TYPE, "", Pair(0, 8), Pair(0, 14)),
             )
         val result = declaratorBuilder.build(tokens) as VarDeclaration
-        assertEquals("x", result.assignation.getValue())
+        assertEquals("x", result.varName.getValue())
         assertEquals("", result.type.getValue())
     }
 }

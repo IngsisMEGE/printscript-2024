@@ -27,7 +27,7 @@ class SCAImpl(options: Map<String, Boolean>) : SCA {
             when (name) {
                 "CamelCaseFormat" -> analyzerList.add(CamelCaseAnalyzer())
                 "SnakeCaseFormat" -> analyzerList.add(SnakeCaseAnalyzer())
-                "MethodNoExpresion" -> analyzerList.add(MethodOperationAnalyzer())
+                "MethodNoExpression" -> analyzerList.add(MethodOperationAnalyzer())
                 else -> {}
             }
         }

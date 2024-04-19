@@ -10,17 +10,17 @@ class AssignationExecution : Executor<Assignation> {
         ast: Assignation,
         variables: MutableMap<String, Value>,
     ): String {
-        val varName = ast.assignation.getValue()
-        val type = variables[ast.assignation.getValue()]?.getType()
+        val varName = ast.varName.getValue()
+        val type = variables[ast.varName.getValue()]?.getType()
         val value = binaryOperator.evaluate(ast.value, variables)
         if (variables.containsKey(varName)) {
             if (type != null && value.getType() == type) {
                 variables[varName] = value
                 return ""
             }
-            throw Exception("Variable type mismatch at Line ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable type mismatch at Line ${ast.varName.getInitialPosition().second}")
         } else {
-            throw Exception("Variable not found at Line ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable not found at Line ${ast.varName.getInitialPosition().second}")
         }
     }
 }

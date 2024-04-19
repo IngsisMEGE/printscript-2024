@@ -13,7 +13,7 @@ class AssignationRuleTest {
         property["EqualFront"] = 1
         property["EqualBack"] = 1
         val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
-        val result = assignationRule.isTheRuleIncluded(property)
+        val result = assignationRule.generateEnforcers(property)
         assert(result is AssignationRule)
     }
 
@@ -35,7 +35,7 @@ class AssignationRuleTest {
     fun test003enforceRule() {
         var assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val code = "a=5"
-        assignationRule = assignationRule.isTheRuleIncluded(mapOf("EqualFront" to 1, "EqualBack" to 1))
+        assignationRule = assignationRule.generateEnforcers(mapOf("EqualFront" to 1, "EqualBack" to 1))
         val result = assignationRule.enforceRule(code)
         assertEquals("a = 5;", result)
     }
@@ -44,7 +44,7 @@ class AssignationRuleTest {
     fun test004enforceRule() {
         var assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val code = "a=5"
-        assignationRule = assignationRule.isTheRuleIncluded(mapOf("EqualFront" to 1, "EqualBack" to 1))
+        assignationRule = assignationRule.generateEnforcers(mapOf("EqualFront" to 1, "EqualBack" to 1))
         val result = assignationRule.enforceRule(code)
         assertEquals("a = 5;", result)
     }
