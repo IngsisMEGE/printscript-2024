@@ -25,7 +25,7 @@ class VarDeclarationAssignationRule(
     override val enforcer: List<Enforcer> = listOf(),
     private val operationRule: OperationRule = OperationRule(),
 ) : Rules {
-    override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
+    override fun generateEnforcers(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
         operationRule.isTheRuleIncluded()
 
@@ -73,7 +73,7 @@ class VarDeclarationAssignationRule(
         if (ast is VarDeclarationAssignation) {
             val newLine = StringBuilder()
             newLine.append(if (ast.varDeclaration.isMutable) "let " else "const ")
-            newLine.append(ast.varDeclaration.assignation.getValue())
+            newLine.append(ast.varDeclaration.varName.getValue())
             newLine.append(":")
             newLine.append(ast.varDeclaration.type.getValue())
             newLine.append("=")

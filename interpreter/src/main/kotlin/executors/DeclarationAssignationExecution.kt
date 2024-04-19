@@ -17,7 +17,7 @@ class DeclarationAssignationExecution(private val loadInput: (String) -> String)
         ast: VarDeclarationAssignation,
         variables: MutableMap<String, Value>,
     ): String {
-        val varName = ast.varDeclaration.assignation.getValue()
+        val varName = ast.varDeclaration.varName.getValue()
         val type = getValueType(ast.varDeclaration)
         val value = binaryOperator.evaluate(ast.value, variables, type, loadInput)
         if (!variables.containsKey(varName)) {
@@ -39,7 +39,7 @@ class DeclarationAssignationExecution(private val loadInput: (String) -> String)
                 )
             }
         } else {
-            throw Exception("Variable '$varName' already exists at Line ${ast.varDeclaration.assignation.getInitialPosition().second}")
+            throw Exception("Variable '$varName' already exists at Line ${ast.varDeclaration.varName.getInitialPosition().second}")
         }
     }
 

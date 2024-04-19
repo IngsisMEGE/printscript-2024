@@ -36,7 +36,7 @@ class TestParser {
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("x", ast.varDeclaration.varName.getValue())
         assertEquals("number", ast.varDeclaration.type.getValue())
     }
 
@@ -77,7 +77,7 @@ class TestParser {
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("x", ast.varDeclaration.varName.getValue())
         assertEquals("boolean", ast.varDeclaration.type.getValue())
     }
 
@@ -95,7 +95,7 @@ class TestParser {
         val ast = parser.parse(tokens) as VarDeclaration
 
         assertNotNull(ast)
-        assertEquals("x", ast.assignation.getValue())
+        assertEquals("x", ast.varName.getValue())
         assertEquals("boolean", ast.type.getValue())
     }
 
@@ -115,7 +115,7 @@ class TestParser {
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("x", ast.varDeclaration.varName.getValue())
         assertEquals("boolean", ast.varDeclaration.type.getValue())
     }
 
@@ -179,7 +179,7 @@ class TestParser {
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("x", ast.varDeclaration.varName.getValue())
         assertEquals("string", ast.varDeclaration.type.getValue())
     }
 
@@ -251,7 +251,7 @@ class TestParser {
         val input = opInput.value as OperationString
 
         assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("x", ast.varDeclaration.varName.getValue())
         assertEquals("string", ast.varDeclaration.type.getValue())
         assertEquals("Enter your name: ", input.value.getValue())
     }
@@ -277,7 +277,7 @@ class TestParser {
         val input = opInput.value as OperationString
 
         assertNotNull(ast)
-        assertEquals("x", ast.assignation.getValue())
+        assertEquals("x", ast.varName.getValue())
         assertEquals("Enter your name: ", input.value.getValue())
     }
 
@@ -320,6 +320,6 @@ class TestParser {
 
         assertNotNull(ast)
         assertEquals("print", ast.methodName.getValue())
-        assertEquals("x", opVar.value.getValue())
+        assertEquals("x", opVar.varName.getValue())
     }
 }

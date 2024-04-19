@@ -17,7 +17,7 @@ class FormatterImpl(override val property: Map<String, Any>) : Formatter {
     private var rules: List<Rules> = RuleProvider.getRules()
 
     init {
-        val rulesWithEnforcers = rules.map { it.isTheRuleIncluded(property) }
+        val rulesWithEnforcers = rules.map { it.generateEnforcers(property) }
 
         ifElseBlockEnforcer =
             IndentedIfElseBlockEnforcer(

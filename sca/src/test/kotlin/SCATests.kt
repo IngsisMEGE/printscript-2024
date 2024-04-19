@@ -69,7 +69,7 @@ class SCATests {
 
     @Test
     fun methodCaseTest() {
-        val rules = mapOf("MethodNoExpresion" to true)
+        val rules = mapOf("MethodNoExpression" to true)
         val sca = SCAImpl(rules)
         val method =
             Method(
@@ -82,7 +82,7 @@ class SCATests {
 
     @Test
     fun methodCaseTest2() {
-        val rules = mapOf("MethodNoExpresion" to true)
+        val rules = mapOf("MethodNoExpression" to true)
         val sca = SCAImpl(rules)
         val method =
             Method(
@@ -99,7 +99,7 @@ class SCATests {
 
     @Test
     fun inputCaseTest() {
-        val rules = mapOf("InputNoExpresion" to true)
+        val rules = mapOf("InputNoExpression" to true)
         val sca = SCAImpl(rules)
         val method =
             Method(
@@ -114,7 +114,7 @@ class SCATests {
 
     @Test
     fun inputCaseTest2() {
-        val rules = mapOf("InputNoExpresion" to true)
+        val rules = mapOf("InputNoExpression" to true)
         val sca = SCAImpl(rules)
         val method =
             Assignation(

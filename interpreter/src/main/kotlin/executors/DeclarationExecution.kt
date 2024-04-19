@@ -24,13 +24,13 @@ class DeclarationExecution : Executor<VarDeclaration> {
         ast: VarDeclaration,
         variables: MutableMap<String, Value>,
     ): String {
-        val varName = ast.assignation.getValue()
+        val varName = ast.varName.getValue()
         val type = getValueType(ast)
         if (!variables.containsKey(varName)) {
             variables[varName] = Value(type, Optional.empty(), ast.isMutable)
             return ""
         } else {
-            throw Exception("Variable '$varName' already exists at Line ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable '$varName' already exists at Line ${ast.varName.getInitialPosition().second}")
         }
     }
 

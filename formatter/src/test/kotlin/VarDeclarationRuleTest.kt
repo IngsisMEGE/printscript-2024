@@ -16,7 +16,7 @@ class VarDeclarationRuleTest {
         val varDeclarationRule = rules.VarDeclarationRule("SpaceInFront", "SpaceInBack")
 
         // Act
-        val result = varDeclarationRule.isTheRuleIncluded(property)
+        val result = varDeclarationRule.generateEnforcers(property)
 
         // Assert
         assert(result is rules.VarDeclarationRule)
@@ -33,7 +33,7 @@ class VarDeclarationRuleTest {
         // Act
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationRule.isTheRuleIncluded(property)
+                varDeclarationRule.generateEnforcers(property)
             }
 
         // Assert
@@ -75,7 +75,7 @@ class VarDeclarationRuleTest {
         val varDeclarationRule = rules.VarDeclarationRule("SpaceInFront", "SpaceInBack")
 
         // Act
-        val result = varDeclarationRule.isTheRuleIncluded(property)
+        val result = varDeclarationRule.generateEnforcers(property)
 
         val code = result.genericLine(ast)
 

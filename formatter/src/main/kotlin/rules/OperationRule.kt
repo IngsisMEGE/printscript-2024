@@ -76,7 +76,7 @@ class OperationRule(private val enforcer: List<Enforcer> = listOf()) {
 
             is OperationNumber -> postfixAST.value.getValue()
             is OperationString -> "\"" + postfixAST.value.getValue() + "\""
-            is OperationVariable -> postfixAST.value.getValue()
+            is OperationVariable -> postfixAST.varName.getValue()
             is OperationBoolean -> postfixAST.value.getValue()
             is OperationInput -> "readInput(${postfixToInfix(postfixAST.value)})"
             else -> throw IllegalArgumentException("Invalid OpTree type")

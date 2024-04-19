@@ -12,20 +12,23 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
         ast: Assignation,
         variables: MutableMap<String, Value>,
     ): String {
-        val varName = ast.assignation.getValue()
+        val varName = ast.varName.getValue()
         val existingValue =
             variables[varName]
-                ?: throw Exception("Variable '$varName' not found at Line ${ast.assignation.getInitialPosition().second}")
+                ?: throw Exception("Variable '$varName' not found at Line ${ast.varName.getInitialPosition().second}")
 
         val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
 
         if (!existingValue.isMutable()) {
-            throw Exception("Cannot assign new value to constant '$varName'.")
+            throw Exception(
+                "Cannot assign new value to constant '$varName' at Line" +
+                    " ${ast.varName.getInitialPosition().first} : ${ast.varName.getInitialPosition().second}.",
+            )
         }
 
         if (existingValue.getType() != newValue.getType()) {
             throw Exception(
-                "Variable type mismatch at Line ${ast.assignation.getInitialPosition().second}" +
+                "Variable type mismatch at Line ${ast.varName.getInitialPosition().second}" +
                     " between ${existingValue.getType()} and ${newValue.getType()}",
             )
         }

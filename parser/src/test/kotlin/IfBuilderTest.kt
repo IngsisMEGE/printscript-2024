@@ -51,7 +51,7 @@ class IfBuilderTest {
 
         val op = ast.condition as OperationVariable
         // Then
-        assertEquals(DataType.VARIABLE_NAME, op.value.getType())
+        assertEquals(DataType.VARIABLE_NAME, op.varName.getType())
     }
 
     @Test

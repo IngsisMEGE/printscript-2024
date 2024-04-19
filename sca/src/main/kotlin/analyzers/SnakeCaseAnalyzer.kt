@@ -7,11 +7,11 @@ import astn.VarDeclarationAssignation
 class SnakeCaseAnalyzer : Analyzer {
     override fun analyze(ast: AST): String {
         return when (ast) {
-            is VarDeclaration -> checkSnakeCase(ast.assignation.getValue(), ast.assignation.getInitialPosition())
+            is VarDeclaration -> checkSnakeCase(ast.varName.getValue(), ast.varName.getInitialPosition())
             is VarDeclarationAssignation ->
                 checkSnakeCase(
-                    ast.varDeclaration.assignation.getValue(),
-                    ast.varDeclaration.assignation.getInitialPosition(),
+                    ast.varDeclaration.varName.getValue(),
+                    ast.varDeclaration.varName.getInitialPosition(),
                 )
             else -> ""
         }

@@ -142,7 +142,7 @@ class OperationBuilder {
                 }
 
                 else -> throw UnexpectedTokenException(
-                    "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                    "Unexpected token ${token.getType()} at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
                 )
             }
         }

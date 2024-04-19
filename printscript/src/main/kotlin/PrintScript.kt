@@ -1,14 +1,18 @@
 package org.example
 
+import analyzers.SCA
 import analyzers.SCAImpl
 import astn.AST
+import formatter.Formatter
 import formatter.FormatterImpl
 import impl.ParserImpl
 import interfaces.Parser
+import interpreter.Interpreter
 import interpreter.InterpreterImpl
 import interpreter.Value
 import lexer.LexerImpl
 import lexer.TokenRegexRule
+import org.example.lexer.Lexer
 import org.example.utils.JSONManager
 import java.io.File
 import java.io.FileNotFoundException
@@ -24,11 +28,11 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.1") {
-    private var lexer = LexerImpl(getLexerDefaultRules())
+    private var lexer: Lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
-    private val sca = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
-    private var formatter =
+    private val interpreter: Interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
+    private val sca: SCA = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
+    private var formatter: Formatter =
         FormatterImpl(
             mapOf(),
         )
@@ -79,8 +83,8 @@ class PrintScript(private val loadInput: (String) -> String, private val version
     }
 
     fun updateRegexRules(newRules: String) {
-        val rulesmap = JSONManager.jsonToMap<TokenRegexRule>(newRules)
-        lexer = LexerImpl(rulesmap)
+        val rulesMap = JSONManager.jsonToMap<TokenRegexRule>(newRules)
+        lexer = LexerImpl(rulesMap)
     }
 
     private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {

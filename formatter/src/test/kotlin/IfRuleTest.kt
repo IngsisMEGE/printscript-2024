@@ -22,7 +22,7 @@ class IfRuleTest {
     fun test002enforceRule() {
         val ifRule = IfRule()
         val code = "if(true){"
-        val assignationRule = ifRule.isTheRuleIncluded(mapOf())
+        val assignationRule = ifRule.generateEnforcers(mapOf())
         val result = assignationRule.enforceRule(code)
         assertEquals("if(true) {", result)
     }

@@ -78,7 +78,7 @@ class DeclarationAssignedBuilderTest {
         val expectedOpString: OperationString = expected.value as OperationString
         val astOpString: OperationString = ast.value as OperationString
 
-        assertEquals(expected.varDeclaration.assignation.getValue(), ast.varDeclaration.assignation.getValue())
+        assertEquals(expected.varDeclaration.varName.getValue(), ast.varDeclaration.varName.getValue())
         assertEquals(expected.varDeclaration.type.getValue(), ast.varDeclaration.type.getValue())
         assertEquals(expectedOpString.value.getValue(), astOpString.value.getValue())
     }
@@ -109,7 +109,7 @@ class DeclarationAssignedBuilderTest {
         val expectedOpString: OperationString = expected.value as OperationString
         val astOpString: OperationString = ast.value as OperationString
 
-        assertEquals(expected.varDeclaration.assignation.getValue(), ast.varDeclaration.assignation.getValue())
+        assertEquals(expected.varDeclaration.varName.getValue(), ast.varDeclaration.varName.getValue())
         assertEquals(expected.varDeclaration.type.getValue(), ast.varDeclaration.type.getValue())
         assertEquals(expectedOpString.value.getValue(), astOpString.value.getValue())
         assertEquals(expected.varDeclaration.isMutable, ast.varDeclaration.isMutable)

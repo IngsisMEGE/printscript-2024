@@ -19,7 +19,7 @@ class MethodRule(
     override val enforcer: List<Enforcer> = listOf(),
     private val operationRule: OperationRule = OperationRule(),
 ) : Rules {
-    override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
+    override fun generateEnforcers(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
 
         enforcers = enforcers.plus(LineJumpOnMethodEnforcer.create(amountOfJumpLine, property))
