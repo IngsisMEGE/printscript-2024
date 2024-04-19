@@ -38,9 +38,9 @@ class BinaryOperatorReader() {
         loadInput: (String) -> String,
     ): Value {
         return when (binary) {
-            is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()), true)
-            is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()), true)
-            is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()), true)
+            is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()))
+            is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()))
+            is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()))
             is OperationVariable -> getVariable(binary.varName, variables)
             is OperationHead -> evaluateHead(binary, variables, type, loadInput)
             is OperationInput -> {
@@ -103,7 +103,7 @@ class BinaryOperatorReader() {
         operator: Token,
     ): Value {
         return when (operator.getType()) {
-            DataType.OPERATOR_PLUS -> Value(VariableType.STRING, Optional.of(left.getValue() + right.getValue()), false)
+            DataType.OPERATOR_PLUS -> Value(VariableType.STRING, Optional.of(left.getValue() + right.getValue()))
             else -> throw Exception(
                 "Operator ${operator.getValue()} for String not found at Line  " +
                     "${operator.getInitialPosition().first} : ${operator.getInitialPosition().second}",
@@ -124,7 +124,6 @@ class BinaryOperatorReader() {
                 Value(
                     VariableType.NUMBER,
                     getValueOfOperation(result),
-                    false,
                 )
             }
             DataType.OPERATOR_MINUS -> {
@@ -132,7 +131,6 @@ class BinaryOperatorReader() {
                 Value(
                     VariableType.NUMBER,
                     getValueOfOperation(result),
-                    false,
                 )
             }
             DataType.OPERATOR_MULTIPLY -> {
@@ -140,7 +138,6 @@ class BinaryOperatorReader() {
                 Value(
                     VariableType.NUMBER,
                     getValueOfOperation(result),
-                    false,
                 )
             }
             DataType.OPERATOR_DIVIDE -> {
@@ -148,7 +145,6 @@ class BinaryOperatorReader() {
                 Value(
                     VariableType.NUMBER,
                     getValueOfOperation(result),
-                    false,
                 )
             }
             else -> throw Exception(
@@ -167,13 +163,13 @@ class BinaryOperatorReader() {
         type: VariableType,
     ): Value {
         return when (type) {
-            VariableType.STRING -> Value(type, Optional.of(value), true)
+            VariableType.STRING -> Value(type, Optional.of(value))
             VariableType.NUMBER -> {
                 val number = value.toIntOrNull()
                 if (number === null) {
                     throw IllegalArgumentException("El valor $value no es un número válido.")
                 } else {
-                    Value(type, Optional.of(number.toString()), true)
+                    Value(type, Optional.of(number.toString()))
                 }
             }
             VariableType.BOOLEAN -> {
@@ -181,7 +177,7 @@ class BinaryOperatorReader() {
                 if (booleanValue === null) {
                     throw IllegalArgumentException("El valor $value no es un número válido.")
                 } else {
-                    Value(type, Optional.of(booleanValue.toString()), true)
+                    Value(type, Optional.of(booleanValue.toString()))
                 }
             }
         }

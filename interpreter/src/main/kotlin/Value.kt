@@ -2,7 +2,7 @@ package interpreter
 
 import java.util.Optional
 
-class Value(private val type: VariableType, private val result: Optional<String>, private val isMutable: Boolean) {
+class Value(private val type: VariableType, private val result: Optional<String>, private val isMutable: Boolean = true) {
     fun isEmpty(): Boolean {
         return result.isEmpty
     }
