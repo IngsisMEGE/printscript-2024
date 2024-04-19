@@ -14,9 +14,9 @@ class EmptyAST() : AST
  * This data class represents a variable declaration node in the AST.
  *
  * @property type The token representing the type of the variable.
- * @property assignation The token representing the assignation of the variable.
+ * @property varName The token representing the assignation of the variable.
  */
-data class VarDeclaration(val type: Token, val assignation: Token, val isMutable: Boolean) : AST
+data class VarDeclaration(val type: Token, val varName: Token) : AST
 
 /**
  * This data class represents a variable declaration with assignation node in the AST.
@@ -29,10 +29,10 @@ data class VarDeclarationAssignation(val varDeclaration: VarDeclaration, val val
 /**
  * This data class represents an assignation node in the AST.
  *
- * @property assignation The token representing the assignation.
+ * @property varName The token representing the assignation.
  * @property value The OpTree object representing the value assigned.
  */
-data class Assignation(val assignation: Token, val value: OpTree) : AST
+data class Assignation(val varName: Token, val value: OpTree) : AST
 
 /**
  * This data class represents a method node in the AST.
@@ -79,9 +79,9 @@ data class OperationString(val value: Token) : OpTree
 /**
  * This data class represents a variable operation node in the operation tree.
  *
- * @property value The token representing the variable value.
+ * @property varName The token representing the variable value.
  */
-data class OperationVariable(val value: Token) : OpTree
+data class OperationVariable(val varName: Token) : OpTree
 
 data class OperationBoolean(val value: Token) : OpTree
 

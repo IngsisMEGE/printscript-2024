@@ -63,7 +63,7 @@ class InterpreterImpl(
                 insideElse = ast.isElse
                 ""
             }
-            else -> throw Exception("Unexpected structure")
+            else -> throw Exception("Unexpected structure ${ast::class.simpleName} is not supported")
         }
     }
 

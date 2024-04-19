@@ -36,7 +36,7 @@ class TestParser {
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
         assertNotNull(ast)
-        assertEquals("x", ast.varDeclaration.assignation.getValue())
+        assertEquals("x", ast.varDeclaration.varName.getValue())
         assertEquals("number", ast.varDeclaration.type.getValue())
     }
 

@@ -33,7 +33,7 @@ class MethodExecutor(private val loadInput: (String) -> String) : Executor<Metho
                 else -> binaryOperator.evaluate(ast.value, variables, VariableType.STRING, loadInput).getValue() + "\n"
             }
         } else {
-            throw Exception("Method not found")
+            throw Exception("Method ${ast.methodName.getValue()} not found at Line ${ast.methodName.getInitialPosition().second}")
         }
     }
 }

@@ -41,7 +41,7 @@ class BinaryOperatorReader() {
             is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()), true)
             is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()), true)
             is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()), true)
-            is OperationVariable -> getVariable(binary.value.getValue(), variables)
+            is OperationVariable -> getVariable(binary.varName, variables)
             is OperationHead -> evaluateHead(binary, variables, type, loadInput)
             is OperationInput -> {
                 val value = evaluate(binary.value, variables, type, loadInput)
@@ -55,17 +55,24 @@ class BinaryOperatorReader() {
     }
 
     private fun getVariable(
-        name: String,
+        varName: Token,
         variables: MutableMap<String, Value>,
     ): Value {
+        val name = varName.getValue()
         if (variables.containsKey(name)) {
             if (!variables[name]!!.isEmpty()) {
                 return Value(variables[name]!!.getType(), Optional.of(variables[name]!!.getValue()), variables[name]!!.isMutable())
             } else {
-                throw Exception("Variable \"${name}\" not initialized")
+                throw Exception(
+                    "Variable $name not initialized at Line ${varName.getInitialPosition().first} " +
+                        ": ${varName.getInitialPosition().second} ",
+                )
             }
         } else {
-            throw Exception("Variable \"${name}\" not found")
+            throw Exception(
+                "Variable $name not found at Line ${varName.getInitialPosition().first} " +
+                    ": ${varName.getInitialPosition().second} ",
+            )
         }
     }
 
@@ -83,7 +90,7 @@ class BinaryOperatorReader() {
             )
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
-            else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported")
+            else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported at Line ${binary.operator.getInitialPosition().second}\",")
         }
     }
 
@@ -94,7 +101,10 @@ class BinaryOperatorReader() {
     ): Value {
         return when (operator.getType()) {
             DataType.OPERATOR_PLUS -> Value(VariableType.STRING, Optional.of(left.getValue() + right.getValue()), false)
-            else -> throw Exception("Operator for String not found")
+            else -> throw Exception(
+                "Operator ${operator.getValue()} for String not found at Line  " +
+                    "${operator.getInitialPosition().first} : ${operator.getInitialPosition().second}",
+            )
         }
     }
 
@@ -138,7 +148,10 @@ class BinaryOperatorReader() {
                     false,
                 )
             }
-            else -> throw Exception("Operator for number not found")
+            else -> throw Exception(
+                "Operator ${operator.getValue()} for number not found at Line ${operator.getInitialPosition().first} " +
+                    ": ${operator.getInitialPosition().second}",
+            )
         }
     }
 

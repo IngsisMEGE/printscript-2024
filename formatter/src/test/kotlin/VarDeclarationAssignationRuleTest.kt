@@ -20,7 +20,7 @@ class VarDeclarationAssignationRuleTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+        varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
         val code = "a=b"
         val expectedCode = "a = b;"
         assertEquals(expectedCode, varDeclarationAssignationRule.enforceRule(code))
@@ -35,7 +35,7 @@ class VarDeclarationAssignationRuleTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+        varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -58,7 +58,7 @@ class VarDeclarationAssignationRuleTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+        varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -86,7 +86,7 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
         assertEquals(
@@ -106,7 +106,7 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
         assertEquals(
@@ -126,7 +126,7 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
         assertEquals(
@@ -146,7 +146,7 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = -1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
         assertEquals(
