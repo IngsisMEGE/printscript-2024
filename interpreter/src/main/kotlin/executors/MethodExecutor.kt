@@ -26,7 +26,7 @@ class MethodExecutor : Executor<Method> {
         if (ast.methodName.getValue() == "println") {
             return binaryOperator.evaluate(ast.value, variables).getValue() + "\n"
         } else {
-            throw Exception("Method not found")
+            throw Exception("Method ${ast.methodName.getValue()} not found at Line ${ast.methodName.getInitialPosition().second}")
         }
     }
 }

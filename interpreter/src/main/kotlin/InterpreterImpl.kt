@@ -32,7 +32,7 @@ class InterpreterImpl : Interpreter {
             is VarDeclaration -> DeclarationExecution().execute(ast, storedVariables)
             is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, storedVariables)
             is Method -> MethodExecutor().execute(ast, storedVariables)
-            else -> throw Exception("Unexpected structure")
+            else -> throw Exception("Unexpected structure ${ast::class.simpleName} is not supported")
         }
     }
 }

@@ -21,7 +21,7 @@ class AssignationRule(
     override val enforcer: List<Enforcer> = listOf(),
     private val operationRule: OperationRule = OperationRule(),
 ) : Rules {
-    override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
+    override fun generateEnforcers(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
 
         enforcers =
@@ -50,7 +50,7 @@ class AssignationRule(
     override fun <T : AST> genericLine(ast: T): String {
         if (ast is Assignation) {
             val newLine = StringBuilder()
-            newLine.append(ast.assignation.getValue())
+            newLine.append(ast.varName.getValue())
             newLine.append("=")
             val value = operationRule.genericLine(ast.value)
             newLine.append(operationRule.enforceRule(value))
