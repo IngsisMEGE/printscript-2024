@@ -29,7 +29,7 @@ class ElseRuleTest {
     fun test003enforceRuleIsElseFalse() {
         val elseRule = ElseRule()
         val code = "}"
-        val assignationRule = elseRule.isTheRuleIncluded(mapOf())
+        val assignationRule = elseRule.generateEnforcers(mapOf())
         val result = assignationRule.enforceRule(code)
         assertEquals("}", result)
     }
@@ -38,7 +38,7 @@ class ElseRuleTest {
     fun test004enforceRuleIsElseTrue() {
         val elseRule = ElseRule()
         val code = "}else{"
-        val assignationRule = elseRule.isTheRuleIncluded(mapOf())
+        val assignationRule = elseRule.generateEnforcers(mapOf())
         val result = assignationRule.enforceRule(code)
         assertEquals("}else {", result)
     }

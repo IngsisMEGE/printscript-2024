@@ -15,8 +15,8 @@ class IfExecutor() : Executor<IfStatement> {
         when (ast.condition) {
             is OperationVariable -> {
                 val opVariable = ast.condition as OperationVariable
-                evaluateVariable(opVariable.value, variables)
-                return variables[opVariable.value.getValue()]!!.getValue()
+                evaluateVariable(opVariable.varName, variables)
+                return variables[opVariable.varName.getValue()]!!.getValue()
             }
 
             is OperationBoolean -> {

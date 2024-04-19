@@ -90,7 +90,10 @@ class BinaryOperatorReader() {
             )
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
-            else -> throw Exception("Operation between ${left.getType()} and ${right.getType()} not supported at Line ${binary.operator.getInitialPosition().second}\",")
+            else -> throw Exception(
+                "Operation between ${left.getType()} and ${right.getType()} " +
+                    "not supported at Line ${binary.operator.getInitialPosition().second}\",",
+            )
         }
     }
 

@@ -28,11 +28,11 @@ import java.io.FileNotFoundException
  */
 
 class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.1") {
-    private var lexer : Lexer = LexerImpl(getLexerDefaultRules())
+    private var lexer: Lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter : Interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
-    private val sca : SCA = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
-    private var formatter : Formatter =
+    private val interpreter: Interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
+    private val sca: SCA = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
+    private var formatter: Formatter =
         FormatterImpl(
             mapOf(),
         )

@@ -20,7 +20,10 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
         val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
 
         if (!existingValue.isMutable()) {
-            throw Exception("Cannot assign new value to constant '$varName' at Line ${ast.varName.getInitialPosition().first} : ${ast.varName.getInitialPosition().second}.")
+            throw Exception(
+                "Cannot assign new value to constant '$varName' at Line" +
+                    " ${ast.varName.getInitialPosition().first} : ${ast.varName.getInitialPosition().second}.",
+            )
         }
 
         if (existingValue.getType() != newValue.getType()) {

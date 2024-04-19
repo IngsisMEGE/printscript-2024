@@ -6,7 +6,7 @@ import enforcers.Enforcer
 import enforcers.SpaceForCharacterEnforcer
 
 class ElseRule(override val enforcer: List<Enforcer> = listOf()) : Rules {
-    override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
+    override fun generateEnforcers(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = enforcer
         enforcers =
             enforcers.plus(

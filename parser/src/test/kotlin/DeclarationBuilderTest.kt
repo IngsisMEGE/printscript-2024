@@ -35,7 +35,7 @@ class DeclarationBuilderTest {
                 Token(DataType.SEPARATOR, ";", Pair(0, 17), Pair(0, 18)),
             )
         val result = declaratorBuilder.build(tokens) as VarDeclaration
-        assertEquals("y", result.assignation.getValue())
+        assertEquals("y", result.varName.getValue())
         assertEquals("", result.type.getValue())
         assertEquals(false, result.isMutable)
     }

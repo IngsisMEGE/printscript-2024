@@ -22,10 +22,22 @@ class DeclarationAssignationExecution(private val loadInput: (String) -> String)
         val value = binaryOperator.evaluate(ast.value, variables, type, loadInput)
         if (!variables.containsKey(varName)) {
             if (value.getType() == type) {
-                variables[varName] = value
-                return ""
+                variables[varName] = Value(type, Optional.of(value.getValue()), ast.varDeclaration.isMutable)
+                return when (ast.value) {
+                    is OperationInput ->
+                        binaryOperator.evaluate(
+                            (ast.value as OperationInput).value,
+                            variables,
+                            VariableType.STRING,
+                            loadInput,
+                        ).getValue()
+                    else -> ""
+                }
+            } else {
+                throw Exception(
+                    "Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second} between $type and ${value.getType()}",
+                )
             }
-            throw Exception("Type Mismatch at Line ${ast.varDeclaration.type.getInitialPosition().second}")
         } else {
             throw Exception("Variable '$varName' already exists at Line ${ast.varDeclaration.varName.getInitialPosition().second}")
         }

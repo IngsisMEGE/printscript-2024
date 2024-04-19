@@ -291,7 +291,7 @@ class AssignationExecutionTest {
                 assignationExecutor.execute(ast2, variables)
             }
 
-        assertEquals("Cannot assign new value to constant 'x'.", exception.message)
+        assertEquals("Cannot assign new value to constant 'x' at Line 0 : 0.", exception.message)
     }
 
     fun input(message: String): String {
