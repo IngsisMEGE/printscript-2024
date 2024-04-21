@@ -29,7 +29,7 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
                             (ast.value as OperationMethod).value,
                             variables,
                             VariableType.STRING,
-                        ).getValue()
+                        ).getValue() + "\n"
                     else -> ""
                 }
             } else {

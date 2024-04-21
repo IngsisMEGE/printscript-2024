@@ -306,7 +306,7 @@ class AssignationExecutionTest {
         assertEquals("Cannot assign new value to constant 'x' at Line 0 : 0.", exception.message)
     }
 
-    private fun loadInput(message: String): String {
-        return message
+    private fun loadInput(): String {
+        return ""
     }
 }

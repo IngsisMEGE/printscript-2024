@@ -21,12 +21,13 @@ class Cli : CliktCommand() {
 
 class Execute : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
+    private val outputsPath: String by option(help = "Path to the PrintScript outputs").prompt("Enter the outputs path")
 
     override fun run() {
-        val printScript = PrintScript(::input)
+        val printScript = PrintScript()
 
         try {
-            val output = printScript.start(filePath)
+            val output = printScript.start(filePath, outputsPath)
             echo(output)
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
@@ -44,7 +45,7 @@ class FormatFile : CliktCommand(help = "Format a PrintScript file") {
 
     override fun run() {
         try {
-            val printScript = PrintScript(::input)
+            val printScript = PrintScript()
             val formattedContent = printScript.format(filePath)
             File(filePath).writeText(formattedContent)
             echo("File formatted and updated successfully.")
@@ -64,7 +65,7 @@ class Analyze : CliktCommand(help = "Analyze a PrintScript file") {
 
     override fun run() {
         try {
-            val printScript = PrintScript(::input)
+            val printScript = PrintScript()
             val analysis = printScript.analyze(filePath)
             echo(analysis)
         } catch (e: Exception) {
@@ -83,7 +84,7 @@ class ChangeFormatterConfig : CliktCommand(help = "Change formatter configuratio
 
     override fun run() {
         try {
-            val printScript = PrintScript(::input)
+            val printScript = PrintScript()
             printScript.changeFormatterConfig(configFilePath)
             echo("Formatter configurations updated successfully.")
         } catch (e: Exception) {
@@ -104,16 +105,11 @@ class ChangeLexerConfig : CliktCommand(help = "Change lexer configurations") {
 
     override fun run() {
         try {
-            val printScript = PrintScript(::input)
+            val printScript = PrintScript()
             printScript.updateRegexRules(configFilePath)
             echo("Lexer configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
-    }
-
-    private fun input(message: String): String {
-        print(message)
-        return readlnOrNull() ?: ""
     }
 }

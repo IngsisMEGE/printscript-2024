@@ -30,7 +30,7 @@ class ReadInputExecutor : OperationMethod {
                     " Line ${methodName.getInitialPosition().first} : ${methodName.getInitialPosition().second}.",
             )
         }
-        return parseValue(loadInput(value.getValue()), type)
+        return parseValue(loadInput(), type)
     }
 
     private fun parseValue(
@@ -60,5 +60,5 @@ class ReadInputExecutor : OperationMethod {
 }
 
 object LoadInputHolder {
-    lateinit var loadInput: (String) -> String
+    lateinit var loadInput: () -> String
 }

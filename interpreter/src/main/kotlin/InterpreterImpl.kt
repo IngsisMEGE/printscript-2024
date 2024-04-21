@@ -26,7 +26,7 @@ import interpreter.executors.operationMethod.LoadInputHolder
  * @throws Exception If the AST is of an unexpected type.
  */
 class InterpreterImpl(
-    private val loadInput: (String) -> String,
+    private val loadInput: () -> String,
     private val enterIfScope: () -> Unit = {},
     private val mergeScope: () -> Unit = {},
 ) : Interpreter {
