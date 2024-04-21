@@ -29,12 +29,12 @@ import java.util.Queue
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript(private val version: String = "1.1") {
-    private var lexer: Lexer = LexerImpl(getLexerDefaultRules())
+class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.1") {
+    private var lexer: Lexer = LexerImpl(loadLexerRules())
     private val parser: Parser = ParserImpl()
     private val outputs: Queue<String> = LinkedList<String>()
     private val interpreter: Interpreter = InterpreterImpl({ loadInput() }, { enterIfScope() }, { mergeScopes() })
-    private val sca: SCA = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
+    private val sca: SCA = SCAImpl(mapOf())
     private var formatter: Formatter =
         FormatterImpl(
             mapOf(),
@@ -89,19 +89,16 @@ class PrintScript(private val version: String = "1.1") {
         }
     }
 
-    fun updateRegexRules(newRules: String) {
-        val rulesMap = JSONManager.jsonToMap<TokenRegexRule>(newRules)
-        lexer = LexerImpl(rulesMap)
-    }
-
-    private fun getLexerDefaultRules(): Map<String, TokenRegexRule> {
-        val fileName = if (version == "1.1") "LexerFullRules.json" else "LexerDefaultRules.json"
-        var file = File("src/main/resources/$fileName")
+    fun updateRegexRules(newRulesPath: String) {
+        val file = File(newRulesPath)
         if (!file.exists()) {
-            file = File("PrintScript/src/main/resources/$fileName")
+            throw FileNotFoundException("File not found: $newRulesPath")
         }
         val json = file.readText()
-        return JSONManager.jsonToMap<TokenRegexRule>(json)
+        val newRegexRules = JSONManager.jsonToMap<TokenRegexRule>(json)
+        lexer = LexerImpl(newRegexRules)
+
+        saveLexerRules(newRulesPath)
     }
 
     fun changeFormatterConfig(configFilePath: String) {
@@ -115,6 +112,16 @@ class PrintScript(private val version: String = "1.1") {
             FormatterImpl(
                 newProperties,
             )
+    }
+
+    fun changeSCAConfig(configFilePath: String) {
+        val file = File(configFilePath)
+        if (!file.exists()) {
+            throw FileNotFoundException("File not found: $configFilePath")
+        }
+        val json = file.readText()
+        val newProperties = JSONManager.jsonToMap<Boolean>(json)
+        sca.buildSCA(newProperties)
     }
 
     private fun lexAndParse(
@@ -164,5 +171,20 @@ class PrintScript(private val version: String = "1.1") {
         } else {
             outputs.remove()
         }
+    }
+
+    private fun loadLexerRules(): Map<String, TokenRegexRule> {
+        val fileName = "lexerRules.json"
+        var file = File(fileName)
+        if (!file.exists()) {
+            file = File("src/main/resources/LexerFullRules.json")
+        }
+        val json = file.readText()
+        return JSONManager.jsonToMap<TokenRegexRule>(json)
+    }
+
+    private fun saveLexerRules(newRulesPath: String) {
+        val file = File("lexerRules.json")
+        file.writeText(File(newRulesPath).readText())
     }
 }

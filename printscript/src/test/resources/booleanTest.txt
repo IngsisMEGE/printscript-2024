@@ -1,4 +1,4 @@
-let x : boolean;
+let x :boolean;
 x = true;
 x = false;
 println(x);

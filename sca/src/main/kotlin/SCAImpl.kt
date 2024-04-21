@@ -3,11 +3,11 @@ package analyzers
 import analyzers.analyzers.InputOperationAnalyzer
 import astn.AST
 
-class SCAImpl(options: Map<String, Boolean>) : SCA {
+class SCAImpl(override val props: Map<String, Boolean>) : SCA {
     private val analyzerList = mutableListOf<Analyzer>()
 
     init {
-        buildSCA(options)
+        buildSCA(props)
     }
 
     override fun buildSCA(objectBoolMap: Map<String, Boolean>) {
@@ -15,6 +15,25 @@ class SCAImpl(options: Map<String, Boolean>) : SCA {
             analyzerList.add(CamelCaseAnalyzer())
             return
         }
+        if (!objectBoolMap.keys.containsAll(
+                listOf(
+                    "CamelCaseFormat",
+                    "SnakeCaseFormat",
+                    "MethodNoExpression",
+                    "InputNoExpression",
+                ),
+            )
+        ) {
+            throw IllegalArgumentException(
+                "The object must contain the keys CamelCaseFormat, SnakeCaseFormat, MethodNoExpression, and InputNoExpression",
+            )
+        }
+        if (objectBoolMap["CamelCaseFormat"] == true && objectBoolMap["SnakeCaseFormat"] == true) {
+            throw IllegalArgumentException(
+                "Both CamelCaseFormat and SnakeCaseFormat cannot be true",
+            )
+        }
+        analyzerList.clear()
         objectBoolMap.forEach { (name, value) ->
             addAnalyzer(name, value)
         }
