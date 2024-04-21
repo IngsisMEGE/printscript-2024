@@ -603,8 +603,8 @@ class InterpreterTest {
         assertEquals(2, variables.size)
     }
 
-    fun input(message: String): String {
-        return message
+    fun input(): String {
+        return ""
     }
 
     @Test

@@ -1,0 +1,2 @@
+let input: string = readInput("Name: ");
+println("hello " + input);

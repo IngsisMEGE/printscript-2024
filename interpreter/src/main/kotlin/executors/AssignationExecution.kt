@@ -40,7 +40,7 @@ class AssignationExecution : Executor<Assignation> {
                     (ast.value as OperationMethod).value,
                     variables,
                     VariableType.STRING,
-                ).getValue()
+                ).getValue() + "\n"
             else -> ""
         }
     }
