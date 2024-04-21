@@ -7,7 +7,7 @@ import astn.IfStatement
 import astn.Method
 import astn.OpTree
 import astn.OperationHead
-import astn.OperationInput
+import astn.OperationMethod
 import astn.VarDeclarationAssignation
 
 class InputOperationAnalyzer : Analyzer {
@@ -22,7 +22,7 @@ class InputOperationAnalyzer : Analyzer {
     }
 
     private fun checkInputOperation(opTree: OpTree): String {
-        return if (opTree is OperationInput) {
+        return if (opTree is OperationMethod) {
             if (opTree.value is OperationHead) {
                 return "Invalid operation in line ${(opTree.value as OperationHead).operator.getInitialPosition().first}," +
                     " row ${(opTree.value as OperationHead).operator.getInitialPosition().second}"

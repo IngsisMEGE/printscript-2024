@@ -1,11 +1,11 @@
 package interpreter.executors
 
 import astn.Assignation
-import astn.OperationInput
+import astn.OperationMethod
 import interpreter.Value
 import interpreter.VariableType
 
-class AssignationExecution(private val loadInput: (String) -> String) : Executor<Assignation> {
+class AssignationExecution : Executor<Assignation> {
     private val binaryOperator = BinaryOperatorReader()
 
     override fun execute(
@@ -24,7 +24,7 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
             )
         }
 
-        val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType(), loadInput)
+        val newValue = binaryOperator.evaluate(ast.value, variables, existingValue.getType())
 
         if (existingValue.getType() != newValue.getType()) {
             throw Exception(
@@ -35,13 +35,12 @@ class AssignationExecution(private val loadInput: (String) -> String) : Executor
 
         variables[varName] = newValue
         return when (ast.value) {
-            is OperationInput ->
+            is OperationMethod ->
                 binaryOperator.evaluate(
-                    (ast.value as OperationInput).value,
+                    (ast.value as OperationMethod).value,
                     variables,
                     VariableType.STRING,
-                    loadInput,
-                ).getValue()
+                ).getValue() + "\n"
             else -> ""
         }
     }

@@ -85,4 +85,4 @@ data class OperationVariable(val varName: Token) : OpTree
 
 data class OperationBoolean(val value: Token) : OpTree
 
-data class OperationInput(val value: OpTree) : OpTree
+data class OperationMethod(val methodName: Token, val value: OpTree) : OpTree

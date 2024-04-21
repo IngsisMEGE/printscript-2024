@@ -2,7 +2,7 @@ import astn.Assignation
 import astn.CloseIfStatement
 import astn.EmptyAST
 import astn.Method
-import astn.OperationInput
+import astn.OperationMethod
 import astn.OperationString
 import astn.OperationVariable
 import astn.VarDeclaration
@@ -246,7 +246,7 @@ class TestParser {
             )
         val ast = parser.parse(tokens) as VarDeclarationAssignation
 
-        val opInput = ast.value as OperationInput
+        val opInput = ast.value as OperationMethod
 
         val input = opInput.value as OperationString
 
@@ -272,7 +272,7 @@ class TestParser {
 
         val ast = parser.parse(tokens) as Assignation
 
-        val opInput = ast.value as OperationInput
+        val opInput = ast.value as OperationMethod
 
         val input = opInput.value as OperationString
 

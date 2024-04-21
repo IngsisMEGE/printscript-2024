@@ -3,12 +3,13 @@ package interpreter.executors
 import astn.OpTree
 import astn.OperationBoolean
 import astn.OperationHead
-import astn.OperationInput
+import astn.OperationMethod
 import astn.OperationNumber
 import astn.OperationString
 import astn.OperationVariable
 import interpreter.Value
 import interpreter.VariableType
+import interpreter.executors.operationMethod.OperationMethodProvider
 import token.DataType
 import token.Token
 import java.util.Optional
@@ -31,24 +32,23 @@ import java.util.Optional
  * @throws Exception If the OpTree is of an unexpected type, if a variable does not exist or its value is empty, if an unsupported operator is used, or if the operands are of incompatible types.
  */
 class BinaryOperatorReader() {
+    private val operationMethodProvider = OperationMethodProvider()
+
     fun evaluate(
         binary: OpTree,
         variables: MutableMap<String, Value>,
         type: VariableType,
-        loadInput: (String) -> String,
     ): Value {
         return when (binary) {
             is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()))
             is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()))
             is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()))
             is OperationVariable -> getVariable(binary.varName, variables)
-            is OperationHead -> evaluateHead(binary, variables, type, loadInput)
-            is OperationInput -> {
-                val value = evaluate(binary.value, variables, type, loadInput)
-                if (value.getType() != VariableType.STRING) {
-                    throw Exception("Input value must be a string")
-                }
-                parseValue(loadInput(value.getValue()), type)
+            is OperationHead -> evaluateHead(binary, variables, type)
+            is OperationMethod -> {
+                val value = evaluate(binary.value, variables, type)
+                val operation = operationMethodProvider.getOperationMethod(binary.methodName)
+                operation.execute(binary.methodName, listOf(value), type)
             }
             else -> throw Exception("Operation not found")
         }
@@ -80,10 +80,9 @@ class BinaryOperatorReader() {
         binary: OperationHead,
         variables: MutableMap<String, Value>,
         type: VariableType,
-        loadInput: (String) -> String,
     ): Value {
-        val left = evaluate(binary.left, variables, type, loadInput)
-        val right = evaluate(binary.right, variables, type, loadInput)
+        val left = evaluate(binary.left, variables, type)
+        val right = evaluate(binary.right, variables, type)
         return when {
             left.getType() == VariableType.BOOLEAN || right.getType() == VariableType.BOOLEAN -> throw Exception(
                 "Operation between ${left.getType()} and ${right.getType()} not supported",
@@ -156,30 +155,5 @@ class BinaryOperatorReader() {
 
     private fun getValueOfOperation(result: Double): Optional<String> {
         return Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString())
-    }
-
-    private fun parseValue(
-        value: String,
-        type: VariableType,
-    ): Value {
-        return when (type) {
-            VariableType.STRING -> Value(type, Optional.of(value))
-            VariableType.NUMBER -> {
-                val number = value.toIntOrNull()
-                if (number === null) {
-                    throw IllegalArgumentException("El valor $value no es un número válido.")
-                } else {
-                    Value(type, Optional.of(number.toString()))
-                }
-            }
-            VariableType.BOOLEAN -> {
-                val booleanValue = value.toBooleanStrictOrNull()
-                if (booleanValue === null) {
-                    throw IllegalArgumentException("El valor $value no es un número válido.")
-                } else {
-                    Value(type, Optional.of(booleanValue.toString()))
-                }
-            }
-        }
     }
 }

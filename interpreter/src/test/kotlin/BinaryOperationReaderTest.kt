@@ -15,7 +15,7 @@ class BinaryOperationReaderTest {
     fun test001EvaluateOperationNumber() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation = OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)))
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
         assertEquals("5", result.getValue())
     }
 
@@ -23,7 +23,7 @@ class BinaryOperationReaderTest {
     fun test002EvaluateOperationString() {
         val binaryOperationReader = BinaryOperatorReader()
         val operation = OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0)))
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
         assertEquals("Hello", result.getValue())
     }
 
@@ -36,7 +36,7 @@ class BinaryOperationReaderTest {
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
                 OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
             )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER, ::input)
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER)
         assertEquals(VariableType.NUMBER, result.getType())
         assertEquals("10", result.getValue())
     }
@@ -58,7 +58,7 @@ class BinaryOperationReaderTest {
                     OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
                 ),
             )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER, ::input)
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER)
         assertEquals("35", result.getValue())
         assertEquals(VariableType.NUMBER, result.getType())
     }
@@ -80,7 +80,7 @@ class BinaryOperationReaderTest {
                     OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0))),
                 ),
             )
-        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
         assertEquals("10Hello5", result.getValue())
         assertEquals(VariableType.STRING, result.getType())
     }
@@ -98,7 +98,7 @@ class BinaryOperationReaderTest {
             )
 
         assertThrows<Exception> {
-            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
         }
     }
 
@@ -115,7 +115,7 @@ class BinaryOperationReaderTest {
             )
 
         assertThrows<Exception> {
-            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
         }
     }
 
@@ -132,7 +132,7 @@ class BinaryOperationReaderTest {
             )
 
         assertThrows<Exception> {
-            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING, ::input)
+            binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
         }
     }
 

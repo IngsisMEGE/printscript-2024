@@ -29,7 +29,7 @@ import java.util.Stack
  * @throws SyntacticError If the list of tokens contains an invalid string concatenation, an unmatched left parenthesis, or an invalid token.
  */
 class OperationBuilder {
-    private val operationInputBuilder = OperationInputBuilder()
+    private val operationMethodBuilder = OperationMethodBuilder()
 
     private val operators =
         listOf(
@@ -62,7 +62,7 @@ class OperationBuilder {
     }
 
     fun buildOperation(tokens: List<Token>): OpTree {
-        if (operationInputBuilder.canCreate(tokens)) return operationInputBuilder.createInputOperation(tokens)
+        if (operationMethodBuilder.canCreate(tokens)) return operationMethodBuilder.createInputOperation(tokens)
 
         if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().first}")
 

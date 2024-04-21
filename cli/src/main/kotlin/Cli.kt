@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.parameters.options.prompt
 import java.io.File
 
 fun main(args: Array<String>) {
-    val printScript = PrintScript(::input)
+    val printScript = PrintScript()
     Cli(printScript).subcommands(
         Execute(printScript),
         FormatFile(printScript),
@@ -24,10 +24,11 @@ class Cli(private val printScript: PrintScript) : CliktCommand() {
 
 class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
+    private val outputsPath: String by option(help = "Path to the PrintScript outputs").prompt("Enter the outputs path")
 
     override fun run() {
         try {
-            val output = printScript.start(filePath)
+            val output = printScript.start(filePath, outputsPath)
             echo(output)
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
@@ -103,9 +104,4 @@ class ChangeLexerConfig(private val printScript: PrintScript) : CliktCommand(hel
             echo("Error: ${e.message}", err = true)
         }
     }
-}
-
-fun input(message: String): String {
-    print(message)
-    return readlnOrNull() ?: ""
 }

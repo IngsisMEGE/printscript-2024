@@ -2,7 +2,7 @@ import analyzers.SCAImpl
 import astn.Assignation
 import astn.Method
 import astn.OperationHead
-import astn.OperationInput
+import astn.OperationMethod
 import astn.OperationString
 import astn.VarDeclaration
 import org.junit.jupiter.api.assertThrows
@@ -147,7 +147,8 @@ class SCATests {
         val method =
             Method(
                 Token(DataType.VARIABLE_NAME, "IAMNOTAMETHOD", Pair(0, 0), Pair(6, 0)),
-                OperationInput(
+                OperationMethod(
+                    Token(DataType.METHOD_CALL, "readInput", Pair(6, 0), Pair(7, 0)),
                     OperationString(Token(DataType.STRING_VALUE, "Hello", Pair(7, 0), Pair(12, 0))),
                 ),
             )
@@ -168,7 +169,8 @@ class SCATests {
         val method =
             Assignation(
                 Token(DataType.VARIABLE_NAME, "IAMNOTAMETHOD", Pair(0, 0), Pair(6, 0)),
-                OperationInput(
+                OperationMethod(
+                    Token(DataType.METHOD_CALL, "readInput", Pair(6, 0), Pair(7, 0)),
                     OperationHead(
                         Token(DataType.OPERATOR_PLUS, "+", Pair(0, 0), Pair(1, 0)),
                         OperationString(Token(DataType.STRING_VALUE, "hello ", Pair(0, 0), Pair(1, 0))),

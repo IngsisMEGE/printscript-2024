@@ -17,7 +17,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test001DeclarationAssignationExecutorVariableNotFound() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast1 =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -47,7 +47,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test002TypeMismatch() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast1 =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -67,7 +67,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test003DeclarationExecutionWorksFineTypeNumber() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -86,7 +86,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test004DeclarationExecutionWorksFineTypeString() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -105,7 +105,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test005DeclarationExecutionWorksWithOperationsOfNumbers() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -126,7 +126,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test006OperationsWithStringShouldWork() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -147,7 +147,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test007OperationWithStringAndNumberShouldWork() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -170,7 +170,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test008TypeBooleanWithValueBooleanShouldBeCorrect() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
@@ -189,7 +189,7 @@ class DeclarationAssignationExecutionTest {
     @Test
     fun test009TypeBooleanWithOtherTypeShouldThrowError() {
         val map = mutableMapOf<String, Value>()
-        val declarationAssignationExecutor = DeclarationAssignationExecution(::input)
+        val declarationAssignationExecutor = DeclarationAssignationExecution()
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(

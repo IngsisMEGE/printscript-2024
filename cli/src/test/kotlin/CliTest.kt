@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test
 import java.io.File
 
 class CliTest {
-    private val printScript = PrintScript(::input)
+    private val printScript = PrintScript()
 
     @Test
     fun testExecuteCommand() {
         val command = Execute(printScript)
-        val result = command.test("--file-path=src/test/resources/testFile.txt")
+        val result = command.test("--file-path=src/test/resources/testFile.txt --outputs-path=")
         assertEquals("10\n\n", result.output)
     }
 
@@ -24,9 +24,4 @@ class CliTest {
         val actualContent = File("src/test/resources/testFile.txt").readText()
         assertEquals(expectedContent, actualContent)
     }
-}
-
-fun input(message: String): String {
-    print(message)
-    return readlnOrNull() ?: ""
 }

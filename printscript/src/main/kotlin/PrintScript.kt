@@ -16,6 +16,8 @@ import org.example.lexer.Lexer
 import org.example.utils.JSONManager
 import java.io.File
 import java.io.FileNotFoundException
+import java.util.LinkedList
+import java.util.Queue
 
 /**
  * This class is responsible for executing a PrintScript program.
@@ -27,10 +29,11 @@ import java.io.FileNotFoundException
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.1") {
+class PrintScript() {
     private var lexer: Lexer = LexerImpl(loadLexerRules())
     private val parser: Parser = ParserImpl()
-    private val interpreter: Interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
+    private val outputs: Queue<String> = LinkedList<String>()
+    private val interpreter: Interpreter = InterpreterImpl({ loadInput() }, { enterIfScope() }, { mergeScopes() })
     private val sca: SCA = SCAImpl(mapOf())
     private var formatter: Formatter =
         FormatterImpl(
@@ -39,7 +42,11 @@ class PrintScript(private val loadInput: (String) -> String, private val version
 
     private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
 
-    fun start(path: String): String {
+    fun start(
+        path: String,
+        outputPath: String,
+    ): String {
+        addLinesToQueue(outputPath)
         return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
     }
 
@@ -143,6 +150,27 @@ class PrintScript(private val loadInput: (String) -> String, private val version
         }
 
         storedVariables = storedVariables.dropLast(1)
+    }
+
+    private fun addLinesToQueue(filePath: String) {
+        val file = File(filePath)
+        if (file.exists()) {
+            file.bufferedReader().useLines { lines ->
+                lines.forEach { line ->
+                    outputs.add(line)
+                }
+            }
+        } else {
+            return
+        }
+    }
+
+    private fun loadInput(): String {
+        return if (outputs.isEmpty()) {
+            ""
+        } else {
+            outputs.remove()
+        }
     }
 
     private fun loadLexerRules(): Map<String, TokenRegexRule> {

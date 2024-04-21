@@ -7,7 +7,7 @@ import interpreter.Value
 import interpreter.VariableType
 import token.Token
 
-class IfExecutor() : Executor<IfStatement> {
+class IfExecutor : Executor<IfStatement> {
     override fun execute(
         ast: IfStatement,
         variables: MutableMap<String, Value>,

@@ -74,7 +74,8 @@ class AssignationRuleTest {
         val ast =
             astn.Assignation(
                 Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),
-                astn.OperationInput(
+                astn.OperationMethod(
+                    Token(DataType.METHOD_CALL, "readInput", Pair(4, 0), Pair(5, 0)),
                     OperationNumber(
                         Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
                     ),
