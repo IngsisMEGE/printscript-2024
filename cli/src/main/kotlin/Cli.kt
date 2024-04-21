@@ -75,13 +75,13 @@ class ChangeFormatterConfig(private val printScript: PrintScript) : CliktCommand
 }
 
 class ChangeLexerConfig(private val printScript: PrintScript) : CliktCommand(help = "Change lexer configurations") {
-    private val configFilePath: String by option(
+    private val filePath: String by option(
         help = "Path to the lexer configuration file",
     ).prompt("Enter the lexer configuration file path")
 
     override fun run() {
         try {
-            printScript.updateRegexRules(configFilePath)
+            printScript.updateRegexRules(filePath)
             echo("Lexer configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
