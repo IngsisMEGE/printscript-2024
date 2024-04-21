@@ -14,6 +14,7 @@ fun main(args: Array<String>) {
         Analyze(printScript),
         ChangeFormatterConfig(printScript),
         ChangeLexerConfig(printScript),
+        ChangeScaConfig(printScript),
     ).main(args)
 }
 
@@ -68,6 +69,21 @@ class ChangeFormatterConfig(private val printScript: PrintScript) : CliktCommand
         try {
             printScript.changeFormatterConfig(configFilePath)
             echo("Formatter configurations updated successfully.")
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
+        }
+    }
+}
+
+class ChangeScaConfig(private val printScript: PrintScript) : CliktCommand(help = "Change SCA configurations") {
+    private val configFilePath: String by option(
+        help = "Path to the SCA configuration file",
+    ).prompt("Enter the SCA configuration file path")
+
+    override fun run() {
+        try {
+            printScript.changeSCAConfig(configFilePath)
+            echo("SCA configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
