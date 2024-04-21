@@ -218,7 +218,17 @@ class PrintScriptTest {
         assertEquals(expectedOutput, printScript.format(path))
     }
 
-    fun input(message: String): String {
+    @Test
+    fun test020UpdateLexerConfigurationAndParseFile() {
+        val printScript = PrintScript(::input)
+        val path = "src/test/resources/clitestDeclar.txt"
+        val expectedOutput = "25\n"
+        printScript.updateRegexRules("src/test/resources/newRegex.json")
+        assertEquals(expectedOutput, printScript.start(path))
+        printScript.updateRegexRules("src/test/resources/LexerFullRules.json")
+    }
+
+    private fun input(message: String): String {
         return message
     }
 }
