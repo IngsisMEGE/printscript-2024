@@ -31,7 +31,7 @@ class PrintScript(private val loadInput: (String) -> String, private val version
     private var lexer: Lexer = LexerImpl(loadLexerRules())
     private val parser: Parser = ParserImpl()
     private val interpreter: Interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
-    private val sca: SCA = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpresion" to true))
+    private val sca: SCA = SCAImpl(mapOf())
     private var formatter: Formatter =
         FormatterImpl(
             mapOf(),
@@ -105,6 +105,16 @@ class PrintScript(private val loadInput: (String) -> String, private val version
             FormatterImpl(
                 newProperties,
             )
+    }
+
+    fun changeSCAConfig(configFilePath: String) {
+        val file = File(configFilePath)
+        if (!file.exists()) {
+            throw FileNotFoundException("File not found: $configFilePath")
+        }
+        val json = file.readText()
+        val newProperties = JSONManager.jsonToMap<Boolean>(json)
+        sca.buildSCA(newProperties)
     }
 
     private fun lexAndParse(
