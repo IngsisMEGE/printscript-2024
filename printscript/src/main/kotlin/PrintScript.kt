@@ -29,7 +29,7 @@ import java.util.Queue
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript(private val loadInput: (String) -> String, private val version: String = "1.1") {
+class PrintScript() {
     private var lexer: Lexer = LexerImpl(loadLexerRules())
     private val parser: Parser = ParserImpl()
     private val outputs: Queue<String> = LinkedList<String>()

@@ -220,14 +220,13 @@ class PrintScriptTest {
 
     @Test
     fun test020UpdateLexerConfigurationAndParseFile() {
-        val printScript = PrintScript(::input)
+        val printScript = PrintScript()
         val path = "src/test/resources/clitestDeclar.txt"
         val expectedOutput = "25\n"
         printScript.updateRegexRules("src/test/resources/newRegex.json")
-        assertEquals(expectedOutput, printScript.start(path))
+        assertEquals(expectedOutput, printScript.start(path, ""))
         printScript.updateRegexRules("src/test/resources/LexerFullRules.json")
     }
-
 
     @Test
     fun test021ReadInput() {

@@ -27,7 +27,6 @@ class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execu
     private val outputsPath: String by option(help = "Path to the PrintScript outputs").prompt("Enter the outputs path")
 
     override fun run() {
-
         try {
             val output = printScript.start(filePath, outputsPath)
             echo(output)
