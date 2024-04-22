@@ -236,5 +236,17 @@ class PrintScriptTest {
         val expectedOutput =
             "Name: \nhello world\n"
         Assertions.assertEquals(expectedOutput, printScript.start(path, output))
+        assertThrows<Exception> {
+            printScript.start(path, "")
+        }
+    }
+
+    @Test
+    fun test014ErrorShouldThrowException() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/testFileWithError.txt"
+        assertThrows<Exception> {
+            printScript.start(path, "")
+        }
     }
 }

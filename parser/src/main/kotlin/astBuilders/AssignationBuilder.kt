@@ -25,7 +25,9 @@ class AssignationBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeOutSeparator(tokens)
         if (parsedTokens.size < 3) return false
-        return parsedTokens[0].getType() == DataType.VARIABLE_NAME
+        if (parsedTokens[0].getType() != DataType.VARIABLE_NAME) return false
+        if (parsedTokens[1].getType() != DataType.ASSIGNATION) return false
+        return true
     }
 
     override fun build(tokens: List<Token>): AST {

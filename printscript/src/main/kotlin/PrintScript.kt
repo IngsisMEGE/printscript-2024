@@ -67,7 +67,6 @@ class PrintScript() {
         if (!file.exists()) {
             throw FileNotFoundException("File not found: $path")
         }
-        try {
             var numberLine = 1
             file.forEachLine { line ->
                 if (line.isBlank()) {
@@ -84,9 +83,6 @@ class PrintScript() {
             }
 
             return output.joinToString("")
-        } catch (e: Exception) {
-            return "An error occurred while executing the script. ${e.message}"
-        }
     }
 
     fun updateRegexRules(newRulesPath: String) {
