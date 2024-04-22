@@ -31,7 +31,10 @@ class PrintScript {
     private var lexer: Lexer = LexerImpl(getLexerDefaultRules())
     private val parser: Parser = ParserImpl()
     private val interpreter: Interpreter = InterpreterImpl()
-    private val sca: SCA = SCAImpl(mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpression" to true))
+    private val sca: SCA =
+        SCAImpl(
+            mapOf("CamelCaseFormat" to true, "SnakeCaseFormat" to true, "MethodNoExpression" to true),
+        )
     private var formatter: Formatter =
         FormatterImpl(
             mapOf(),
@@ -40,7 +43,12 @@ class PrintScript {
     private val storedVariables = mutableMapOf<String, Value>()
 
     fun start(path: String): String {
-        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables) }
+        return processFile(path) { line, numberLine ->
+            interpreter.readAST(
+                lexAndParse(line, numberLine),
+                storedVariables,
+            )
+        }
     }
 
     fun format(path: String): String {
@@ -60,26 +68,22 @@ class PrintScript {
         if (!file.exists()) {
             throw FileNotFoundException("File not found: $path")
         }
-        try {
-            var numberLine = 1
-            file.forEachLine { line ->
-                if (line.isBlank()) {
-                    return@forEachLine
-                }
+        var numberLine = 1
+        file.forEachLine { line ->
+            if (line.isBlank()) {
+                return@forEachLine
+            }
+            output.add(processLine(line, numberLine))
+            while (!lexer.isLineFinished()) {
                 output.add(processLine(line, numberLine))
-                while (!lexer.isLineFinished()) {
-                    output.add(processLine(line, numberLine))
-                }
-                numberLine++
             }
-            if (lexer.stillHaveTokens()) {
-                throw Exception("File does not end with a separator")
-            }
-
-            return output.joinToString("")
-        } catch (e: Exception) {
-            return "An error occurred while executing the script. ${e.message}"
+            numberLine++
         }
+        if (lexer.stillHaveTokens()) {
+            throw Exception("File does not end with a separator")
+        }
+
+        return output.joinToString("")
     }
 
     fun updateRegexRules(newRules: String) {
