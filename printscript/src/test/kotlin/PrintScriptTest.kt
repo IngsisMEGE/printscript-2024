@@ -151,7 +151,17 @@ class PrintScriptTest {
     fun test013IfFileDoesNotEndWithSeparatorShouldThrowException() {
         val printScript = PrintScript()
         val path = "src/test/resources/testFileNotEndWithSeparator.txt"
-        val expectedOutput = "An error occurred while executing the script. File does not end with a separator"
-        assertEquals(expectedOutput, printScript.start(path))
+        assertThrows<Exception> {
+            printScript.start(path)
+        }
+    }
+
+    @Test
+    fun test014ErrorShouldThrowException() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/testFileWithError.txt"
+        assertThrows<Exception> {
+            printScript.start(path)
+        }
     }
 }
