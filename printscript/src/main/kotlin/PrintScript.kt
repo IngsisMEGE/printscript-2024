@@ -44,9 +44,13 @@ class PrintScript() {
 
     fun start(
         path: String,
-        outputPath: String,
+        inputPath: String,
     ): String {
-        addLinesToQueue(outputPath)
+        addLinesToQueue(inputPath)
+        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
+    }
+
+    fun start(path: String): String {
         return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
     }
 
@@ -67,22 +71,22 @@ class PrintScript() {
         if (!file.exists()) {
             throw FileNotFoundException("File not found: $path")
         }
-            var numberLine = 1
-            file.forEachLine { line ->
-                if (line.isBlank()) {
-                    return@forEachLine
-                }
+        var numberLine = 1
+        file.forEachLine { line ->
+            if (line.isBlank()) {
+                return@forEachLine
+            }
+            output.add(processLine(line, numberLine))
+            while (!lexer.isLineFinished()) {
                 output.add(processLine(line, numberLine))
-                while (!lexer.isLineFinished()) {
-                    output.add(processLine(line, numberLine))
-                }
-                numberLine++
             }
-            if (lexer.stillHaveTokens()) {
-                throw Exception("File does not end with a separator")
-            }
+            numberLine++
+        }
+        if (lexer.stillHaveTokens()) {
+            throw Exception("File does not end with a separator")
+        }
 
-            return output.joinToString("")
+        return output.joinToString("")
     }
 
     fun updateRegexRules(newRulesPath: String) {

@@ -64,7 +64,7 @@ class OperationBuilder {
     fun buildOperation(tokens: List<Token>): OpTree {
         if (operationMethodBuilder.canCreate(tokens)) return operationMethodBuilder.createInputOperation(tokens)
 
-        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().first}")
+        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().second}")
 
         if (tokens.size == 1) return singleValue(tokens[0])
 

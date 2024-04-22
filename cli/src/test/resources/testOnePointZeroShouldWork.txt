@@ -1,0 +1,7 @@
+let x : number = 1;
+let y : number = 2;
+let z : string = "3";
+
+println(x);
+println(z + y);
+println(x / y);

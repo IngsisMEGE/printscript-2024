@@ -25,7 +25,7 @@ class Cli(private val printScript: PrintScript) : CliktCommand() {
 
 class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
-    private val outputsPath: String by option(help = "Path to the PrintScript outputs").default("src/main/resources/output.txt")
+    private val inputPath: String by option(help = "Path to the PrintScript outputs").default("src/main/resources/output.txt")
     private val version: String by option(help = "PrintScript version").default("use-default")
 
     override fun run() {
@@ -36,7 +36,7 @@ class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execu
                 printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
 
-            val output = printScript.start(filePath, outputsPath)
+            val output = printScript.start(filePath, inputPath)
             echo(output)
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
