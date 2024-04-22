@@ -2,6 +2,7 @@ package org.example
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import java.io.File
@@ -24,10 +25,17 @@ class Cli(private val printScript: PrintScript) : CliktCommand() {
 
 class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
-    private val outputsPath: String by option(help = "Path to the PrintScript outputs").prompt("Enter the outputs path")
+    private val outputsPath: String by option(help = "Path to the PrintScript outputs").default("src/main/resources/output.txt")
+    private val version: String by option(help = "PrintScript version").default("use-default")
 
     override fun run() {
         try {
+            if (version == "1.0") {
+                printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
+            } else if (version == "1.1") {
+                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
+            }
+
             val output = printScript.start(filePath, outputsPath)
             echo(output)
         } catch (e: Exception) {
@@ -38,9 +46,16 @@ class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execu
 
 class FormatFile(private val printScript: PrintScript) : CliktCommand(help = "Format a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file to format").prompt("Enter the file path")
+    private val version: String by option(help = "PrintScript version").default("use-default")
 
     override fun run() {
         try {
+            if (version == "1.0") {
+                printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
+            } else if (version == "1.1") {
+                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
+            }
+
             val formattedContent = printScript.format(filePath)
             File(filePath).writeText(formattedContent)
             echo("File formatted and updated successfully.")
@@ -52,9 +67,16 @@ class FormatFile(private val printScript: PrintScript) : CliktCommand(help = "Fo
 
 class Analyze(private val printScript: PrintScript) : CliktCommand(help = "Analyze a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file to analyze").prompt("Enter the file path")
+    private val version: String by option(help = "PrintScript version").default("user-defined")
 
     override fun run() {
         try {
+            if (version == "1.0") {
+                printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
+            } else if (version == "1.1") {
+                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
+            }
+
             val analysis = printScript.analyze(filePath)
             echo(analysis)
         } catch (e: Exception) {
