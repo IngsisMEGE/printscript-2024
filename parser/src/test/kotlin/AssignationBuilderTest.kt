@@ -93,14 +93,15 @@ class AssignationBuilderTest {
     }
 
     @Test
-    fun test008IfShouldNotBeValid(){
-        val tokens = listOf(
-            Token(DataType.VARIABLE_NAME, "if", Pair(0, 0), Pair(0, 1)),
-            Token(DataType.LEFT_PARENTHESIS, "(", Pair(0, 2), Pair(0, 3)),
-            Token(DataType.VARIABLE_NAME, "x", Pair(0, 4), Pair(0, 5)),
-            Token(DataType.RIGHT_PARENTHESIS, ")", Pair(0, 6), Pair(0, 7)),
-            Token(DataType.VARIABLE_NAME, "{", Pair(0, 8), Pair(0, 9)),
-        )
+    fun test008IfShouldNotBeValid() {
+        val tokens =
+            listOf(
+                Token(DataType.VARIABLE_NAME, "if", Pair(0, 0), Pair(0, 1)),
+                Token(DataType.LEFT_PARENTHESIS, "(", Pair(0, 2), Pair(0, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 4), Pair(0, 5)),
+                Token(DataType.RIGHT_PARENTHESIS, ")", Pair(0, 6), Pair(0, 7)),
+                Token(DataType.VARIABLE_NAME, "{", Pair(0, 8), Pair(0, 9)),
+            )
         assertFalse(assignationBuilder.isValid(tokens))
     }
 }
