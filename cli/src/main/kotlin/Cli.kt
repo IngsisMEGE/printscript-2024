@@ -30,10 +30,9 @@ class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execu
 
     override fun run() {
         try {
-
-            if (version == "1.0"){
+            if (version == "1.0") {
                 printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
-            } else if (version == "1.1"){
+            } else if (version == "1.1") {
                 printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
 
@@ -51,9 +50,9 @@ class FormatFile(private val printScript: PrintScript) : CliktCommand(help = "Fo
 
     override fun run() {
         try {
-            if (version == "1.0"){
+            if (version == "1.0") {
                 printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
-            } else if (version == "1.1"){
+            } else if (version == "1.1") {
                 printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
 
@@ -72,9 +71,9 @@ class Analyze(private val printScript: PrintScript) : CliktCommand(help = "Analy
 
     override fun run() {
         try {
-            if (version == "1.0"){
+            if (version == "1.0") {
                 printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
-            } else if (version == "1.1"){
+            } else if (version == "1.1") {
                 printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
 
