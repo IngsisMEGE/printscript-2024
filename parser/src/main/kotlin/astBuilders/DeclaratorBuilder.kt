@@ -25,7 +25,10 @@ class DeclaratorBuilder : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
         val parsedTokens = takeCommentsAndSemiColon(tokens)
         if (parsedTokens.size < 4) return false
-        return parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE || parsedTokens[2].getType() == DataType.DOUBLE_DOTS
+        if (parsedTokens[0].getType() != DataType.DECLARATION_VARIABLE) return false
+        if (parsedTokens[1].getType() != DataType.VARIABLE_NAME) return false
+        if (parsedTokens[2].getType() != DataType.DOUBLE_DOTS) return false
+        return true
     }
 
     override fun build(tokens: List<Token>): AST {
