@@ -20,7 +20,7 @@ class CliTest {
     fun testFinalFormattedFile() {
         val command = FormatFile(printScript)
         command.test("--file-path=src/test/resources/testFile.txt --version=1.1")
-        val expectedContent = "let x:number=10;\n\nprintln(x);\n"
+        val expectedContent = "let x : number = 10;\n\nprintln(x);\n"
         val actualContent = File("src/test/resources/testFile.txt").readText()
         assertEquals(expectedContent, actualContent)
     }
