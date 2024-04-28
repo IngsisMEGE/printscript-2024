@@ -13,7 +13,7 @@ class AssignationRuleTest {
         property["EqualFront"] = 1
         property["EqualBack"] = 1
         val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
-        val result = assignationRule.isTheRuleIncluded(property)
+        val result = assignationRule.generateEnforcers(property)
         assert(result is AssignationRule)
     }
 
@@ -35,7 +35,7 @@ class AssignationRuleTest {
     fun test003enforceRule() {
         var assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val code = "a=5"
-        assignationRule = assignationRule.isTheRuleIncluded(mapOf("EqualFront" to 1, "EqualBack" to 1))
+        assignationRule = assignationRule.generateEnforcers(mapOf("EqualFront" to 1, "EqualBack" to 1))
         val result = assignationRule.enforceRule(code)
         assertEquals("a = 5;", result)
     }
@@ -44,7 +44,7 @@ class AssignationRuleTest {
     fun test004enforceRule() {
         var assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val code = "a=5"
-        assignationRule = assignationRule.isTheRuleIncluded(mapOf("EqualFront" to 1, "EqualBack" to 1))
+        assignationRule = assignationRule.generateEnforcers(mapOf("EqualFront" to 1, "EqualBack" to 1))
         val result = assignationRule.enforceRule(code)
         assertEquals("a = 5;", result)
     }
@@ -67,5 +67,22 @@ class AssignationRuleTest {
         val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
         val result = assignationRule.genericLine(ast)
         assertEquals("a=5+5", result)
+    }
+
+    @Test
+    fun test006assignationEqualsReadInput() {
+        val ast =
+            astn.Assignation(
+                Token(DataType.VARIABLE_NAME, "a", Pair(0, 0), Pair(1, 0)),
+                astn.OperationMethod(
+                    Token(DataType.METHOD_CALL, "readInput", Pair(4, 0), Pair(5, 0)),
+                    OperationNumber(
+                        Token(DataType.NUMBER_TYPE, "5", Pair(2, 0), Pair(3, 0)),
+                    ),
+                ),
+            )
+        val assignationRule: Rules = AssignationRule("EqualFront", "EqualBack")
+        val result = assignationRule.genericLine(ast)
+        assertEquals("a=readInput(5)", result)
     }
 }

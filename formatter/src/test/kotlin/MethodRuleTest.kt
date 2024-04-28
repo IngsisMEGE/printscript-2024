@@ -13,7 +13,7 @@ class MethodRuleTest {
         property["ammountOfLines"] = 1
         val methodRule: Rules = MethodRule("ammountOfLines")
 
-        val result = methodRule.isTheRuleIncluded(property)
+        val result = methodRule.generateEnforcers(property)
 
         assert(result is MethodRule)
     }
@@ -22,7 +22,7 @@ class MethodRuleTest {
     fun test002EnforceRule() {
         var methodRule: Rules = MethodRule("ammountOfLines")
         val code = "println(\"Hello\")"
-        methodRule = methodRule.isTheRuleIncluded(mapOf("ammountOfLines" to 1))
+        methodRule = methodRule.generateEnforcers(mapOf("ammountOfLines" to 1))
         val result = methodRule.enforceRule(code)
 
         assertEquals("\nprintln(\"Hello\");", result)

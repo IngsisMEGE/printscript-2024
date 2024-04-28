@@ -1,4 +1,5 @@
 import astn.Assignation
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -8,6 +9,7 @@ import executors.DeclarationAssignationExecution
 import executors.DeclarationExecution
 import interpreter.Value
 import interpreter.executors.AssignationExecution
+import interpreter.executors.operationMethod.LoadInputHolder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import token.DataType
@@ -17,6 +19,7 @@ import kotlin.test.Test
 class AssignationExecutionTest {
     @Test
     fun test001AssignationExecutorVariableNotFound() {
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val ast =
             Assignation(
@@ -27,12 +30,13 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast, mutableMapOf())
             }
-        assertEquals("Variable not found at Line 0", exception.message)
+        assertEquals("Variable 'IAMNOTAVARIABLE' not found at Line 0", exception.message)
     }
 
     @Test
     fun test002AssignationExecutorVariableTypeMismatch() {
         val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
 
@@ -40,6 +44,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -51,12 +56,13 @@ class AssignationExecutionTest {
             assertThrows<Exception> {
                 assignationExecutor.execute(ast2, map)
             }
-        assertEquals("Variable not found at Line 0", exception.message)
+        assertEquals("Variable 'IAMNOTAVARIABLE' not found at Line 0", exception.message)
     }
 
     @Test
     fun test003AssignationExecutorShouldAssignCorrectly() {
         val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
 
@@ -64,6 +70,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -80,6 +87,7 @@ class AssignationExecutionTest {
     @Test
     fun test004AssignationExecutorShouldAssignCorrectlyWithStringType() {
         val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
 
@@ -87,6 +95,7 @@ class AssignationExecutionTest {
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -103,12 +112,14 @@ class AssignationExecutionTest {
     @Test
     fun test005AssignationExecutorShouldAssignCorrectlyAComplexExpression() {
         val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -127,12 +138,14 @@ class AssignationExecutionTest {
     @Test
     fun test006AssignationExecutorShouldConcatenate2String() {
         val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -151,6 +164,7 @@ class AssignationExecutionTest {
 
     @Test
     fun test007AssignationExecutorShouldWorkWithVarDeclarationAssignation() {
+        LoadInputHolder.loadInput = ::loadInput
         val valDeclarationAssignation = DeclarationAssignationExecution()
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
@@ -159,6 +173,7 @@ class AssignationExecutionTest {
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                    true,
                 ),
                 OperationNumber(
                     Token(DataType.NUMBER_VALUE, "4", Pair(7, 0), Pair(12, 0)),
@@ -182,12 +197,14 @@ class AssignationExecutionTest {
     @Test
     fun test007AssignationExecutorShouldCreateStringWithSpace() {
         val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
         val assignationExecutor = AssignationExecution()
         val map = mutableMapOf<String, Value>()
         val ast1 =
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(4, 0), Pair(5, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val ast2 =
             Assignation(
@@ -198,5 +215,98 @@ class AssignationExecutionTest {
         valDeclarationExecutor.execute(ast1, map)
         val result = assignationExecutor.execute(ast2, map)
         assertEquals("", result)
+    }
+
+    @Test
+    fun test008AssignationOfBooleanShouldBeCorrect() {
+        val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
+        val assignationExecutor = AssignationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclaration(
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
+            )
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationBoolean(
+                    Token(DataType.BOOLEAN_VALUE, "true", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        valDeclarationExecutor.execute(ast1, map)
+        val result = assignationExecutor.execute(ast2, map)
+        assertEquals("", result)
+    }
+
+    @Test
+    fun test009AssignationBooleanWithOtherTypeShouldThrowError() {
+        val valDeclarationExecutor = DeclarationExecution()
+        LoadInputHolder.loadInput = ::loadInput
+        val assignationExecutor = AssignationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclaration(
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(4, 0), Pair(5, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
+            )
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "4", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        valDeclarationExecutor.execute(ast1, map)
+        val exception =
+            assertThrows<Exception> {
+                assignationExecutor.execute(ast2, map)
+            }
+        assertEquals("Variable type mismatch at Line 0 between BOOLEAN and NUMBER", exception.message)
+    }
+
+    @Test
+    fun testConstAssignation() {
+        LoadInputHolder.loadInput = ::loadInput
+        val valDeclarationAssignation = DeclarationAssignationExecution()
+        val assignationExecutor = AssignationExecution()
+        val variables = mutableMapOf<String, Value>()
+        val ast1 =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(4, 0), Pair(5, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                    false,
+                ),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "4", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        val ast2 =
+            Assignation(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(12, 0)),
+                ),
+            )
+
+        valDeclarationAssignation.execute(ast1, variables)
+
+        val exception =
+            assertThrows<Exception> {
+                assignationExecutor.execute(ast2, variables)
+            }
+
+        assertEquals("Cannot assign new value to constant 'x' at Line 0 : 0.", exception.message)
+    }
+
+    private fun loadInput(): String {
+        return ""
     }
 }

@@ -3,7 +3,8 @@ package astBuilders
 import astBuilders.AstBuilder.Companion.checkMaxLength
 import astBuilders.AstBuilder.Companion.checkMinLength
 import astBuilders.AstBuilder.Companion.checkTokenType
-import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astBuilders.AstBuilder.Companion.mustEndWithSeparator
+import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.AST
 import astn.VarDeclaration
 import token.DataType
@@ -21,25 +22,36 @@ import token.Token
  *
  */
 
-class DeclaratorBuilder : AstBuilder {
+class DeclaratorBuilder(private val isCompleteLine: Boolean) : AstBuilder {
     override fun isValid(tokens: List<Token>): Boolean {
-        val parsedTokens = takeCommentsAndSemiColon(tokens)
+        val parsedTokens = takeOutSeparator(tokens)
         if (parsedTokens.size < 4) return false
-        return parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE || parsedTokens[2].getType() == DataType.DOUBLE_DOTS
+        if (parsedTokens[0].getType() != DataType.DECLARATION_VARIABLE &&
+            parsedTokens[0].getType() != DataType.DECLARATION_IMMUTABLE
+        ) {
+            return false
+        }
+        if (parsedTokens[1].getType() != DataType.VARIABLE_NAME) return false
+        if (parsedTokens[2].getType() != DataType.DOUBLE_DOTS) return false
+        return true
     }
 
     override fun build(tokens: List<Token>): AST {
-        val parsedTokens = takeCommentsAndSemiColon(tokens)
-        verifyStructure(parsedTokens)
-        return VarDeclaration(parsedTokens[3], parsedTokens[1])
+        verifyStructure(tokens)
+        val parsedTokens = takeOutSeparator(tokens)
+        val isMutable = parsedTokens[0].getType() == DataType.DECLARATION_VARIABLE
+        return VarDeclaration(parsedTokens[3], parsedTokens[1], isMutable)
     }
 
     private fun verifyStructure(tokens: List<Token>) {
+        if (isCompleteLine) {
+            mustEndWithSeparator(tokens.last())
+        }
         checkMinLength(tokens, 4, "declaration")
-        checkMaxLength(tokens, 4, "declaration")
-        checkTokenType(tokens[0], "Let or const", listOf(DataType.DECLARATION_VARIABLE))
+        checkMaxLength(tokens, 5, "declaration")
+        checkTokenType(tokens[0], "Let or const", listOf(DataType.DECLARATION_VARIABLE, DataType.DECLARATION_IMMUTABLE))
         checkTokenType(tokens[1], "Identifier", listOf(DataType.VARIABLE_NAME))
         checkTokenType(tokens[2], "Double dots", listOf(DataType.DOUBLE_DOTS))
-        checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_TYPE, DataType.STRING_TYPE))
+        checkTokenType(tokens[3], "Type", listOf(DataType.NUMBER_TYPE, DataType.STRING_TYPE, DataType.BOOLEAN_TYPE))
     }
 }

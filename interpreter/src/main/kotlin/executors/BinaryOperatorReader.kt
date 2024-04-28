@@ -1,12 +1,15 @@
 package interpreter.executors
 
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
+import astn.OperationMethod
 import astn.OperationNumber
 import astn.OperationString
 import astn.OperationVariable
 import interpreter.Value
 import interpreter.VariableType
+import interpreter.executors.operationMethod.OperationMethodProvider
 import token.DataType
 import token.Token
 import java.util.Optional
@@ -29,44 +32,67 @@ import java.util.Optional
  * @throws Exception If the OpTree is of an unexpected type, if a variable does not exist or its value is empty, if an unsupported operator is used, or if the operands are of incompatible types.
  */
 class BinaryOperatorReader() {
+    private val operationMethodProvider = OperationMethodProvider()
+
     fun evaluate(
         binary: OpTree,
         variables: MutableMap<String, Value>,
+        type: VariableType,
     ): Value {
         return when (binary) {
             is OperationNumber -> Value(VariableType.NUMBER, Optional.of(binary.value.getValue()))
             is OperationString -> Value(VariableType.STRING, Optional.of(binary.value.getValue()))
-            is OperationVariable -> getVariable(binary.value.getValue(), variables)
-            is OperationHead -> evaluateHead(binary, variables)
+            is OperationBoolean -> Value(VariableType.BOOLEAN, Optional.of(binary.value.getValue()))
+            is OperationVariable -> getVariable(binary.varName, variables)
+            is OperationHead -> evaluateHead(binary, variables, type)
+            is OperationMethod -> {
+                val value = evaluate(binary.value, variables, type)
+                val operation = operationMethodProvider.getOperationMethod(binary.methodName)
+                operation.execute(binary.methodName, listOf(value), type)
+            }
             else -> throw Exception("Operation not found")
         }
     }
 
     private fun getVariable(
-        name: String,
+        varName: Token,
         variables: MutableMap<String, Value>,
     ): Value {
+        val name = varName.getValue()
         if (variables.containsKey(name)) {
             if (!variables[name]!!.isEmpty()) {
-                return Value(variables[name]!!.getType(), Optional.of(variables[name]!!.getValue()))
+                return Value(variables[name]!!.getType(), Optional.of(variables[name]!!.getValue()), variables[name]!!.isMutable())
             } else {
-                throw Exception("Variable not initialized")
+                throw Exception(
+                    "Variable $name not initialized at Line ${varName.getInitialPosition().first} " +
+                        ": ${varName.getInitialPosition().second} ",
+                )
             }
         } else {
-            throw Exception("Variable not found")
+            throw Exception(
+                "Variable $name not found at Line ${varName.getInitialPosition().first} " +
+                    ": ${varName.getInitialPosition().second} ",
+            )
         }
     }
 
     private fun evaluateHead(
         binary: OperationHead,
         variables: MutableMap<String, Value>,
+        type: VariableType,
     ): Value {
-        val left = evaluate(binary.left, variables)
-        val right = evaluate(binary.right, variables)
+        val left = evaluate(binary.left, variables, type)
+        val right = evaluate(binary.right, variables, type)
         return when {
+            left.getType() == VariableType.BOOLEAN || right.getType() == VariableType.BOOLEAN -> throw Exception(
+                "Operation between ${left.getType()} and ${right.getType()} not supported",
+            )
             left.getType() == VariableType.STRING || right.getType() == VariableType.STRING -> calculateString(left, right, binary.operator)
             left.getType() == VariableType.NUMBER && right.getType() == VariableType.NUMBER -> calculateNumber(left, right, binary.operator)
-            else -> throw Exception("Type Mismatch")
+            else -> throw Exception(
+                "Operation between ${left.getType()} and ${right.getType()} " +
+                    "not supported at Line ${binary.operator.getInitialPosition().second}\",",
+            )
         }
     }
 
@@ -77,7 +103,10 @@ class BinaryOperatorReader() {
     ): Value {
         return when (operator.getType()) {
             DataType.OPERATOR_PLUS -> Value(VariableType.STRING, Optional.of(left.getValue() + right.getValue()))
-            else -> throw Exception("Operator for String not found")
+            else -> throw Exception(
+                "Operator ${operator.getValue()} for String not found at Line  " +
+                    "${operator.getInitialPosition().first} : ${operator.getInitialPosition().second}",
+            )
         }
     }
 
@@ -86,14 +115,45 @@ class BinaryOperatorReader() {
         right: Value,
         operator: Token,
     ): Value {
-        val leftNumber = left.getValue().toInt()
-        val rightNumber = right.getValue().toInt()
+        val leftNumber = left.getValue().toDouble()
+        val rightNumber = right.getValue().toDouble()
         return when (operator.getType()) {
-            DataType.OPERATOR_PLUS -> Value(VariableType.NUMBER, Optional.of((leftNumber + rightNumber).toString()))
-            DataType.OPERATOR_MINUS -> Value(VariableType.NUMBER, Optional.of((leftNumber - rightNumber).toString()))
-            DataType.OPERATOR_MULTIPLY -> Value(VariableType.NUMBER, Optional.of((leftNumber * rightNumber).toString()))
-            DataType.OPERATOR_DIVIDE -> Value(VariableType.NUMBER, Optional.of((leftNumber / rightNumber).toString()))
-            else -> throw Exception("Operator for number not found")
+            DataType.OPERATOR_PLUS -> {
+                val result = leftNumber + rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    getValueOfOperation(result),
+                )
+            }
+            DataType.OPERATOR_MINUS -> {
+                val result = leftNumber - rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    getValueOfOperation(result),
+                )
+            }
+            DataType.OPERATOR_MULTIPLY -> {
+                val result = leftNumber * rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    getValueOfOperation(result),
+                )
+            }
+            DataType.OPERATOR_DIVIDE -> {
+                val result = leftNumber / rightNumber
+                Value(
+                    VariableType.NUMBER,
+                    getValueOfOperation(result),
+                )
+            }
+            else -> throw Exception(
+                "Operator ${operator.getValue()} for number not found at Line ${operator.getInitialPosition().first} " +
+                    ": ${operator.getInitialPosition().second}",
+            )
         }
+    }
+
+    private fun getValueOfOperation(result: Double): Optional<String> {
+        return Optional.of(if (result % 1 == 0.0) result.toString().removeSuffix(".0") else result.toString())
     }
 }

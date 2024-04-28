@@ -1,7 +1,8 @@
 package astBuilders
 
-import astBuilders.AstBuilder.Companion.takeCommentsAndSemiColon
+import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationNumber
 import astn.OperationString
@@ -28,6 +29,8 @@ import java.util.Stack
  * @throws SyntacticError If the list of tokens contains an invalid string concatenation, an unmatched left parenthesis, or an invalid token.
  */
 class OperationBuilder {
+    private val operationMethodBuilder = OperationMethodBuilder()
+
     private val operators =
         listOf(
             DataType.OPERATOR_PLUS,
@@ -36,26 +39,36 @@ class OperationBuilder {
             DataType.OPERATOR_DIVIDE,
         )
 
-    private val values =
+    private val valuesValidInOperations =
         listOf(
             DataType.NUMBER_VALUE,
             DataType.STRING_VALUE,
             DataType.VARIABLE_NAME,
         )
 
+    private val singleValuesValid = valuesValidInOperations + listOf(DataType.BOOLEAN_VALUE)
+
     fun isValid(tokens: List<Token>): Boolean {
-        val parsedTokens = takeCommentsAndSemiColon(tokens)
+        val parsedTokens = takeOutSeparator(tokens)
         return when {
             parsedTokens.isEmpty() -> false
-            parsedTokens.size == 1 -> parsedTokens[0].getType() in values
-            else -> parsedTokens.size > 2 && parsedTokens.any { it.getType() in operators } && parsedTokens.any { it.getType() in values }
+            parsedTokens.size == 1 -> parsedTokens[0].getType() in singleValuesValid
+            else ->
+                parsedTokens.size > 2 &&
+                    parsedTokens.any {
+                        it.getType() in operators
+                    } && parsedTokens.any { it.getType() in valuesValidInOperations }
         }
     }
 
     fun buildOperation(tokens: List<Token>): OpTree {
-        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().first}")
+        if (operationMethodBuilder.canCreate(tokens)) return operationMethodBuilder.createInputOperation(tokens)
 
-        val postfix = infixToPostfix(takeCommentsAndSemiColon(tokens))
+        if (!isValid(tokens)) throw UnexpectedTokenException("Invalid operation at Line ${tokens[0].getInitialPosition().second}")
+
+        if (tokens.size == 1) return singleValue(tokens[0])
+
+        val postfix = infixToPostfix(takeOutSeparator(tokens))
         if (!isValidPostfix(postfix).first) {
             throw SyntacticError(
                 "Invalid token ${isValidPostfix(postfix).second?.getValue()} at: ${
@@ -75,7 +88,8 @@ class OperationBuilder {
                         DataType.STRING_VALUE -> nodes.add(OperationString(token))
                         DataType.VARIABLE_NAME -> nodes.add(OperationVariable(token))
                         else -> throw UnexpectedTokenException(
-                            "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                            "Unexpected token cannot operate with ${token.getType()} type token at:" +
+                                " ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
                         )
                     }
                 }
@@ -105,7 +119,7 @@ class OperationBuilder {
 
         for (token in tokens) {
             when (token.getType()) {
-                in values -> {
+                in valuesValidInOperations -> {
                     postfix.add(token)
                 }
 
@@ -128,7 +142,7 @@ class OperationBuilder {
                 }
 
                 else -> throw UnexpectedTokenException(
-                    "Unexpected token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+                    "Unexpected token ${token.getType()} at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
                 )
             }
         }
@@ -149,7 +163,7 @@ class OperationBuilder {
 
         for (token in tokens) {
             when (token.getType()) {
-                in values -> {
+                in valuesValidInOperations -> {
                     stack.push(token)
                 }
 
@@ -192,7 +206,23 @@ class OperationBuilder {
         if (leftType == DataType.STRING_VALUE || rightType == DataType.STRING_VALUE) {
             return operatorType == DataType.OPERATOR_PLUS
         }
+        if (leftType == DataType.BOOLEAN_VALUE || rightType == DataType.BOOLEAN_VALUE) {
+            return false
+        }
 
         return true
+    }
+
+    private fun singleValue(token: Token): OpTree {
+        return when (token.getType()) {
+            DataType.NUMBER_VALUE -> OperationNumber(token)
+            DataType.STRING_VALUE -> OperationString(token)
+            DataType.VARIABLE_NAME -> OperationVariable(token)
+            DataType.BOOLEAN_VALUE -> OperationBoolean(token)
+            else -> throw UnexpectedTokenException(
+                "Unexpected token cannot operate with ${token.getType()} type " +
+                    "token at: ${token.getInitialPosition().first}, ${token.getFinalPosition().second}",
+            )
+        }
     }
 }

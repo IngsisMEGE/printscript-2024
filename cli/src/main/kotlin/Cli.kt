@@ -2,40 +2,41 @@ package org.example
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import java.io.File
 
-fun main(args: Array<String>) =
-    Cli().subcommands(
-        Execute(),
-        FormatFile(),
-        Analyze(),
-        ChangeFormatterConfig(),
-        ChangeLexerConfig(),
+fun main(args: Array<String>) {
+    val printScript = PrintScript()
+    Cli(printScript).subcommands(
+        Execute(printScript),
+        FormatFile(printScript),
+        Analyze(printScript),
+        ChangeFormatterConfig(printScript),
+        ChangeLexerConfig(printScript),
+        ChangeScaConfig(printScript),
     ).main(args)
+}
 
-class Cli : CliktCommand() {
+class Cli(private val printScript: PrintScript) : CliktCommand() {
     override fun run() = echo("Welcome to PrintScript CLI. Use --help to see the options.")
 }
 
-class Execute : CliktCommand(help = "Execute a PrintScript file") {
+class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
-    private val version: String by option(help = "PrintScript version (1.0 or 1.1)").prompt("Enter PrintScript version (1.0 or 1.1)")
+    private val inputPath: String by option(help = "Path to the PrintScript outputs").default("src/main/resources/output.txt")
+    private val version: String by option(help = "PrintScript version").default("use-default")
 
     override fun run() {
-        val printScript =
-            when (version) {
-                "1.0" -> PrintScript()
-                "1.1" -> PrintScript()
-                else -> {
-                    echo("Unsupported version. Defaulting to 1.0")
-                    PrintScript()
-                }
+        try {
+            if (version == "1.0") {
+                printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
+            } else if (version == "1.1") {
+                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
 
-        try {
-            val output = printScript.start(filePath)
+            val output = printScript.start(filePath, inputPath)
             echo(output)
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
@@ -43,12 +44,18 @@ class Execute : CliktCommand(help = "Execute a PrintScript file") {
     }
 }
 
-class FormatFile : CliktCommand(help = "Format a PrintScript file") {
+class FormatFile(private val printScript: PrintScript) : CliktCommand(help = "Format a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file to format").prompt("Enter the file path")
+    private val version: String by option(help = "PrintScript version").default("use-default")
 
     override fun run() {
         try {
-            val printScript = PrintScript()
+            if (version == "1.0") {
+                printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
+            } else if (version == "1.1") {
+                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
+            }
+
             val formattedContent = printScript.format(filePath)
             File(filePath).writeText(formattedContent)
             echo("File formatted and updated successfully.")
@@ -58,12 +65,18 @@ class FormatFile : CliktCommand(help = "Format a PrintScript file") {
     }
 }
 
-class Analyze : CliktCommand(help = "Analyze a PrintScript file") {
+class Analyze(private val printScript: PrintScript) : CliktCommand(help = "Analyze a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file to analyze").prompt("Enter the file path")
+    private val version: String by option(help = "PrintScript version").default("user-defined")
 
     override fun run() {
         try {
-            val printScript = PrintScript()
+            if (version == "1.0") {
+                printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
+            } else if (version == "1.1") {
+                printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
+            }
+
             val analysis = printScript.analyze(filePath)
             echo(analysis)
         } catch (e: Exception) {
@@ -72,12 +85,11 @@ class Analyze : CliktCommand(help = "Analyze a PrintScript file") {
     }
 }
 
-class ChangeFormatterConfig : CliktCommand(help = "Change formatter configurations") {
+class ChangeFormatterConfig(private val printScript: PrintScript) : CliktCommand(help = "Change formatter configurations") {
     private val configFilePath: String by option(help = "Path to the configuration file").prompt("Enter the configuration file path")
 
     override fun run() {
         try {
-            val printScript = PrintScript()
             printScript.changeFormatterConfig(configFilePath)
             echo("Formatter configurations updated successfully.")
         } catch (e: Exception) {
@@ -86,15 +98,29 @@ class ChangeFormatterConfig : CliktCommand(help = "Change formatter configuratio
     }
 }
 
-class ChangeLexerConfig : CliktCommand(help = "Change lexer configurations") {
+class ChangeScaConfig(private val printScript: PrintScript) : CliktCommand(help = "Change SCA configurations") {
     private val configFilePath: String by option(
+        help = "Path to the SCA configuration file",
+    ).prompt("Enter the SCA configuration file path")
+
+    override fun run() {
+        try {
+            printScript.changeSCAConfig(configFilePath)
+            echo("SCA configurations updated successfully.")
+        } catch (e: Exception) {
+            echo("Error: ${e.message}", err = true)
+        }
+    }
+}
+
+class ChangeLexerConfig(private val printScript: PrintScript) : CliktCommand(help = "Change lexer configurations") {
+    private val filePath: String by option(
         help = "Path to the lexer configuration file",
     ).prompt("Enter the lexer configuration file path")
 
     override fun run() {
         try {
-            val printScript = PrintScript()
-            printScript.updateRegexRules(configFilePath)
+            printScript.updateRegexRules(filePath)
             echo("Lexer configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)

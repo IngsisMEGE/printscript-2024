@@ -25,12 +25,18 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
             }
         }
 
+    private val separatorTokens = listOf(DataType.SEPARATOR, DataType.LEFT_BRACKET, DataType.ELSE_STATEMENT, DataType.RIGHT_BRACKET)
+
     private var codeFraction: List<String> = listOf()
 
     private var tokens: List<Token> = listOf()
 
     override fun isLineFinished(): Boolean {
         return codeFraction.isEmpty()
+    }
+
+    override fun stillHaveTokens(): Boolean {
+        return tokens.isNotEmpty()
     }
 
     override fun lex(
@@ -49,7 +55,7 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
         return listOf()
     }
 
-    private fun isLastTokenSeparator() = tokens.isNotEmpty() && tokens.last().getType() == DataType.SEPARATOR
+    private fun isLastTokenSeparator() = tokens.isNotEmpty() && separatorTokens.contains(tokens.last().getType())
 
     private fun isLineEmpty(line: String): Boolean {
         if (line.isBlank()) return true
@@ -83,7 +89,7 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
     private fun getCodeFraction(line: String): List<String> {
         val codeFraction: MutableList<String> = mutableListOf()
 
-        val separatorTokens = getSeparatorTokens(line)
+        val separatorTokens = getSeparatorTokens(line, separatorTokens)
 
         if (separatorTokens.isNotEmpty()) {
             separateLineInSegments(separatorTokens, codeFraction, line)
@@ -110,14 +116,18 @@ class LexerImpl(private val tokenRules: Map<String, TokenRegexRule> = mapOf()) :
         }
     }
 
-    private fun getSeparatorTokens(line: String): List<Token> {
-        val semiColonTokenType = tokenRules.filterValues { it.getType() == DataType.SEPARATOR }.keys.firstOrNull()
-        return if (semiColonTokenType != null) {
-            val semiColonRule = tokenRules[semiColonTokenType]!!
-            val semiColonGenerator = RegexTokenGenerator(semiColonRule)
-            semiColonGenerator.generateToken(line, 0)
-        } else {
-            emptyList()
+    private fun getSeparatorTokens(
+        line: String,
+        separatorTypes: List<DataType>,
+    ): List<Token> {
+        val matchingTokenTypes = tokenRules.filterValues { it.getType() in separatorTypes }
+        val separatorTokens = mutableListOf<Token>()
+        matchingTokenTypes.forEach { (_, rule) ->
+            val generator = RegexTokenGenerator(rule)
+            if (generator.doesItMatch(line)) {
+                separatorTokens.addAll(generator.generateToken(line, 0))
+            }
         }
+        return ListTokenManager.orderAndRemoveOverlapTokens(separatorTokens)
     }
 }

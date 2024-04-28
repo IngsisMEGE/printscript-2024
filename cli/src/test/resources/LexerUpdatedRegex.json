@@ -8,7 +8,7 @@
     "type": "STRING_VALUE"
   },
   "DECLARATION": {
-    "pattern": "\\bdeclar\\b",
+    "pattern": "\\blet\\b",
     "type": "DECLARATION_VARIABLE"
   },
   "OPERATOR_PLUS": {

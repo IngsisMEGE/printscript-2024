@@ -4,7 +4,7 @@ import astn.VarDeclaration
 import interpreter.Value
 import interpreter.VariableType
 import interpreter.executors.Executor
-import token.DataType
+import interpreter.executors.utils.ValueTypeAdapter
 import java.util.Optional
 
 /**
@@ -24,21 +24,17 @@ class DeclarationExecution : Executor<VarDeclaration> {
         ast: VarDeclaration,
         variables: MutableMap<String, Value>,
     ): String {
-        val varName = ast.assignation.getValue()
+        val varName = ast.varName.getValue()
         val type = getValueType(ast)
         if (!variables.containsKey(varName)) {
-            variables[varName] = Value(type, Optional.empty())
+            variables[varName] = Value(type, Optional.empty(), ast.isMutable)
             return ""
         } else {
-            throw Exception("Variable Already Exists at Line ${ast.assignation.getInitialPosition().second}")
+            throw Exception("Variable '$varName' already exists at Line ${ast.varName.getInitialPosition().second}")
         }
     }
 
     private fun getValueType(ast: VarDeclaration): VariableType {
-        return when (ast.type.getType()) {
-            DataType.NUMBER_TYPE -> VariableType.NUMBER
-            DataType.STRING_TYPE -> VariableType.STRING
-            else -> throw Exception("Unexpected type at Line ${ast.type.getInitialPosition().second}")
-        }
+        return ValueTypeAdapter.transformDataTypeToValueType(ast.type.getType(), ast.type.getInitialPosition())
     }
 }

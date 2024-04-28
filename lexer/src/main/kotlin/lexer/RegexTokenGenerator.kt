@@ -42,14 +42,10 @@ class RegexTokenGenerator(
             tokenCreationException?.generateToken(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine))?.let {
                 tokens.add(it)
             }
-                ?: tokens.add(
-                    Token(
-                        tokenRegexRule.getType(),
-                        match,
-                        Pair(start, numberLine),
-                        Pair(end, numberLine),
-                    ),
-                )
+
+            if (tokenCreationException == null) {
+                tokens.add(Token(tokenRegexRule.getType(), match, Pair(start, numberLine), Pair(end, numberLine)))
+            }
         }
         return tokens
     }

@@ -1,7 +1,9 @@
 package formatter
 
 import astn.AST
+import enforcers.IndentedIfElseBlockEnforcer
 import rules.Rules
+import rules.provider.RuleProvider
 
 /**
  * This class represents the implementation of the Formatter interface in the PrintScript application.
@@ -10,9 +12,17 @@ import rules.Rules
  * @property property A map of properties that are used to determine the rules to be included.
  * @property rules A list of rules that are used to format the AST.
  */
-class FormatterImpl(override val property: Map<String, Any>, private var rules: List<Rules>) : Formatter {
+class FormatterImpl(override val property: Map<String, Any>) : Formatter {
+    private var ifElseBlockEnforcer: IndentedIfElseBlockEnforcer
+    private var rules: List<Rules> = RuleProvider.getRules()
+
     init {
-        val rulesWithEnforcers = rules.map { it.isTheRuleIncluded(property) }
+        val rulesWithEnforcers = rules.map { it.generateEnforcers(property) }
+
+        ifElseBlockEnforcer =
+            IndentedIfElseBlockEnforcer(
+                if (property.containsKey("Indentation")) property["Indentation"].toString().toInt() else 4,
+            )
 
         rules = rulesWithEnforcers
     }
@@ -28,16 +38,22 @@ class FormatterImpl(override val property: Map<String, Any>, private var rules: 
      */
     override fun format(ast: AST): String {
         for (rule in rules) {
-            if (!rule.canCreateGenericLine(ast)) {
-                continue
-            }
+            if (!rule.canCreateGenericLine(ast)) continue
             val newLine = rule.genericLine(ast)
-            return rule.enforceRule(newLine) + "\n"
+            val enforceLine = rule.enforceRule(newLine) + "\n"
+            if (ifElseBlockEnforcer.shouldIndent()) {
+                ifElseBlockEnforcer.didExitIF(ast)
+                val ifIndentEnforce = ifElseBlockEnforcer.enforceRule() + enforceLine
+                ifElseBlockEnforcer.didEnterIf(ast)
+                return ifIndentEnforce
+            }
+            ifElseBlockEnforcer.didEnterIf(ast)
+            return enforceLine
         }
         return ""
     }
 
     override fun changeProperty(property: Map<String, Any>): Formatter {
-        return FormatterImpl(property, rules)
+        return FormatterImpl(property)
     }
 }

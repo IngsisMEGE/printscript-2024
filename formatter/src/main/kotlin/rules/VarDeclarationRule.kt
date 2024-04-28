@@ -19,7 +19,7 @@ class VarDeclarationRule(
     private val doubleDotSpaceInBack: String,
     override val enforcer: List<Enforcer> = listOf(),
 ) : Rules {
-    override fun isTheRuleIncluded(property: Map<String, Any>): Rules {
+    override fun generateEnforcers(property: Map<String, Any>): Rules {
         var enforcers: List<Enforcer> = listOf()
 
         enforcers =
@@ -48,8 +48,8 @@ class VarDeclarationRule(
     override fun <T : AST> genericLine(ast: T): String {
         if (ast is VarDeclaration) {
             val newLine = StringBuilder()
-            newLine.append("let ")
-            newLine.append(ast.assignation.getValue())
+            newLine.append(if (ast.isMutable) "let " else "const ")
+            newLine.append(ast.varName.getValue())
             newLine.append(":")
             newLine.append(ast.type.getValue())
             return newLine.toString()

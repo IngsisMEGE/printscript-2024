@@ -1,7 +1,9 @@
 package rules
 
 import astn.OpTree
+import astn.OperationBoolean
 import astn.OperationHead
+import astn.OperationMethod
 import astn.OperationNumber
 import astn.OperationString
 import astn.OperationVariable
@@ -74,7 +76,9 @@ class OperationRule(private val enforcer: List<Enforcer> = listOf()) {
 
             is OperationNumber -> postfixAST.value.getValue()
             is OperationString -> "\"" + postfixAST.value.getValue() + "\""
-            is OperationVariable -> postfixAST.value.getValue()
+            is OperationVariable -> postfixAST.varName.getValue()
+            is OperationBoolean -> postfixAST.value.getValue()
+            is OperationMethod -> "readInput(${postfixToInfix(postfixAST.value)})"
             else -> throw IllegalArgumentException("Invalid OpTree type")
         }
     }

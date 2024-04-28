@@ -1,3 +1,4 @@
+import astn.OperationNumber
 import astn.OperationString
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
@@ -19,7 +20,7 @@ class VarDeclarationAssignationRuleTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+        varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
         val code = "a=b"
         val expectedCode = "a = b;"
         assertEquals(expectedCode, varDeclarationAssignationRule.enforceRule(code))
@@ -34,12 +35,13 @@ class VarDeclarationAssignationRuleTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+        varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
+                    true,
                 ),
                 OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
             )
@@ -56,12 +58,13 @@ class VarDeclarationAssignationRuleTest {
         map["DotBack"] = 1
         map["EqualFront"] = 1
         map["EqualBack"] = 1
-        varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+        varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
         val ast =
             VarDeclarationAssignation(
                 VarDeclaration(
                     Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
                     Token(DataType.VARIABLE_NAME, "dong", Pair(5, 0), Pair(8, 0)),
+                    true,
                 ),
                 OperationString(Token(DataType.STRING_VALUE, "Hola", Pair(12, 0), Pair(15, 0))),
             )
@@ -83,10 +86,13 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
-        assertEquals("The amount of space in front must be greater than or equal to 0 for \":\" amount = -1", exception.message)
+        assertEquals(
+            "The amount of space in front must be greater than or equal to 0 for \":\" amount = -1",
+            exception.message,
+        )
     }
 
     @Test
@@ -100,10 +106,13 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
-        assertEquals("The amount of space in back must be greater than or equal to 0 for \":\" amount = -1", exception.message)
+        assertEquals(
+            "The amount of space in back must be greater than or equal to 0 for \":\" amount = -1",
+            exception.message,
+        )
     }
 
     @Test
@@ -117,10 +126,13 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = 1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
-        assertEquals("The amount of space in front must be greater than or equal to 0 for \"=\" amount = -1", exception.message)
+        assertEquals(
+            "The amount of space in front must be greater than or equal to 0 for \"=\" amount = -1",
+            exception.message,
+        )
     }
 
     @Test
@@ -134,9 +146,29 @@ class VarDeclarationAssignationRuleTest {
         map["EqualBack"] = -1
         val exception =
             assertThrows<IllegalArgumentException> {
-                varDeclarationAssignationRule = varDeclarationAssignationRule.isTheRuleIncluded(map)
+                varDeclarationAssignationRule = varDeclarationAssignationRule.generateEnforcers(map)
             }
 
-        assertEquals("The amount of space in back must be greater than or equal to 0 for \"=\" amount = -1", exception.message)
+        assertEquals(
+            "The amount of space in back must be greater than or equal to 0 for \"=\" amount = -1",
+            exception.message,
+        )
+    }
+
+    @Test
+    fun testConstVarDeclarationAssignationRule() {
+        val ast =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.NUMBER_TYPE, "number", Pair(0, 0), Pair(4, 0)),
+                    Token(DataType.VARIABLE_NAME, "x", Pair(5, 0), Pair(6, 0)),
+                    false,
+                ),
+                OperationNumber(Token(DataType.NUMBER_VALUE, "5", Pair(7, 0), Pair(8, 0))),
+            )
+        val varDeclarationAssignationRule =
+            VarDeclarationAssignationRule("DotFront", "DotBack", "EqualFront", "EqualBack")
+        val result = varDeclarationAssignationRule.genericLine(ast)
+        assertEquals("const x:number=5", result)
     }
 }

@@ -70,6 +70,7 @@ class DeclarationAssignedBuilderTest {
                 VarDeclaration(
                     Token(DataType.STRING_TYPE, "string", Pair(0, 8), Pair(0, 14)),
                     Token(DataType.VARIABLE_NAME, "x", Pair(0, 4), Pair(0, 5)),
+                    true,
                 ),
                 OperationString(Token(DataType.STRING_VALUE, "\"Hello World\"", Pair(0, 17), Pair(0, 30))),
             )
@@ -77,8 +78,40 @@ class DeclarationAssignedBuilderTest {
         val expectedOpString: OperationString = expected.value as OperationString
         val astOpString: OperationString = ast.value as OperationString
 
-        assertEquals(expected.varDeclaration.assignation.getValue(), ast.varDeclaration.assignation.getValue())
+        assertEquals(expected.varDeclaration.varName.getValue(), ast.varDeclaration.varName.getValue())
         assertEquals(expected.varDeclaration.type.getValue(), ast.varDeclaration.type.getValue())
         assertEquals(expectedOpString.value.getValue(), astOpString.value.getValue())
+    }
+
+    @Test
+    fun test005BuildWithValidImmutableTokensShouldReturnVarDeclarationAssignation() {
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_IMMUTABLE, "const", Pair(0, 0), Pair(0, 5)),
+                Token(DataType.VARIABLE_NAME, "y", Pair(0, 6), Pair(0, 7)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(0, 8), Pair(0, 9)),
+                Token(DataType.STRING_TYPE, "string", Pair(0, 10), Pair(0, 16)),
+                Token(DataType.ASSIGNATION, "=", Pair(0, 17), Pair(0, 18)),
+                Token(DataType.STRING_VALUE, "\"Hello World\"", Pair(0, 19), Pair(0, 32)),
+            )
+        assertTrue(declarationAssignedBuilder.isValid(tokens))
+        val ast: VarDeclarationAssignation = declarationAssignedBuilder.build(tokens) as VarDeclarationAssignation
+        val expected: VarDeclarationAssignation =
+            VarDeclarationAssignation(
+                VarDeclaration(
+                    Token(DataType.STRING_TYPE, "string", Pair(0, 10), Pair(0, 16)),
+                    Token(DataType.VARIABLE_NAME, "y", Pair(0, 6), Pair(0, 7)),
+                    false,
+                ),
+                OperationString(Token(DataType.STRING_VALUE, "\"Hello World\"", Pair(0, 19), Pair(0, 32))),
+            )
+
+        val expectedOpString: OperationString = expected.value as OperationString
+        val astOpString: OperationString = ast.value as OperationString
+
+        assertEquals(expected.varDeclaration.varName.getValue(), ast.varDeclaration.varName.getValue())
+        assertEquals(expected.varDeclaration.type.getValue(), ast.varDeclaration.type.getValue())
+        assertEquals(expectedOpString.value.getValue(), astOpString.value.getValue())
+        assertEquals(expected.varDeclaration.isMutable, ast.varDeclaration.isMutable)
     }
 }

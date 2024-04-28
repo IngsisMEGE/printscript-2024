@@ -16,13 +16,14 @@ class DeclarationExecutorTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(7, 0), Pair(12, 0)),
                 Token(DataType.VARIABLE_NAME, "IAMNOTAVARIABLE", Pair(0, 0), Pair(6, 0)),
+                true,
             )
         declarationExecutor.execute(ast, map)
         val exception =
             assertThrows<Exception> {
                 declarationExecutor.execute(ast, map)
             }
-        assertEquals("Variable Already Exists at Line 0", exception.message)
+        assertEquals("Variable 'IAMNOTAVARIABLE' already exists at Line 0", exception.message)
     }
 
     @Test
@@ -33,6 +34,7 @@ class DeclarationExecutorTest {
             VarDeclaration(
                 Token(DataType.OPERATOR_MULTIPLY, "number", Pair(7, 0), Pair(12, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val exception =
             assertThrows<Exception> {
@@ -49,6 +51,7 @@ class DeclarationExecutorTest {
             VarDeclaration(
                 Token(DataType.NUMBER_TYPE, "number", Pair(7, 0), Pair(12, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val result = declarationExecutor.execute(ast, map)
         assertEquals("", result)
@@ -62,8 +65,38 @@ class DeclarationExecutorTest {
             VarDeclaration(
                 Token(DataType.STRING_TYPE, "string", Pair(7, 0), Pair(12, 0)),
                 Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
             )
         val result = declarationExecutor.execute(ast, map)
+        assertEquals("", result)
+    }
+
+    @Test
+    fun test005DeclarationShouldDeclareCorrectlyBooleanType() {
+        val declarationExecutor = DeclarationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast =
+            VarDeclaration(
+                Token(DataType.BOOLEAN_TYPE, "boolean", Pair(7, 0), Pair(12, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                true,
+            )
+        val result = declarationExecutor.execute(ast, map)
+        assertEquals("", result)
+    }
+
+    @Test
+    fun testConstDeclarationWithInitialValue() {
+        val declarationExecutor = DeclarationExecution()
+        val map = mutableMapOf<String, Value>()
+        val ast =
+            VarDeclaration(
+                Token(DataType.NUMBER_TYPE, "number", Pair(7, 0), Pair(12, 0)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(1, 0)),
+                false,
+            )
+        val result = declarationExecutor.execute(ast, map)
+
         assertEquals("", result)
     }
 }

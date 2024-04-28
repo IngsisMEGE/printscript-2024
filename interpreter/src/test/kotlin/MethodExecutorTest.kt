@@ -20,7 +20,7 @@ class MethodExecutorTest {
             assertThrows<Exception> {
                 methodExecutor.execute(ast, mutableMapOf())
             }
-        assertEquals("Method not found", exception.message)
+        assertEquals("Method IAMNOTAMETHOD not found at Line 0", exception.message)
     }
 
     @Test
@@ -33,5 +33,9 @@ class MethodExecutorTest {
             )
         val result = methodExecutor.execute(ast, mutableMapOf())
         assertEquals("Hello\n", result)
+    }
+
+    fun input(message: String): String {
+        return message
     }
 }

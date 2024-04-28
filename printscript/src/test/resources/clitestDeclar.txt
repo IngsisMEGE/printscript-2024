@@ -1,0 +1,3 @@
+declar x:number = 15;
+declar y:number = 10;
+println(x + y);

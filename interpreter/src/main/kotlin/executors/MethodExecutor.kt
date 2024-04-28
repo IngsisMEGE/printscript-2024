@@ -1,7 +1,9 @@
 package interpreter.executors
 
 import astn.Method
+import astn.OperationMethod
 import interpreter.Value
+import interpreter.VariableType
 
 /**
  * This class is responsible for executing methods. It implements the Executor interface for the Method type.
@@ -24,9 +26,14 @@ class MethodExecutor : Executor<Method> {
         variables: MutableMap<String, Value>,
     ): String {
         if (ast.methodName.getValue() == "println") {
-            return binaryOperator.evaluate(ast.value, variables).getValue() + "\n"
+            return when (ast.value) {
+                is OperationMethod ->
+                    binaryOperator.evaluate((ast.value as OperationMethod).value, variables, VariableType.STRING).getValue() +
+                        "\n" + binaryOperator.evaluate(ast.value, variables, VariableType.STRING).getValue() + "\n"
+                else -> binaryOperator.evaluate(ast.value, variables, VariableType.STRING).getValue() + "\n"
+            }
         } else {
-            throw Exception("Method not found")
+            throw Exception("Method ${ast.methodName.getValue()} not found at Line ${ast.methodName.getInitialPosition().second}")
         }
     }
 }
