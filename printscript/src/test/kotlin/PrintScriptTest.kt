@@ -247,4 +247,12 @@ class PrintScriptTest {
             printScript.start(path, "")
         }
     }
+
+    @Test
+    fun test022PrintTestWorkingCorrectly() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/finalTest.txt"
+        val expectedOutput = "else statement working correctly\noutside of conditional\n"
+        assertEquals(expectedOutput, printScript.start(path, ""))
+    }
 }
