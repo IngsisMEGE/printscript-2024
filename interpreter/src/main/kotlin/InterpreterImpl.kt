@@ -48,12 +48,13 @@ class InterpreterImpl(
         return when (ast) {
             is EmptyAST -> ""
             is Assignation -> AssignationExecution().execute(ast, storedVariables)
-            is VarDeclaration -> DeclarationExecution().execute(ast, storedVariables)
+            is VarDeclaration -> DeclarationExecution().execute(ast, storedVariables     )
             is VarDeclarationAssignation -> DeclarationAssignationExecution().execute(ast, storedVariables)
             is Method -> MethodExecutor().execute(ast, storedVariables)
             is IfStatement -> {
                 val ifExecutor = IfExecutor()
-                val result = ifExecutor.execute(ast, storedVariables)
+                val result =
+                    ifExecutor.execute(ast, storedVariables)
                 conditionsIfScopes = ifExecutor.addCondition(conditionsIfScopes, result.toBoolean())
                 insideIf = true
                 enterIfScope()
