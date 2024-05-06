@@ -1,16 +1,26 @@
 import astn.OperationBoolean
 import astn.OperationHead
+import astn.OperationMethod
 import astn.OperationNumber
 import astn.OperationString
 import interpreter.VariableType
 import interpreter.executors.BinaryOperatorReader
+import interpreter.executors.operationMethod.LoadInputHolder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import token.DataType
 import token.Token
 import kotlin.test.Test
 
+fun input(message: String): String {
+    return message
+}
+
 class BinaryOperationReaderTest {
+    init {
+        LoadInputHolder.loadInput = { input("Hello") }
+    }
+
     @Test
     fun test001EvaluateOperationNumber() {
         val binaryOperationReader = BinaryOperatorReader()
@@ -136,7 +146,78 @@ class BinaryOperationReaderTest {
         }
     }
 
-    fun input(message: String): String {
-        return message
+    @Test
+    fun test010CalculateNumberMultiply() {
+        val binaryOperationReader = BinaryOperatorReader()
+        val operation =
+            OperationHead(
+                Token(DataType.OPERATOR_PLUS, "+", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                ),
+                OperationHead(
+                    Token(DataType.OPERATOR_MULTIPLY, "*", Pair(0, 0), Pair(1, 0)),
+                    OperationNumber(
+                        Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                    ),
+                    OperationNumber(
+                        Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                    ),
+                ),
+            )
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER)
+        assertEquals("30", result.getValue())
+        assertEquals(VariableType.NUMBER, result.getType())
+    }
+
+    @Test
+    fun test011CalculateNumberDivide() {
+        val binaryOperationReader = BinaryOperatorReader()
+        val operation =
+            OperationHead(
+                Token(DataType.OPERATOR_DIVIDE, "/", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                ),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                ),
+            )
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER)
+        assertEquals("1", result.getValue())
+        assertEquals(VariableType.NUMBER, result.getType())
+    }
+
+    @Test
+    fun test012CalculateNumberMinus() {
+        val binaryOperationReader = BinaryOperatorReader()
+        val operation =
+            OperationHead(
+                Token(DataType.OPERATOR_MINUS, "-", Pair(0, 0), Pair(1, 0)),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                ),
+                OperationNumber(
+                    Token(DataType.NUMBER_VALUE, "5", Pair(0, 0), Pair(1, 0)),
+                ),
+            )
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.NUMBER)
+        assertEquals("0", result.getValue())
+        assertEquals(VariableType.NUMBER, result.getType())
+    }
+
+    @Test
+    fun test013MethodCall() {
+        val binaryOperationReader = BinaryOperatorReader()
+        val operation =
+            OperationMethod(
+                Token(DataType.METHOD_CALL, "readInput", Pair(0, 0), Pair(1, 0)),
+                OperationString(
+                    Token(DataType.STRING_VALUE, "Hello", Pair(0, 0), Pair(1, 0)),
+                ),
+            )
+        val result = binaryOperationReader.evaluate(operation, mutableMapOf(), VariableType.STRING)
+        assertEquals("Hello", result.getValue())
+        assertEquals(VariableType.STRING, result.getType())
     }
 }

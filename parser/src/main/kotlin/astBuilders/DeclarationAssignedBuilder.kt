@@ -1,5 +1,6 @@
 package astBuilders
 
+import astBuilders.AstBuilder.Companion.mustEndWithSeparator
 import astBuilders.AstBuilder.Companion.takeOutSeparator
 import astn.AST
 import astn.VarDeclaration
@@ -33,6 +34,7 @@ class DeclarationAssignedBuilder : AstBuilder {
     }
 
     override fun build(tokens: List<Token>): AST {
+        mustEndWithSeparator(tokens.last())
         val tokensWithoutSeparator = takeOutSeparator(tokens)
         return VarDeclarationAssignation(
             declaratorBuilder.build(tokensWithoutSeparator.subList(0, 4)) as VarDeclaration,

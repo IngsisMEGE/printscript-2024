@@ -2,9 +2,11 @@ import astBuilders.DeclarationAssignedBuilder
 import astn.OperationString
 import astn.VarDeclaration
 import astn.VarDeclarationAssignation
+import exceptions.MustEndWithSeparator
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import token.DataType
 import token.Token
 import kotlin.test.assertEquals
@@ -62,6 +64,7 @@ class DeclarationAssignedBuilderTest {
                 Token(DataType.STRING_TYPE, "string", Pair(0, 8), Pair(0, 14)),
                 Token(DataType.ASSIGNATION, "=", Pair(0, 15), Pair(0, 16)),
                 Token(DataType.STRING_VALUE, "\"Hello World\"", Pair(0, 17), Pair(0, 30)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 31), Pair(0, 32)),
             )
         assertTrue(declarationAssignedBuilder.isValid(tokens))
         val ast: VarDeclarationAssignation = declarationAssignedBuilder.build(tokens) as VarDeclarationAssignation
@@ -93,6 +96,7 @@ class DeclarationAssignedBuilderTest {
                 Token(DataType.STRING_TYPE, "string", Pair(0, 10), Pair(0, 16)),
                 Token(DataType.ASSIGNATION, "=", Pair(0, 17), Pair(0, 18)),
                 Token(DataType.STRING_VALUE, "\"Hello World\"", Pair(0, 19), Pair(0, 32)),
+                Token(DataType.SEPARATOR, ";", Pair(0, 32), Pair(0, 33)),
             )
         assertTrue(declarationAssignedBuilder.isValid(tokens))
         val ast: VarDeclarationAssignation = declarationAssignedBuilder.build(tokens) as VarDeclarationAssignation
@@ -113,5 +117,21 @@ class DeclarationAssignedBuilderTest {
         assertEquals(expected.varDeclaration.type.getValue(), ast.varDeclaration.type.getValue())
         assertEquals(expectedOpString.value.getValue(), astOpString.value.getValue())
         assertEquals(expected.varDeclaration.isMutable, ast.varDeclaration.isMutable)
+    }
+
+    @Test
+    fun test006MustEndWithSeparator() {
+        val tokens =
+            listOf(
+                Token(DataType.DECLARATION_VARIABLE, "let", Pair(0, 0), Pair(0, 3)),
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 4), Pair(0, 5)),
+                Token(DataType.DOUBLE_DOTS, ":", Pair(0, 6), Pair(0, 7)),
+                Token(DataType.NUMBER_TYPE, "number", Pair(0, 8), Pair(0, 14)),
+                Token(DataType.ASSIGNATION, "=", Pair(0, 15), Pair(0, 16)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(0, 17), Pair(0, 18)),
+            )
+        assertThrows<MustEndWithSeparator> {
+            declarationAssignedBuilder.build(tokens)
+        }
     }
 }
