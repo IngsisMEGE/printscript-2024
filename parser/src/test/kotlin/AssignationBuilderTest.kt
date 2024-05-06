@@ -1,5 +1,6 @@
 import astBuilders.AssignationBuilder
 import astBuilders.AstBuilder
+import exceptions.MustEndWithSeparator
 import exceptions.SyntacticError
 import exceptions.UnexpectedTokenException
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -104,5 +105,20 @@ class AssignationBuilderTest {
                 Token(DataType.VARIABLE_NAME, "{", Pair(0, 8), Pair(0, 9)),
             )
         assertFalse(assignationBuilder.isValid(tokens))
+    }
+
+    @Test
+    fun test009IfNotEndWithSeparatorShouldThrowException() {
+        val tokens =
+            listOf(
+                Token(DataType.VARIABLE_NAME, "x", Pair(0, 0), Pair(0, 1)),
+                Token(DataType.ASSIGNATION, "=", Pair(0, 2), Pair(0, 3)),
+                Token(DataType.NUMBER_VALUE, "5", Pair(0, 4), Pair(0, 5)),
+            )
+        val exception =
+            assertThrows<MustEndWithSeparator> {
+                assignationBuilder.build(tokens)
+            }
+        assertEquals("Must end with separator at position 0 line 5", exception.message)
     }
 }

@@ -86,11 +86,11 @@ class Analyze(private val printScript: PrintScript) : CliktCommand(help = "Analy
 }
 
 class ChangeFormatterConfig(private val printScript: PrintScript) : CliktCommand(help = "Change formatter configurations") {
-    private val configFilePath: String by option(help = "Path to the configuration file").prompt("Enter the configuration file path")
+    private val filePath: String by option(help = "Path to the configuration file").prompt("Enter the configuration file path")
 
     override fun run() {
         try {
-            printScript.changeFormatterConfig(configFilePath)
+            printScript.changeFormatterConfig(filePath)
             echo("Formatter configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
@@ -99,13 +99,13 @@ class ChangeFormatterConfig(private val printScript: PrintScript) : CliktCommand
 }
 
 class ChangeScaConfig(private val printScript: PrintScript) : CliktCommand(help = "Change SCA configurations") {
-    private val configFilePath: String by option(
+    private val filePath: String by option(
         help = "Path to the SCA configuration file",
     ).prompt("Enter the SCA configuration file path")
 
     override fun run() {
         try {
-            printScript.changeSCAConfig(configFilePath)
+            printScript.changeSCAConfig(filePath)
             echo("SCA configurations updated successfully.")
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
