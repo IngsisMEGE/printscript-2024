@@ -5,6 +5,7 @@ import lexer.TokenRegexRule
 import org.example.lexer.Lexer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
 
 class LexerImplTest {
     private val tokenRulesMap: Map<String, TokenRegexRule> =
@@ -508,5 +509,12 @@ class LexerImplTest {
                 DataType.SEPARATOR,
             )
         assertEquals(expectedTypes, tokens.map { it.getType() })
+    }
+
+    @Test
+    fun test017StillHaveTokensShouldReturnFalseWhenNoTokensLeft() {
+        val lexerImpl = LexerImpl(tokenRulesMap)
+        lexerImpl.lex("let a;", 1)
+        assertFalse(lexerImpl.stillHaveTokens())
     }
 }
