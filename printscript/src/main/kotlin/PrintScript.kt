@@ -30,14 +30,16 @@ import java.util.Queue
  */
 
 class PrintScript() {
-    private var lexer: Lexer = LexerImpl(loadLexerRules())
+    private var lexer: Lexer =
+        LexerImpl(loadConfig("lexerRules.json", "src/main/resources/LexerFullRules.json"))
     private val parser: Parser = ParserImpl()
-    private val outputs: Queue<String> = LinkedList<String>()
+    private val outputs: Queue<String> = LinkedList()
     private val interpreter: Interpreter = InterpreterImpl({ loadInput() }, { enterIfScope() }, { mergeScopes() })
-    private val sca: SCA = SCAImpl(mapOf())
+    private val sca: SCA =
+        SCAImpl(loadConfig("scaConfig.json", "src/main/resources/SCADefault.json"))
     private var formatter: Formatter =
         FormatterImpl(
-            mapOf(),
+            loadConfig("formatterConfig.json", "src/main/resources/FormatterDefault.json"),
         )
 
     private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
@@ -47,11 +49,21 @@ class PrintScript() {
         inputPath: String,
     ): String {
         addLinesToQueue(inputPath)
-        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
+        return processFile(path) { line, numberLine ->
+            interpreter.readAST(
+                lexAndParse(line, numberLine),
+                storedVariables.last(),
+            )
+        }
     }
 
     fun start(path: String): String {
-        return processFile(path) { line, numberLine -> interpreter.readAST(lexAndParse(line, numberLine), storedVariables.last()) }
+        return processFile(path) { line, numberLine ->
+            interpreter.readAST(
+                lexAndParse(line, numberLine),
+                storedVariables.last(),
+            )
+        }
     }
 
     fun format(path: String): String {
@@ -98,7 +110,7 @@ class PrintScript() {
         val newRegexRules = JSONManager.jsonToMap<TokenRegexRule>(json)
         lexer = LexerImpl(newRegexRules)
 
-        saveLexerRules(newRulesPath)
+        saveConfig("lexerRules.json", newRulesPath)
     }
 
     fun changeFormatterConfig(configFilePath: String) {
@@ -112,6 +124,8 @@ class PrintScript() {
             FormatterImpl(
                 newProperties,
             )
+
+        saveConfig("formatterConfig.json", configFilePath)
     }
 
     fun changeSCAConfig(configFilePath: String) {
@@ -122,6 +136,8 @@ class PrintScript() {
         val json = file.readText()
         val newProperties = JSONManager.jsonToMap<Boolean>(json)
         sca.buildSCA(newProperties)
+
+        saveConfig("scaConfig.json", configFilePath)
     }
 
     private fun lexAndParse(
@@ -173,18 +189,23 @@ class PrintScript() {
         }
     }
 
-    private fun loadLexerRules(): Map<String, TokenRegexRule> {
-        val fileName = "lexerRules.json"
-        var file = File(fileName)
+    private inline fun <reified T> loadConfig(
+        configFileName: String,
+        defaultConfigPath: String,
+    ): Map<String, T> {
+        var file = File(configFileName)
         if (!file.exists()) {
-            file = File("src/main/resources/LexerFullRules.json")
+            file = File(defaultConfigPath)
         }
         val json = file.readText()
-        return JSONManager.jsonToMap<TokenRegexRule>(json)
+        return JSONManager.jsonToMap<T>(json)
     }
 
-    private fun saveLexerRules(newRulesPath: String) {
-        val file = File("lexerRules.json")
-        file.writeText(File(newRulesPath).readText())
+    private fun saveConfig(
+        configFileName: String,
+        newConfigPath: String,
+    ) {
+        val file = File(configFileName)
+        file.writeText(File(newConfigPath).readText())
     }
 }

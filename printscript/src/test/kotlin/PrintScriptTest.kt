@@ -52,7 +52,7 @@ class PrintScriptTest {
     fun testFormatFile() {
         val printScript = PrintScript()
         val path = "src/test/resources/fileToFormat.txt"
-        val expectedOutput = "let x:number=10;\nlet y:number=20;\nx=y + 43 / 4;\nx=y + 43 / 4;\n"
+        val expectedOutput = "let x : number = 10;\nlet y : number = 20;\nx = y + 43 / 4;\nx = y + 43 / 4;\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 
@@ -91,8 +91,8 @@ class PrintScriptTest {
         val printScript = PrintScript()
         val path = "src/test/resources/StringWithSpaceAssignationAndDeclaration.txt"
         val expectedOutput =
-            "let a:string=\"Hello World\";\n" +
-                "a=\"GoodBye World\";\n"
+            "let a : string = \"Hello World\";\n" +
+                "a = \"GoodBye World\";\n"
         assertEquals(expectedOutput, printScript.format(path))
         assertEquals("", printScript.start(path, ""))
     }
@@ -203,7 +203,7 @@ class PrintScriptTest {
     fun test018fileIfVariableFormattedCorrectly() {
         val printScript = PrintScript()
         val path = "src/test/resources/fileIfVariableFormattedCorrectly.txt"
-        val expectedOutput = "let a:number=10;\nif(a) {\n    let b:number=20;\n}\n"
+        val expectedOutput = "let a : number = 10;\nif(a) {\n    let b : number = 20;\n}\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 
@@ -212,7 +212,7 @@ class PrintScriptTest {
         val printScript = PrintScript()
         val path = "src/test/resources/fileIfVariableNestedIfFormattedCorrectly.txt"
         val expectedOutput =
-            "let a:number=10;\nif(a) {\n    let b:number=20;\n    if(b) {\n        let c:number=30;\n    }\n}\n"
+            "let a : number = 10;\nif(a) {\n    let b : number = 20;\n    if(b) {\n        let c : number = 30;\n    }\n}\n"
         assertEquals(expectedOutput, printScript.format(path))
     }
 
@@ -246,5 +246,13 @@ class PrintScriptTest {
         assertThrows<Exception> {
             printScript.start(path, "")
         }
+    }
+
+    @Test
+    fun test022PrintTestWorkingCorrectly() {
+        val printScript = PrintScript()
+        val path = "src/test/resources/finalTest.txt"
+        val expectedOutput = "else statement working correctly\noutside of conditional\n"
+        assertEquals(expectedOutput, printScript.start(path, ""))
     }
 }

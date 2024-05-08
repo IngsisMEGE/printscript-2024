@@ -1,4 +1,8 @@
 import com.github.ajalt.clikt.testing.test
+import org.example.Analyze
+import org.example.ChangeFormatterConfig
+import org.example.ChangeLexerConfig
+import org.example.ChangeScaConfig
 import org.example.Execute
 import org.example.FormatFile
 import org.example.PrintScript
@@ -20,7 +24,7 @@ class CliTest {
     fun testFinalFormattedFile() {
         val command = FormatFile(printScript)
         command.test("--file-path=src/test/resources/testFile.txt --version=1.1")
-        val expectedContent = "let x:number=10;\n\nprintln(x);\n"
+        val expectedContent = "let x : number = 10;\n\nprintln(x);\n"
         val actualContent = File("src/test/resources/testFile.txt").readText()
         assertEquals(expectedContent, actualContent)
     }
@@ -50,5 +54,33 @@ class CliTest {
                 "\n",
             result.output,
         )
+    }
+
+    @Test
+    fun testAnalyzeCommand() {
+        val command = Analyze(printScript)
+        val result = command.test("--file-path=src/test/resources/testFile.txt --version=1.1")
+        assertEquals("\n", result.output)
+    }
+
+    @Test
+    fun testChangeLexerConfigCommand() {
+        val command = ChangeLexerConfig(printScript)
+        val result = command.test("--file-path=src/test/resources/LexerUpdatedRegex.json")
+        assertEquals("Lexer configurations updated successfully.\n", result.output)
+    }
+
+    @Test
+    fun testChangeFormatterConfigCommand() {
+        val command = ChangeFormatterConfig(printScript)
+        val result = command.test("--file-path=src/test/resources/FormatterConfig.json")
+        assertEquals("Formatter configurations updated successfully.\n", result.output)
+    }
+
+    @Test
+    fun testChangeScaConfigCommand() {
+        val command = ChangeScaConfig(printScript)
+        val result = command.test("--file-path=src/test/resources/ScaConfig.json")
+        assertEquals("SCA configurations updated successfully.\n", result.output)
     }
 }

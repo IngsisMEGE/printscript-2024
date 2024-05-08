@@ -1,0 +1,106 @@
+{
+  "STRING_VALUE": {
+    "pattern": "\"(?:\\\\.|[^\"])*\"",
+    "type": "STRING_VALUE"
+  },
+  "APOSTROPHE_STRING": {
+    "pattern": "'(?:\\\\.|[^'])*'",
+    "type": "STRING_VALUE"
+  },
+  "DECLARATION": {
+    "pattern": "\\bdeclare\\b",
+    "type": "DECLARATION_VARIABLE"
+  },
+  "DECLARATION_IMMUTABLE": {
+    "pattern": "\\bconst\\b",
+    "type": "DECLARATION_IMMUTABLE"
+  },
+  "IFSTATEMENT": {
+    "pattern": "\\bif\\b",
+    "type": "IF_STATEMENT"
+  },
+  "ELSESTATEMENT": {
+    "pattern": "\\}\\s*else",
+    "type": "ELSE_STATEMENT"
+  },
+  "OPERATOR_PLUS": {
+    "pattern": "\\+",
+    "type": "OPERATOR_PLUS"
+  },
+  "OPERATOR_MINUS": {
+    "pattern": "-",
+    "type": "OPERATOR_MINUS"
+  },
+  "\\*": {
+    "pattern": "\\*",
+    "type": "OPERATOR_MULTIPLY"
+  },
+  "/": {
+    "pattern": "/",
+    "type": "OPERATOR_DIVIDE"
+  },
+  ":": {
+    "pattern": ":",
+    "type": "DOUBLE_DOTS"
+  },
+  ";": {
+    "pattern": ";",
+    "type": "SEPARATOR"
+  },
+  "=": {
+    "pattern": "=",
+    "type": "ASSIGNATION"
+  },
+  "\\(": {
+    "pattern": "\\(",
+    "type": "LEFT_PARENTHESIS"
+  },
+  "\\)": {
+    "pattern": "\\)",
+    "type": "RIGHT_PARENTHESIS"
+  },
+  "LEFT_BRACKET": {
+    "pattern": "\\{",
+    "type": "LEFT_BRACKET"
+  },
+  "RIGHT_BRACKET": {
+    "pattern": "\\}",
+    "type": "RIGHT_BRACKET"
+  },
+  "METHOD_CALL": {
+    "pattern": "\\b\\w+\\s*\\((?:[^()]*|\\([^()]*\\))*\\)",
+    "type": "METHOD_CALL"
+  },
+  ",": {
+    "pattern": ",",
+    "type": "COMA"
+  },
+  "\\bnumber\\b": {
+    "pattern": "\\bnumber\\b",
+    "type": "NUMBER_TYPE"
+  },
+  "\\bstring\\b": {
+    "pattern": "\\bstring\\b",
+    "type": "STRING_TYPE"
+  },
+  "\\bboolean\\b": {
+    "pattern": "\\bboolean\\b",
+    "type": "BOOLEAN_TYPE"
+  },
+  "\\btrue\\b": {
+    "pattern": "\\btrue\\b",
+    "type": "BOOLEAN_VALUE"
+  },
+  "\\bfalse\\b": {
+    "pattern": "\\bfalse\\b",
+    "type": "BOOLEAN_VALUE"
+  },
+  "\\b\\d+\\.?\\d*\\b": {
+    "pattern": "\\b\\d+\\.?\\d*\\b",
+    "type": "NUMBER_VALUE"
+  },
+  "(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")": {
+    "pattern": "(?<!\")\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?!\")",
+    "type": "VARIABLE_NAME"
+  }
+}

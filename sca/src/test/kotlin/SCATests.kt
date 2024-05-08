@@ -1,6 +1,9 @@
 import analyzers.SCAImpl
+import analyzers.analyzers.InputOperationAnalyzer
 import astn.Assignation
+import astn.IfStatement
 import astn.Method
+import astn.OperationBoolean
 import astn.OperationHead
 import astn.OperationMethod
 import astn.OperationString
@@ -207,5 +210,14 @@ class SCATests {
         assertThrows<IllegalArgumentException> {
             SCAImpl(rules)
         }
+    }
+
+    // i need more coverage for the analyzer inputOperationAnalyzer analyze function
+    @Test
+    fun test011_inputOperationAnalyzerTest() {
+        val inputOperationAnalyzer = InputOperationAnalyzer()
+        val ast = IfStatement(OperationBoolean(Token(DataType.BOOLEAN_VALUE, "false", Pair(0, 0), Pair(0, 0))))
+        val response = inputOperationAnalyzer.analyze(ast)
+        assertEquals("", response)
     }
 }
