@@ -1,13 +1,27 @@
 import astn.Method
 import astn.OperationString
 import interpreter.executors.MethodExecutor
+import interpreter.executors.operationMethod.LoadInputHolder
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import token.DataType
 import token.Token
 
 class MethodExecutorTest {
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun setUp() {
+            LoadInputHolder.loadInput = ::loadInput
+        }
+
+        private fun loadInput(): String {
+            return ""
+        }
+    }
+
     @Test
     fun test001MethodExecutorMethodNotFound() {
         val methodExecutor = MethodExecutor()
@@ -20,7 +34,7 @@ class MethodExecutorTest {
             assertThrows<Exception> {
                 methodExecutor.execute(ast, mutableMapOf())
             }
-        assertEquals("Method IAMNOTAMETHOD not found at Line 0", exception.message)
+        assertEquals("Method IAMNOTAMETHOD not found at position 0 line 0", exception.message)
     }
 
     @Test
@@ -35,7 +49,5 @@ class MethodExecutorTest {
         assertEquals("Hello\n", result)
     }
 
-    fun input(message: String): String {
-        return message
-    }
+
 }
