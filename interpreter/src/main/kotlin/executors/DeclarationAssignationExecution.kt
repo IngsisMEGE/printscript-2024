@@ -24,12 +24,17 @@ class DeclarationAssignationExecution : Executor<VarDeclarationAssignation> {
             if (value.getType() == type) {
                 variables[varName] = Value(type, Optional.of(value.getValue()), ast.varDeclaration.isMutable)
                 return when (ast.value) {
-                    is OperationMethod ->
-                        binaryOperator.evaluate(
-                            (ast.value as OperationMethod).value,
-                            variables,
-                            VariableType.STRING,
-                        ).getValue() + "\n"
+                    is OperationMethod -> {
+                        if ((ast.value as OperationMethod).methodName.getValue() == "readInput") {
+                            binaryOperator.evaluate(
+                                (ast.value as OperationMethod).value,
+                                variables,
+                                VariableType.STRING,
+                            ).getValue() + "\n"
+                        } else {
+                            ""
+                        }
+                    }
                     else -> ""
                 }
             } else {
