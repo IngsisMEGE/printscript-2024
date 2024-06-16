@@ -18,7 +18,7 @@ class PrintLnMethod : Methods {
         variables: MutableMap<String, Value>,
     ): String {
         return when (value) {
-            is OperationMethod ->{
+            is OperationMethod -> {
                 if (value.methodName.getValue() == "readInput") {
                     binaryOperator.evaluate((value).value, variables, VariableType.STRING).getValue() +
                         "\n" + binaryOperator.evaluate(value, variables, VariableType.STRING).getValue() + "\n"

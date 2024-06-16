@@ -8,11 +8,9 @@ import token.Token
 import java.util.*
 import kotlin.test.assertEquals
 
-
-class ReadEnvExecutorTest{
-
+class ReadEnvExecutorTest {
     @Test
-    fun test001ReadEnvExecutorWorksCorrectly(){
+    fun test001ReadEnvExecutorWorksCorrectly() {
         val operationMethod = ReadEnvExecutor(::parseValue)
         val envName = "test"
         val resultEnv = "Hello"
@@ -27,7 +25,7 @@ class ReadEnvExecutorTest{
     }
 
     @Test
-    fun test002ReadEnvExecutorNotWorkParameterIsNotString(){
+    fun test002ReadEnvExecutorNotWorkParameterIsNotString() {
         val operationMethod = ReadEnvExecutor(::parseValue)
         val envName = "test"
         val resultEnv = "Hello"
@@ -41,7 +39,7 @@ class ReadEnvExecutorTest{
     }
 
     @Test
-    fun test003MoreThanOneParameterShouldError(){
+    fun test003MoreThanOneParameterShouldError() {
         val operationMethod = ReadEnvExecutor(::parseValue)
         val envName = "test"
         val resultEnv = "Hello"
@@ -55,7 +53,7 @@ class ReadEnvExecutorTest{
     }
 
     @Test
-    fun test004EnvVariableDoesNotExist(){
+    fun test004EnvVariableDoesNotExist() {
         val operationMethod = ReadEnvExecutor(::parseValue)
         val envName = "test"
 
