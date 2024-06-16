@@ -22,7 +22,7 @@ class ReadInputExecutorTest {
     @Test
     fun test001ReadInputExecutorWorkCorrectly() {
         simulateInput = "Hello"
-        val operationMethod = ReadInputExecutor()
+        val operationMethod = ReadInputExecutor(::parseValue)
         val parameter = Value(VariableType.STRING, Optional.empty(), true)
         val token = Token(DataType.METHOD_CALL, "readInput", Pair(0, 0), Pair(5, 0))
         val result = operationMethod.execute(token, listOf(parameter), VariableType.STRING)
@@ -33,7 +33,7 @@ class ReadInputExecutorTest {
     @Test
     fun test002ReadInputNumberParameter() {
         simulateInput = "5"
-        val operationMethod = ReadInputExecutor()
+        val operationMethod = ReadInputExecutor(::parseValue)
         val parameter = Value(VariableType.STRING, Optional.of("Hi"), true)
         val token = Token(DataType.METHOD_CALL, "readInput", Pair(0, 0), Pair(5, 0))
         assertEquals("5", operationMethod.execute(token, listOf(parameter), VariableType.NUMBER).getValue())
@@ -43,7 +43,7 @@ class ReadInputExecutorTest {
     @Test
     fun test003ReadInputBooleanParameter() {
         simulateInput = "true"
-        val operationMethod = ReadInputExecutor()
+        val operationMethod = ReadInputExecutor(::parseValue)
         val parameter = Value(VariableType.STRING, Optional.of("Hi"), true)
         val token = Token(DataType.METHOD_CALL, "readInput", Pair(0, 0), Pair(5, 0))
         assertEquals("true", operationMethod.execute(token, listOf(parameter), VariableType.BOOLEAN).getValue())
@@ -53,7 +53,7 @@ class ReadInputExecutorTest {
     @Test
     fun test004NoParametersShouldError() {
         simulateInput = "true"
-        val operationMethod = ReadInputExecutor()
+        val operationMethod = ReadInputExecutor(::parseValue)
         val token = Token(DataType.METHOD_CALL, "readInput", Pair(0, 0), Pair(5, 0))
         try {
             operationMethod.execute(token, listOf(), VariableType.BOOLEAN)
@@ -65,13 +65,38 @@ class ReadInputExecutorTest {
     @Test
     fun test005ParametersIsNotString() {
         simulateInput = "true"
-        val operationMethod = ReadInputExecutor()
+        val operationMethod = ReadInputExecutor(::parseValue)
         val parameter = Value(VariableType.NUMBER, Optional.of("Hi"), true)
         val token = Token(DataType.METHOD_CALL, "readInput", Pair(0, 0), Pair(5, 0))
         try {
             operationMethod.execute(token, listOf(parameter), VariableType.BOOLEAN)
         } catch (e: IllegalArgumentException) {
             assertEquals("readInput only takes String as argument but NUMBER was provided Line 0 : 0.", e.message)
+        }
+    }
+
+    private fun parseValue(
+        value: String,
+        type: VariableType,
+    ): Value {
+        return when (type) {
+            VariableType.STRING -> Value(type, Optional.of(value))
+            VariableType.NUMBER -> {
+                val number = value.toIntOrNull()
+                if (number === null) {
+                    throw IllegalArgumentException("El valor $value no es un número válido.")
+                } else {
+                    Value(type, Optional.of(number.toString()))
+                }
+            }
+            VariableType.BOOLEAN -> {
+                val booleanValue = value.toBooleanStrictOrNull()
+                if (booleanValue === null) {
+                    throw IllegalArgumentException("El valor $value no es un número válido.")
+                } else {
+                    Value(type, Optional.of(booleanValue.toString()))
+                }
+            }
         }
     }
 }

@@ -255,4 +255,14 @@ class PrintScriptTest {
         val expectedOutput = "else statement working correctly\noutside of conditional\n"
         assertEquals(expectedOutput, printScript.start(path, ""))
     }
+
+    @Test
+    fun test023ReadEnvShouldPrintCorrectly() {
+        val printScript = PrintScript()
+        System.setProperty("Hello", "World")
+        val path = "src/test/resources/readEnvTest.txt"
+        val expectedOutput = "5World\n"
+        assertEquals(expectedOutput, printScript.start(path, ""))
+        System.clearProperty("Hello")
+    }
 }
