@@ -1,9 +1,9 @@
 package interpreter.executors
 
 import astn.Method
-import astn.OperationMethod
 import interpreter.Value
-import interpreter.VariableType
+import interpreter.executors.methodExecutors.MethodProvider
+import interpreter.executors.utils.exceptions.MethodNotFoundException
 
 /**
  * This class is responsible for executing methods. It implements the Executor interface for the Method type.
@@ -11,7 +11,7 @@ import interpreter.VariableType
  * @property binaryOperator A private property of type BinaryOperatorReader. It is used to evaluate the value of the Method object.
  */
 class MethodExecutor : Executor<Method> {
-    private val binaryOperator = BinaryOperatorReader()
+    private val methods = MethodProvider()
 
     /**
      * This method is responsible for executing the Method object.
@@ -25,15 +25,11 @@ class MethodExecutor : Executor<Method> {
         ast: Method,
         variables: MutableMap<String, Value>,
     ): String {
-        if (ast.methodName.getValue() == "println") {
-            return when (ast.value) {
-                is OperationMethod ->
-                    binaryOperator.evaluate((ast.value as OperationMethod).value, variables, VariableType.STRING).getValue() +
-                        "\n" + binaryOperator.evaluate(ast.value, variables, VariableType.STRING).getValue() + "\n"
-                else -> binaryOperator.evaluate(ast.value, variables, VariableType.STRING).getValue() + "\n"
-            }
-        } else {
-            throw Exception("Method ${ast.methodName.getValue()} not found at Line ${ast.methodName.getInitialPosition().second}")
+        val methodName = ast.methodName
+        val method = methods.getMethod(methodName.getValue())
+        if (method.isEmpty) {
+            throw MethodNotFoundException(methodName.getInitialPosition(), methodName.getValue())
         }
+        return method.get().execute(ast.value, variables)
     }
 }

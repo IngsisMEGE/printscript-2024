@@ -3,12 +3,11 @@ package interpreter.executors.operationMethod
 import interpreter.Value
 import interpreter.VariableType
 import token.Token
+import java.util.*
 
-class ReadInputExecutor(val parseValue: (String, VariableType) -> Value) : OperationMethod {
-    private val loadInput = LoadInputHolder.loadInput
-
+class ReadEnvExecutor(val parseValue: (String, VariableType) -> Value) : OperationMethod {
     override fun canExecute(methodName: String): Boolean {
-        return methodName == "readInput"
+        return methodName == "readEnv"
     }
 
     override fun execute(
@@ -22,17 +21,23 @@ class ReadInputExecutor(val parseValue: (String, VariableType) -> Value) : Opera
                     " Line ${methodName.getInitialPosition().first} : ${methodName.getInitialPosition().second}.",
             )
         }
-        val value = values[0]
-        if (value.getType() != VariableType.STRING) {
+
+        if (values[0].getType() != VariableType.STRING) {
             throw IllegalArgumentException(
-                "${methodName.getValue()} only takes String as argument but ${value.getType()} was provided" +
+                "${methodName.getValue()} only takes String as argument but ${values[0].getType()} was provided" +
                     " Line ${methodName.getInitialPosition().first} : ${methodName.getInitialPosition().second}.",
             )
         }
-        return parseValue(loadInput(), type)
-    }
-}
 
-object LoadInputHolder {
-    lateinit var loadInput: () -> String
+        val envVariable = System.getProperty(values[0].getValue())
+
+        if (envVariable === null) {
+            throw IllegalArgumentException(
+                "The environment variable ${values[0].getValue()} does not exist" +
+                    " Line ${methodName.getInitialPosition().first} : ${methodName.getInitialPosition().second}.",
+            )
+        }
+
+        return parseValue(envVariable, type)
+    }
 }
