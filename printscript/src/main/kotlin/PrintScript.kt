@@ -29,12 +29,12 @@ import java.util.Queue
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript() {
+class PrintScript(private val loadInput: () -> String) {
     private var lexer: Lexer =
         LexerImpl(loadConfig("lexerRules.json", "src/main/resources/LexerFullRules.json"))
     private val parser: Parser = ParserImpl()
     private val outputs: Queue<String> = LinkedList()
-    private val interpreter: Interpreter = InterpreterImpl({ loadInput() }, { enterIfScope() }, { mergeScopes() })
+    private val interpreter: Interpreter = InterpreterImpl(loadInput, { enterIfScope() }, { mergeScopes() })
     private val sca: SCA =
         SCAImpl(loadConfig("scaConfig.json", "src/main/resources/SCADefault.json"))
     private var formatter: Formatter =
@@ -43,19 +43,6 @@ class PrintScript() {
         )
 
     private var storedVariables: List<MutableMap<String, Value>> = listOf(mutableMapOf())
-
-    fun start(
-        path: String,
-        inputPath: String,
-    ): String {
-        addLinesToQueue(inputPath)
-        return processFile(path) { line, numberLine ->
-            interpreter.readAST(
-                lexAndParse(line, numberLine),
-                storedVariables.last(),
-            )
-        }
-    }
 
     fun start(path: String): String {
         return processFile(path) { line, numberLine ->
@@ -166,27 +153,6 @@ class PrintScript() {
         }
 
         storedVariables = storedVariables.dropLast(1)
-    }
-
-    private fun addLinesToQueue(filePath: String) {
-        val file = File(filePath)
-        if (file.exists()) {
-            file.bufferedReader().useLines { lines ->
-                lines.forEach { line ->
-                    outputs.add(line)
-                }
-            }
-        } else {
-            return
-        }
-    }
-
-    private fun loadInput(): String {
-        return if (outputs.isEmpty()) {
-            ""
-        } else {
-            outputs.remove()
-        }
     }
 
     private inline fun <reified T> loadConfig(

@@ -8,9 +8,10 @@ import com.github.ajalt.clikt.parameters.options.prompt
 import java.io.File
 
 fun main(args: Array<String>) {
-    val printScript = PrintScript()
+    val inputLoader = InputLoader()
+    val printScript = PrintScript(inputLoader::loadInput)
     Cli(printScript).subcommands(
-        Execute(printScript),
+        Execute(printScript, inputLoader),
         FormatFile(printScript),
         Analyze(printScript),
         ChangeFormatterConfig(printScript),
@@ -23,22 +24,25 @@ class Cli(private val printScript: PrintScript) : CliktCommand() {
     override fun run() = echo("Welcome to PrintScript CLI. Use --help to see the options.")
 }
 
-class Execute(private val printScript: PrintScript) : CliktCommand(help = "Execute a PrintScript file") {
+class Execute(private val printScript: PrintScript, private val inputLoader: InputLoader) : CliktCommand(help = "Execute a PrintScript file") {
     private val filePath: String by option(help = "Path to the PrintScript file").prompt("Enter the file path")
     private val inputPath: String by option(help = "Path to the PrintScript outputs").default("src/main/resources/output.txt")
     private val version: String by option(help = "PrintScript version").default("use-default")
 
     override fun run() {
         try {
+            inputLoader.addLinesToQueue(inputPath)
             if (version == "1.0") {
                 printScript.updateRegexRules("src/main/resources/LexerRegex0v.json")
             } else if (version == "1.1") {
                 printScript.updateRegexRules("src/main/resources/LexerFullRules.json")
             }
 
-            val output = printScript.start(filePath, inputPath)
+            val output = printScript.start(filePath)
             echo(output)
+            inputLoader.cleanOutputs()
         } catch (e: Exception) {
+            inputLoader.cleanOutputs()
             echo("Error: ${e.message}", err = true)
         }
     }
@@ -125,5 +129,35 @@ class ChangeLexerConfig(private val printScript: PrintScript) : CliktCommand(hel
         } catch (e: Exception) {
             echo("Error: ${e.message}", err = true)
         }
+    }
+}
+
+class InputLoader() {
+    private val outputs = mutableListOf<String>()
+
+    fun addLinesToQueue(filePath: String) {
+        val file = File(filePath)
+        if (file.exists()) {
+            file.bufferedReader().useLines { lines ->
+                lines.forEach { line ->
+                    outputs.add(line)
+                }
+            }
+            File(filePath).delete()
+        } else {
+            return
+        }
+    }
+
+    fun loadInput(): String {
+        return if (outputs.isEmpty()) {
+            ""
+        } else {
+            outputs.removeAt(0)
+        }
+    }
+
+    fun cleanOutputs() {
+        outputs.clear()
     }
 }
