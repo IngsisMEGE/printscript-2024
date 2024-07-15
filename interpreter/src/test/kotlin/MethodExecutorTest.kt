@@ -18,7 +18,7 @@ class MethodExecutorTest {
             LoadInputHolder.loadInput = ::loadInput
         }
 
-        private fun loadInput(): String {
+        private fun loadInput(message: String): String {
             return "hel"
         }
     }
