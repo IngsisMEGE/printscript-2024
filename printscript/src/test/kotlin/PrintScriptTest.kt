@@ -282,6 +282,10 @@ class PrintScriptTest {
         val path = "src/test/resources/finalTest.txt"
         val expectedOutput = "else statement working correctly\noutside of conditional\n"
         assertEquals(expectedOutput, printScript.start(path))
+
+        val output = printScript.getOutputs()
+
+        assertEquals("else statement working correctly\n", output.remove())
     }
 
     @Test
@@ -312,7 +316,7 @@ class InputLoader() {
         }
     }
 
-    fun loadInput(): String {
+    fun loadInput(message: String): String {
         return if (outputs.isEmpty()) {
             ""
         } else {

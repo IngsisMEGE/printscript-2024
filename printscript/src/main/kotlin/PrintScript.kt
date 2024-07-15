@@ -29,7 +29,7 @@ import java.util.Queue
  * @throws Exception If an error occurs while executing the script or if the SCA finds any issues with the AST.
  */
 
-class PrintScript(private val loadInput: () -> String) {
+class PrintScript(private val loadInput: (String) -> String) {
     private var lexer: Lexer =
         LexerImpl(loadConfig("lexerRules.json", "src/main/resources/LexerFullRules.json"))
     private val parser: Parser = ParserImpl()
@@ -46,10 +46,15 @@ class PrintScript(private val loadInput: () -> String) {
 
     fun start(path: String): String {
         return processFile(path) { line, numberLine ->
-            interpreter.readAST(
-                lexAndParse(line, numberLine),
-                storedVariables.last(),
-            )
+            val output =
+                interpreter.readAST(
+                    lexAndParse(line, numberLine),
+                    storedVariables.last(),
+                )
+            if (output.isNotEmpty()) {
+                outputs.add(output)
+            }
+            output
         }
     }
 
@@ -173,5 +178,9 @@ class PrintScript(private val loadInput: () -> String) {
     ) {
         val file = File(configFileName)
         file.writeText(File(newConfigPath).readText())
+    }
+
+    fun getOutputs(): Queue<String> {
+        return outputs
     }
 }
