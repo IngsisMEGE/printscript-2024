@@ -2,55 +2,62 @@ import org.example.PrintScript
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.io.File
 import java.io.FileNotFoundException
 import kotlin.test.assertEquals
 
 class PrintScriptTest {
     @Test
     fun testCLIWithValidFilePath() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/testFile.txt"
         val expectedOutput =
             "10\n" // Devolvemos empty porque asi es la definicion del interpreter para un varDeclaration
-        Assertions.assertEquals(expectedOutput, printScript.start(path, ""))
+        Assertions.assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun testCLIWithInvalidFilePath() {
-        val cli = PrintScript()
+        val inputLoader = InputLoader()
+        val cli = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/invalidFile.txt"
         assertThrows<FileNotFoundException> {
-            cli.start(path, "")
+            cli.start(path)
         }
     }
 
     @Test
     fun testWithSameLine2VariablesWithSemicolon() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/sameLineFile.txt"
         val expectedOutput = "4\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun testFullIterationVarDeclaration() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/testFile.txt"
         val expectedOutput = "10\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun testOutputAssignation() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/testFile.txt"
         val expectedOutput = "10\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun testFormatFile() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileToFormat.txt"
         val expectedOutput = "let x : number = 10;\nlet y : number = 20;\nx = y + 43 / 4;\nx = y + 43 / 4;\n"
         assertEquals(expectedOutput, printScript.format(path))
@@ -58,7 +65,8 @@ class PrintScriptTest {
 
     @Test
     fun test005LargeFileSuccess() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/longFile.txt"
         val expected =
             "24.2\n" +
@@ -83,23 +91,25 @@ class PrintScriptTest {
                 "PucaQuiereaGaru-4.990504749375E8-9.976018994000625E13\n" +
                 "-1.994216172919719E19\n" +
                 "-1.9983670291953082E19\n"
-        assertEquals(expected, printScript.start(path, ""))
+        assertEquals(expected, printScript.start(path))
     }
 
     @Test
     fun test006DeclarationWithSpaceAndAssignation() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/StringWithSpaceAssignationAndDeclaration.txt"
         val expectedOutput =
             "let a : string = \"Hello World\";\n" +
                 "a = \"GoodBye World\";\n"
         assertEquals(expectedOutput, printScript.format(path))
-        assertEquals("", printScript.start(path, ""))
+        assertEquals("", printScript.start(path))
     }
 
     @Test
     fun test007LineDiscontinued() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/discontinuedLineTest.txt"
         val expectedOutput = "3\n"
         assertEquals(expectedOutput, printScript.start(path))
@@ -107,7 +117,8 @@ class PrintScriptTest {
 
     @Test
     fun test008ApostropheString() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/apostropheStringTest.txt"
         val expectedOutput = "Hello World!\n"
         assertEquals(expectedOutput, printScript.start(path))
@@ -115,7 +126,8 @@ class PrintScriptTest {
 
     @Test
     fun test009BasicOperation() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/operationFile.txt"
         val expectedOutput = "30\n"
         val realOutput = printScript.start(path)
@@ -124,7 +136,8 @@ class PrintScriptTest {
 
     @Test
     fun test010OperationsAndVariableReassignation() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/operationAndVariableReassignation.txt"
         val expectedOutput = "15\n" + "10\n" + "20\n"
         val realOutput = printScript.start(path)
@@ -133,7 +146,8 @@ class PrintScriptTest {
 
     @Test
     fun test011StringNumberConcatenation() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/stringNumberConcatenation.txt"
         val expectedOutput = "Hello world 10\n"
         val realOutput = printScript.start(path)
@@ -142,7 +156,8 @@ class PrintScriptTest {
 
     @Test
     fun test014BooleanPlusStringShouldThrow() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/booleanTest.txt"
         assertThrows<Exception> {
             printScript.start(path)
@@ -151,7 +166,8 @@ class PrintScriptTest {
 
     @Test
     fun test012AnalyzeWithSCAIssues() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/testFileWithSCAIssues.txt"
         val expectedOutput = "Invalid typing format in line 4 row 1"
         assertEquals(expectedOutput, printScript.analyze(path))
@@ -159,49 +175,55 @@ class PrintScriptTest {
 
     @Test
     fun test013IfFileDoesNotEndWithSeparatorShouldThrowException() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/testFileNotEndWithSeparator.txt"
         assertThrows<Exception> {
-            printScript.start(path, "")
+            printScript.start(path)
         }
     }
 
     @Test
     fun test014SimpleIfTest() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileSimpleIfTest.txt"
         val expectedOutput = "1\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun test015SimpleIfElseTest() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileSimpleIfWithElseTest.txt"
         val expectedOutput = "1\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun test016IfInsideIfTest() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileIfInsideIfTest.txt"
         val expectedOutput = "Hola\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun test017fileIfVariableCreatedInsideIfShouldNotBeRecognized() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileIfVariableCreatedInsideIfShouldNotBeRecognized.txt"
         assertThrows<Exception> {
-            printScript.start(path, "")
+            printScript.start(path)
         }
     }
 
     @Test
     fun test018fileIfVariableFormattedCorrectly() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileIfVariableFormattedCorrectly.txt"
         val expectedOutput = "let a : number = 10;\nif(a) {\n    let b : number = 20;\n}\n"
         assertEquals(expectedOutput, printScript.format(path))
@@ -209,7 +231,8 @@ class PrintScriptTest {
 
     @Test
     fun test019fileIfVariableNestedIfFormattedCorrectly() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/fileIfVariableNestedIfFormattedCorrectly.txt"
         val expectedOutput =
             "let a : number = 10;\nif(a) {\n    let b : number = 20;\n    if(b) {\n        let c : number = 30;\n    }\n}\n"
@@ -218,51 +241,86 @@ class PrintScriptTest {
 
     @Test
     fun test020UpdateLexerConfigurationAndParseFile() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/clitestDeclar.txt"
         val expectedOutput = "25\n"
         printScript.updateRegexRules("src/test/resources/newRegex.json")
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
         printScript.updateRegexRules("src/test/resources/LexerFullRules.json")
     }
 
     @Test
     fun test021ReadInput() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/readinput.txt"
         val output = "src/test/resources/outputs.txt"
+        inputLoader.addLinesToQueue(output)
         val expectedOutput =
             "Name: \nhello world\n"
-        Assertions.assertEquals(expectedOutput, printScript.start(path, output))
+        Assertions.assertEquals(expectedOutput, printScript.start(path))
         assertThrows<Exception> {
-            printScript.start(path, "")
+            printScript.start(path)
         }
     }
 
     @Test
     fun test014ErrorShouldThrowException() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/testFileWithError.txt"
         assertThrows<Exception> {
-            printScript.start(path, "")
+            printScript.start(path)
         }
     }
 
     @Test
     fun test022PrintTestWorkingCorrectly() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         val path = "src/test/resources/finalTest.txt"
         val expectedOutput = "else statement working correctly\noutside of conditional\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
     }
 
     @Test
     fun test023ReadEnvShouldPrintCorrectly() {
-        val printScript = PrintScript()
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
         System.setProperty("Hello", "World")
         val path = "src/test/resources/readEnvTest.txt"
         val expectedOutput = "5World\n"
-        assertEquals(expectedOutput, printScript.start(path, ""))
+        assertEquals(expectedOutput, printScript.start(path))
         System.clearProperty("Hello")
+    }
+}
+
+class InputLoader() {
+    private val outputs = mutableListOf<String>()
+
+    fun addLinesToQueue(filePath: String) {
+        val file = File(filePath)
+        if (file.exists()) {
+            file.bufferedReader().useLines { lines ->
+                lines.forEach { line ->
+                    outputs.add(line)
+                }
+            }
+            File(filePath).delete()
+        } else {
+            return
+        }
+    }
+
+    fun loadInput(): String {
+        if (outputs.isEmpty()) {
+            throw Exception("No more inputs available")
+        }
+        return outputs.removeAt(0)
+    }
+
+    fun cleanOutputs() {
+        outputs.clear()
     }
 }
