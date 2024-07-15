@@ -150,10 +150,11 @@ class InputLoader() {
     }
 
     fun loadInput(): String {
-        if (outputs.isEmpty()) {
-            throw Exception("No more inputs available")
+        return if (outputs.isEmpty()) {
+            ""
+        } else {
+            outputs.removeAt(0)
         }
-        return outputs.removeAt(0)
     }
 
     fun cleanOutputs() {
