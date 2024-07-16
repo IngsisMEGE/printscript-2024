@@ -149,7 +149,7 @@ class InputLoader() {
         }
     }
 
-    fun loadInput(): String {
+    fun loadInput(message: String): String {
         return if (outputs.isEmpty()) {
             ""
         } else {

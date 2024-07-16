@@ -29,10 +29,10 @@ class ReadInputExecutor(val parseValue: (String, VariableType) -> Value) : Opera
                     " Line ${methodName.getInitialPosition().first} : ${methodName.getInitialPosition().second}.",
             )
         }
-        return parseValue(loadInput(), type)
+        return parseValue(loadInput(value.getValue()), type)
     }
 }
 
 object LoadInputHolder {
-    lateinit var loadInput: () -> String
+    lateinit var loadInput: (String) -> String
 }
