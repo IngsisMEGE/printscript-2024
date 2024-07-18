@@ -7,4 +7,10 @@ interface Interpreter {
         ast: AST,
         storedVariables: MutableMap<String, Value>,
     ): String
+
+    fun readASTWithEnv(
+        ast: AST,
+        storedVariables: MutableMap<String, Value>,
+        envs: Map<String, String>,
+    ): String
 }

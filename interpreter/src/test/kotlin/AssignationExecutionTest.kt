@@ -9,14 +9,21 @@ import executors.DeclarationAssignationExecution
 import executors.DeclarationExecution
 import interpreter.Value
 import interpreter.executors.AssignationExecution
+import interpreter.executors.operationMethod.EnvReaderHolder
 import interpreter.executors.operationMethod.LoadInputHolder
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import token.DataType
 import token.Token
 import kotlin.test.Test
 
 class AssignationExecutionTest {
+    @BeforeEach
+    fun setUp() {
+        EnvReaderHolder.envReader = SystemEnvReader()
+    }
+
     @Test
     fun test001AssignationExecutorVariableNotFound() {
         LoadInputHolder.loadInput = ::loadInput
