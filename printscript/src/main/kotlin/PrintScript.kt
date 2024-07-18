@@ -63,11 +63,16 @@ class PrintScript(private val loadInput: (String) -> String) {
         envs: Map<String, String>,
     ): String {
         return processFile(path) { line, numberLine ->
-            interpreter.readASTWithEnv(
-                lexAndParse(line, numberLine),
-                storedVariables.last(),
-                envs,
-            )
+            val output =
+                interpreter.readASTWithEnv(
+                    lexAndParse(line, numberLine),
+                    storedVariables.last(),
+                    envs,
+                )
+            if (output.isNotEmpty()) {
+                outputs.add(output)
+            }
+            output
         }
     }
 
