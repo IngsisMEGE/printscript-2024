@@ -294,6 +294,16 @@ class PrintScriptTest {
         assertEquals(expectedOutput, printScript.start(path))
         System.clearProperty("Hello")
     }
+
+    @Test
+    fun test024ReadEnvWithPreLoadedShouldWork() {
+        val inputLoader = InputLoader()
+        val printScript = PrintScript(inputLoader::loadInput)
+        val path = "src/test/resources/readEnvTest.txt"
+        val expectedOutput = "5World\n"
+        val envs = mapOf("Hello" to "World")
+        assertEquals(expectedOutput, printScript.start(path, envs))
+    }
 }
 
 class InputLoader() {

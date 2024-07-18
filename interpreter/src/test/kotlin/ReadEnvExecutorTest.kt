@@ -1,6 +1,8 @@
 import interpreter.Value
 import interpreter.VariableType
+import interpreter.executors.operationMethod.EnvReaderHolder
 import interpreter.executors.operationMethod.ReadEnvExecutor
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import token.DataType
@@ -9,6 +11,11 @@ import java.util.*
 import kotlin.test.assertEquals
 
 class ReadEnvExecutorTest {
+    @BeforeEach
+    fun setUp() {
+        EnvReaderHolder.envReader = SystemEnvReader()
+    }
+
     @Test
     fun test001ReadEnvExecutorWorksCorrectly() {
         val operationMethod = ReadEnvExecutor(::parseValue)
@@ -61,6 +68,45 @@ class ReadEnvExecutorTest {
 
         assertThrows<Exception> {
             operationMethod.execute(token, listOf(Value(VariableType.STRING, Optional.of(envName))), VariableType.STRING)
+        }
+    }
+
+    @Test
+    fun test005ReadEnvPreSelectedWorksCorrectly() {
+        EnvReaderHolder.envReader = PreSelectedEnvReader(mapOf("test" to "Hello"))
+
+        val operationMethod = ReadEnvExecutor(::parseValue)
+
+        val token = Token(DataType.METHOD_CALL, "readEnv", Pair(0, 0), Pair(5, 0))
+
+        val result = operationMethod.execute(token, listOf(Value(VariableType.STRING, Optional.of("test"))), VariableType.STRING)
+
+        assertEquals("Hello", result.getValue())
+    }
+
+    @Test
+    fun test006ReadEnvPreSelectedNotWorkParameterIsNotString() {
+        EnvReaderHolder.envReader = PreSelectedEnvReader(mapOf("test" to "Hello"))
+
+        val operationMethod = ReadEnvExecutor(::parseValue)
+
+        val token = Token(DataType.METHOD_CALL, "readEnv", Pair(0, 0), Pair(5, 0))
+
+        assertThrows<Exception> {
+            operationMethod.execute(token, listOf(Value(VariableType.NUMBER, Optional.of("1"))), VariableType.STRING)
+        }
+    }
+
+    @Test
+    fun test007ReadEnvPreSelectedWhenEnvDoesNotExist() {
+        EnvReaderHolder.envReader = PreSelectedEnvReader(mapOf("test" to "Hello"))
+
+        val operationMethod = ReadEnvExecutor(::parseValue)
+
+        val token = Token(DataType.METHOD_CALL, "readEnv", Pair(0, 0), Pair(5, 0))
+
+        assertThrows<Exception> {
+            operationMethod.execute(token, listOf(Value(VariableType.STRING, Optional.of("test2"))), VariableType.STRING)
         }
     }
 

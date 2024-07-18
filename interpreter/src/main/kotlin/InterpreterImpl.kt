@@ -1,5 +1,7 @@
 package interpreter
 
+import PreSelectedEnvReader
+import SystemEnvReader
 import astn.AST
 import astn.Assignation
 import astn.CloseIfStatement
@@ -13,6 +15,7 @@ import executors.DeclarationExecution
 import interpreter.executors.AssignationExecution
 import interpreter.executors.IfExecutor
 import interpreter.executors.MethodExecutor
+import interpreter.executors.operationMethod.EnvReaderHolder
 import interpreter.executors.operationMethod.LoadInputHolder
 
 /**
@@ -36,6 +39,7 @@ class InterpreterImpl(
 
     init {
         LoadInputHolder.loadInput = loadInput
+        EnvReaderHolder.envReader = SystemEnvReader()
     }
 
     override fun readAST(
@@ -70,6 +74,15 @@ class InterpreterImpl(
             }
             else -> throw Exception("Unexpected structure ${ast::class.simpleName} is not supported")
         }
+    }
+
+    override fun readASTWithEnv(
+        ast: AST,
+        storedVariables: MutableMap<String, Value>,
+        envs: Map<String, String>,
+    ): String {
+        EnvReaderHolder.envReader = PreSelectedEnvReader(envs)
+        return readAST(ast, storedVariables)
     }
 
     private fun shouldProcessLine(ast: AST): Boolean {
