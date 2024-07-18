@@ -58,6 +58,19 @@ class PrintScript(private val loadInput: (String) -> String) {
         }
     }
 
+    fun start(
+        path: String,
+        envs: Map<String, String>,
+    ): String {
+        return processFile(path) { line, numberLine ->
+            interpreter.readASTWithEnv(
+                lexAndParse(line, numberLine),
+                storedVariables.last(),
+                envs,
+            )
+        }
+    }
+
     fun format(path: String): String {
         return processFile(path) { line, numberLine -> formatter.format(lexAndParse(line, numberLine)) }
     }
